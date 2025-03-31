@@ -35,15 +35,11 @@ WDYWTG is a mobile app built with Flutter that helps users prepare for their tri
 Make sure you have Flutter installed and set up properly.
 
 ## 🧩 Technologies Used
-Flutter — UI toolkit
-
-Dart — programming language
-
-OpenWeatherMap API — weather data provider
-
-Geolocator — for location services
-
-BLoC — state management
+### Flutter — UI toolkit
+### Dart — programming language
+### OpenWeatherMap API — weather data provider
+### Geolocator — for location services
+### BLoC — state management
 
 ## 📌 Roadmap
 📅 Multi-day weather forecast
