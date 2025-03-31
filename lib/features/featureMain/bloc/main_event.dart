@@ -4,6 +4,8 @@ sealed class MainEvent {
   const MainEvent();
 }
 
+final class Initialize extends MainEvent {}
+
 final class UpdateSearch extends MainEvent {
 
   final String searchable;

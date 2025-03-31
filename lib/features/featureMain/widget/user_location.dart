@@ -1,0 +1,97 @@
+import 'dart:ui' as ui;
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/main_bloc.dart';
+
+class UserLocation extends StatelessWidget {
+
+  const UserLocation({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<MainBloc, MainState>(
+      builder: (context, state) => Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: SizedBox(
+            height: 256,
+            child: Stack(
+              children: [
+                Image.asset(
+                  'assets/image/florida.png',
+                  width: double.infinity,
+                  height: 256,
+                  fit: BoxFit.fill
+                ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text('Florida, US', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
+                  )
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(12), bottomLeft: Radius.circular(12))
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.location_on),
+                            SizedBox(width: 8),
+                            Text('You are here')
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ClipRect(  // <-- clips to the 200x200 [Container] below
+                    child: BackdropFilter(
+                      filter: ui.ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 64.0,
+                        child: Row(
+                          children: [
+                            Expanded(flex: 3, child: Column(children: [Text('sdfsdfs')],)),
+                            VerticalDivider(width: 1, thickness: 1, color: Colors.grey.withAlpha(160),),
+                            Expanded(flex: 1, child: Column(children: [Text('sdfsdfs')],)),
+                            VerticalDivider(width: 1, thickness: 1, color: Colors.grey.withAlpha(160),),
+                            Expanded(flex: 1, child: Column(children: [Text('sdfsdfs')],)),
+                            VerticalDivider(width: 1, thickness: 1, color: Colors.grey.withAlpha(160),),
+                            Expanded(flex: 1, child: Column(children: [Text('sdfsdfs')],)),
+                            VerticalDivider(width: 1, thickness: 1, color: Colors.grey.withAlpha(160),),
+                            Expanded(flex: 1, child: Column(children: [Text('sdfsdfs')],)),
+                            VerticalDivider(width: 1, thickness: 1, color: Colors.grey.withAlpha(160),),
+                            Expanded(flex: 1, child: Column(children: [Text('sdfsdfs')],)),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+              ],
+            ),
+          )
+        ),
+      )
+    );
+  }
+
+
+
+}

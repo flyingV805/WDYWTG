@@ -15,8 +15,8 @@ class FeatureMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => MainBloc(),
-      child: MainScreen(),
+      create: (BuildContext context) => MainBloc()..add(Initialize()),
+      child: const MainScreen(),
     );
   }
 
