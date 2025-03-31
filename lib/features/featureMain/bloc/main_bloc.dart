@@ -22,13 +22,15 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     Emitter<MainState> emit
   ) async {
 
-    UserPosition.determinePosition()
-        .then((value){
+    /*UserPosition.determinePosition()
+      .then((value){
 
-        })
-        .onError((error, stackTrace){
+      })
+      .onError((error, stackTrace){
 
-        });
+      });*/
+
+    await Future.delayed(Duration(milliseconds: 700)).whenComplete(() => emit.call(MainState.userLocated()) );
 
     Log().w(_logTag, '_checkLocation - Intial event');
 
