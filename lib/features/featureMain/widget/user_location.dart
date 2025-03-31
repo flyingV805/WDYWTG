@@ -105,15 +105,45 @@ class _FoundLocation extends StatelessWidget {
                       )
                     ),
                     VerticalDivider(width: 1, thickness: 1, color: Colors.grey.withAlpha(160),),
-                    Expanded(flex: 1, child: Column(children: [Text('sdfsdfs')],)),
+                    Expanded(
+                      flex: 1,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [ Text('sdfsdfs') ]
+                      )
+                    ),
                     VerticalDivider(width: 1, thickness: 1, color: Colors.grey.withAlpha(160),),
-                    Expanded(flex: 1, child: Column(children: [Text('sdfsdfs')],)),
+                    Expanded(
+                      flex: 1,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [ Text('sdfsdfs') ]
+                      )
+                    ),
                     VerticalDivider(width: 1, thickness: 1, color: Colors.grey.withAlpha(160),),
-                    Expanded(flex: 1, child: Column(children: [Text('sdfsdfs')],)),
+                    Expanded(
+                      flex: 1,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [ Text('sdfsdfs') ]
+                      )
+                    ),
                     VerticalDivider(width: 1, thickness: 1, color: Colors.grey.withAlpha(160),),
-                    Expanded(flex: 1, child: Column(children: [Text('sdfsdfs')],)),
+                    Expanded(
+                      flex: 1,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [ Text('sdfsdfs') ]
+                      )
+                    ),
                     VerticalDivider(width: 1, thickness: 1, color: Colors.grey.withAlpha(160),),
-                    Expanded(flex: 1, child: Column(children: [Text('sdfsdfs')],)),
+                    Expanded(
+                      flex: 1,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [ Text('sdfsdfs') ]
+                      )
+                    ),
                   ],
                 ),
               ),
