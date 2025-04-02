@@ -2,6 +2,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_icons/weather_icons.dart';
 
 import '../bloc/main_bloc.dart';
 
@@ -57,6 +58,7 @@ class _FoundLocation extends StatelessWidget {
             height: 256,
             fit: BoxFit.fill
         ),
+        // Location name
         Align(
             alignment: Alignment.topLeft,
             child: Padding(
@@ -64,6 +66,7 @@ class _FoundLocation extends StatelessWidget {
               child: Text('Florida, US', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
             )
         ),
+        // 'You are here'
         Align(
           alignment: Alignment.topRight,
           child: Padding(
@@ -87,6 +90,7 @@ class _FoundLocation extends StatelessWidget {
             ),
           ),
         ),
+        // Weather
         Align(
           alignment: Alignment.bottomCenter,
           child: ClipRect(  // <-- clips to the 200x200 [Container] below
@@ -94,11 +98,11 @@ class _FoundLocation extends StatelessWidget {
               filter: ui.ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
               child: SizedBox(
                 width: double.infinity,
-                height: 64.0,
+                height: 78.0,
                 child: Row(
                   children: [
                     Expanded(
-                      flex: 3,
+                      flex: 2,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [ Text('sdfsdfs') ]
@@ -108,40 +112,48 @@ class _FoundLocation extends StatelessWidget {
                     Expanded(
                       flex: 1,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [ Text('sdfsdfs') ]
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text('WED', style: Theme.of(context).textTheme.labelSmall,),
+                          Icon(WeatherIcons.day_sunny, size: 16,),
+                          Text('-12', style: Theme.of(context).textTheme.labelSmall,),
+                        ]
                       )
                     ),
                     VerticalDivider(width: 1, thickness: 1, color: Colors.grey.withAlpha(160),),
                     Expanded(
                       flex: 1,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [ Text('sdfsdfs') ]
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text('WED', style: Theme.of(context).textTheme.labelSmall,),
+                          Icon(WeatherIcons.day_sunny, size: 16,),
+                          Text('-12', style: Theme.of(context).textTheme.labelSmall,),
+                        ]
                       )
                     ),
                     VerticalDivider(width: 1, thickness: 1, color: Colors.grey.withAlpha(160),),
                     Expanded(
                       flex: 1,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [ Text('sdfsdfs') ]
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text('WED', style: Theme.of(context).textTheme.labelSmall,),
+                          Icon(WeatherIcons.day_sunny, size: 16,),
+                          Text('-12', style: Theme.of(context).textTheme.labelSmall,),
+                        ]
                       )
                     ),
                     VerticalDivider(width: 1, thickness: 1, color: Colors.grey.withAlpha(160),),
                     Expanded(
                       flex: 1,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [ Text('sdfsdfs') ]
-                      )
-                    ),
-                    VerticalDivider(width: 1, thickness: 1, color: Colors.grey.withAlpha(160),),
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [ Text('sdfsdfs') ]
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text('WED', style: Theme.of(context).textTheme.labelSmall,),
+                          Icon(WeatherIcons.day_sunny, size: 16,),
+                          Text('-12', style: Theme.of(context).textTheme.labelSmall,),
+                        ]
                       )
                     ),
                   ],

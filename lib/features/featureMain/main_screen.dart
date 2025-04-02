@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wdywtg/features/featureMain/widget/search_field.dart';
 
 import 'widget/user_location.dart';
 
@@ -18,7 +19,7 @@ class MainScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             UserLocation(),
-
+            SearchField()
           ],
         ),
       ),

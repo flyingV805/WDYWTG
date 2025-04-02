@@ -12,14 +12,17 @@ class SearchField extends StatelessWidget {
           (LoginBloc bloc) => bloc.state.username.displayError,
     );*/
 
-    return TextField(
-      key: const Key('loginForm_usernameInput_textField'),
-      onChanged: (username) {
-        //context.read<MainBloc>().add(LoginUsernameChanged(username));
-      },
-      decoration: InputDecoration(
-        labelText: 'username',
-        errorText: null,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: TextField(
+        key: const Key('loginForm_usernameInput_textField'),
+        onChanged: (username) {
+          //context.read<MainBloc>().add(LoginUsernameChanged(username));
+        },
+        decoration: InputDecoration(
+          labelText: 'username',
+          errorText: null,
+        ),
       ),
     );
   }
