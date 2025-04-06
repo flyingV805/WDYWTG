@@ -17,13 +17,16 @@ class UserLocation extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8),
-          child: SizedBox(
-            height: 256,
-            child: AnimatedCrossFade(
-              crossFadeState: state.locationFound ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-              duration: Duration(milliseconds: 250),
-              firstChild: _WaitingForLocation(),
-              secondChild: _FoundLocation(),
+          child: AnimatedSize(
+            duration: Duration(milliseconds: 250),
+            child: SizedBox(
+              height: state.displayLocation ? 256 : 0,
+              child: AnimatedCrossFade(
+                crossFadeState: state.locationFound ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                duration: Duration(milliseconds: 250),
+                firstChild: _WaitingForLocation(),
+                secondChild: _FoundLocation(),
+              ),
             ),
           )
         ),

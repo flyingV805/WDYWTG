@@ -4,21 +4,39 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wdywtg/core/log/loger.dart';
-import 'package:wdywtg/core/openMeteo/open_meteo_client.dart';
 
-import '../../../core/location/user_position.dart';
+import '../repository/weather/weather_repository.dart';
 
 part 'main_event.dart';
 part 'main_state.dart';
 
 class MainBloc extends Bloc<MainEvent, MainState> {
 
+  final WeatherRepository _weatherRepository;
   static final String _logTag = 'MainBloc';
 
-  MainBloc(): super(const MainState.empty()){
-    Log().w(_logTag, 'super');
-    on<Initialize>(_checkLocation);
-    on<UpdateSearch>(_onSearchUpdate);
+  MainBloc({
+    required WeatherRepository weatherRepository
+  }): _weatherRepository = weatherRepository,
+    super(const MainState.empty()){
+      Log().w(_logTag, 'super');
+      on<Initialize>(_startRoutine);
+      on<UpdateSearch>(_onSearchUpdate);
+    }
+
+  Future<void> _startRoutine(
+    Initialize event,
+    Emitter<MainState> emit
+  ) async {
+
+    emit.call(MainState.requestLocation());
+
+    await Future.delayed(Duration(milliseconds: 1700)).whenComplete(() {
+      Log().w(_logTag, '_displayLocation - Intial event');
+      emit.call(MainState.displayLocation());
+    } );
+
+    //emit.call(MainState.userLocated());
   }
 
   Future<void> _checkLocation(
@@ -26,14 +44,9 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     Emitter<MainState> emit
   ) async {
 
-    final dio = Dio(); // Provide a dio instance
-    final client = OpenMeteoClient(dio);
+    //final weather = await _weatherRepository.getWeather();
 
-    client.getForecast(54.875, 69.125).then((response){
-      Log().w(_logTag, '_forecast - ${jsonEncode(response)}');
-    }).onError((error, trace){
-      Log().w(_logTag, '_forecast error - $error');
-    });
+    //Log().w(_logTag, 'weather - $weather');
 
     /*UserPosition.determinePosition()
       .then((value){
