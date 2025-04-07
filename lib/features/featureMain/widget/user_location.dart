@@ -2,6 +2,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wdywtg/features/featureMain/model/place_weather.dart';
 import 'package:weather_icons/weather_icons.dart';
 
 import '../bloc/main_bloc.dart';
@@ -20,12 +21,15 @@ class UserLocation extends StatelessWidget {
           child: AnimatedSize(
             duration: Duration(milliseconds: 250),
             child: SizedBox(
-              height: state.displayLocation ? 256 : 0,
+              height: state.displayUserLocation ? 256 : 0,
               child: AnimatedCrossFade(
-                crossFadeState: state.locationFound ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                crossFadeState: state.userLocationWeather == null
+                  ? CrossFadeState.showFirst : CrossFadeState.showSecond,
                 duration: Duration(milliseconds: 250),
-                firstChild: _WaitingForLocation(),
-                secondChild: _FoundLocation(),
+                firstChild: _WaitingForWeather(),
+                secondChild: _WeatherFound(
+                  weather: state.userLocationWeather
+                )
               ),
             ),
           )
@@ -34,11 +38,9 @@ class UserLocation extends StatelessWidget {
     );
   }
 
-
-
 }
 
-class _WaitingForLocation extends StatelessWidget {
+class _WaitingForWeather extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -49,25 +51,29 @@ class _WaitingForLocation extends StatelessWidget {
 
 }
 
-class _FoundLocation extends StatelessWidget {
+class _WeatherFound extends StatelessWidget {
+
+  final PlaceWeather? weather;
+
+  const _WeatherFound({required this.weather});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Image.asset(
-            'assets/image/florida.png',
-            width: double.infinity,
-            height: 256,
-            fit: BoxFit.fill
+          'assets/image/florida.png',
+          width: double.infinity,
+          height: 256,
+          fit: BoxFit.fill
         ),
         // Location name
         Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text('Florida, US', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
-            )
+          alignment: Alignment.topLeft,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text('Florida, US', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
+          )
         ),
         // 'You are here'
         Align(
@@ -119,7 +125,7 @@ class _FoundLocation extends StatelessWidget {
                         children: [
                           Text('WED', style: Theme.of(context).textTheme.labelSmall,),
                           Icon(WeatherIcons.day_sunny, size: 16,),
-                          Text('-12', style: Theme.of(context).textTheme.labelSmall,),
+                          Text('${weather?.forecastTemp0 ?? 0}', style: Theme.of(context).textTheme.labelSmall,),
                         ]
                       )
                     ),
@@ -131,7 +137,7 @@ class _FoundLocation extends StatelessWidget {
                         children: [
                           Text('WED', style: Theme.of(context).textTheme.labelSmall,),
                           Icon(WeatherIcons.day_sunny, size: 16,),
-                          Text('-12', style: Theme.of(context).textTheme.labelSmall,),
+                          Text('${weather?.forecastTemp1}', style: Theme.of(context).textTheme.labelSmall,),
                         ]
                       )
                     ),
@@ -143,7 +149,7 @@ class _FoundLocation extends StatelessWidget {
                         children: [
                           Text('WED', style: Theme.of(context).textTheme.labelSmall,),
                           Icon(WeatherIcons.day_sunny, size: 16,),
-                          Text('-12', style: Theme.of(context).textTheme.labelSmall,),
+                          Text('${weather?.forecastTemp2}', style: Theme.of(context).textTheme.labelSmall,),
                         ]
                       )
                     ),
@@ -155,7 +161,7 @@ class _FoundLocation extends StatelessWidget {
                         children: [
                           Text('WED', style: Theme.of(context).textTheme.labelSmall,),
                           Icon(WeatherIcons.day_sunny, size: 16,),
-                          Text('-12', style: Theme.of(context).textTheme.labelSmall,),
+                          Text('${weather?.forecastTemp3}', style: Theme.of(context).textTheme.labelSmall,),
                         ]
                       )
                     ),

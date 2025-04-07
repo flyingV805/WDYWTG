@@ -1,10 +1,10 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:wdywtg/core/location/user_position.dart';
 import 'package:wdywtg/core/log/loger.dart';
 
+import '../model/place_weather.dart';
+import '../repository/user/user_repository.dart';
 import '../repository/weather/weather_repository.dart';
 
 part 'main_event.dart';
@@ -13,14 +13,19 @@ part 'main_state.dart';
 class MainBloc extends Bloc<MainEvent, MainState> {
 
   final WeatherRepository _weatherRepository;
+  final UserRepository _userRepository;
   static final String _logTag = 'MainBloc';
 
   MainBloc({
-    required WeatherRepository weatherRepository
+    required WeatherRepository weatherRepository,
+    required UserRepository userRepository,
   }): _weatherRepository = weatherRepository,
+      _userRepository = userRepository,
     super(const MainState.empty()){
       Log().w(_logTag, 'super');
       on<Initialize>(_startRoutine);
+      on<UseCurrentLocation>(_useLocation);
+      on<CancelCurrentLocationRequest>(_cancelLocation);
       on<UpdateSearch>(_onSearchUpdate);
     }
 
@@ -29,14 +34,37 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     Emitter<MainState> emit
   ) async {
 
-    emit.call(MainState.requestLocation());
-
-    await Future.delayed(Duration(milliseconds: 1700)).whenComplete(() {
-      Log().w(_logTag, '_displayLocation - Intial event');
+    final showUserLocationDialog = await _userRepository.showUserLocation();
+    if(showUserLocationDialog){
       emit.call(MainState.displayLocation());
-    } );
+      emit.call(MainState.updateUserWeather(PlaceWeather.exampleWeather()));
+    }else{
+      var shouldAsk = await _userRepository.needAskForLocation().whenComplete((){});
+      if(shouldAsk){ emit.call(MainState.requestLocation()); }
+    }
 
-    //emit.call(MainState.userLocated());
+  }
+
+  Future<void> _useLocation(
+    UseCurrentLocation event,
+    Emitter<MainState> emit
+  ) async {
+    _userRepository.setNeedAskForLocation(false);
+    _userRepository.setShowUserLocation(true);
+
+    //state;
+    emit.call(MainState.displayLocation());
+    //UserPosition.determinePosition();
+
+  }
+
+  Future<void> _cancelLocation(
+    CancelCurrentLocationRequest event,
+    Emitter<MainState> emit
+  ) async {
+
+    _userRepository.setNeedAskForLocation(false);
+    _userRepository.setShowUserLocation(false);
   }
 
   Future<void> _checkLocation(
