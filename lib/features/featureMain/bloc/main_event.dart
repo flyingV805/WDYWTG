@@ -17,3 +17,11 @@ final class UpdateSearch extends MainEvent {
   UpdateSearch({required this.searchable});
 
 }
+
+final class SearchUpdated extends MainEvent {
+
+  final List<PlaceSuggestion> suggestions;
+
+  SearchUpdated({required this.suggestions});
+
+}

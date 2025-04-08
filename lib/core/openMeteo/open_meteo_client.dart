@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:wdywtg/core/openMeteo/response/forecast_response.dart';
+import 'package:wdywtg/core/openMeteo/response/search_response.dart';
 
 part 'open_meteo_client.g.dart';
 
@@ -23,8 +24,21 @@ abstract class OpenMeteoClient {
     }
   );
 
+  @GET('search')
+  Future<SearchResponse> getAutocomplete(
+    @Query("name") String name,
+    {
+      @Query("count") int count = 5,
+      @Query("format") String format = "json",
+      @Query("language") String language = "en",
+    }
+  );
+
 }
 
 
 FutureOr<ForecastResponse> deserializeForecastResponse(Map<String, dynamic> json) => ForecastResponse.fromJson(json);
 FutureOr<dynamic> serializeForecastResponse(ForecastResponse object) => object.toJson();
+
+FutureOr<SearchResponse> deserializeSearchResponse(Map<String, dynamic> json) => SearchResponse.fromJson(json);
+FutureOr<dynamic> serializeSearchResponse(SearchResponse object) => object.toJson();

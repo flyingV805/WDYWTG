@@ -7,6 +7,7 @@ class MainState extends Equatable {
     this.displayUserLocation = false,
     this.locationFound = false,
     this.userLocationWeather,
+    this.suggestions,
   });
 
   const MainState.empty() : this._();
@@ -25,21 +26,31 @@ class MainState extends Equatable {
   final bool locationFound;
 
   final PlaceWeather? userLocationWeather;
+  final List<PlaceSuggestion>? suggestions;
 
   @override
   List<Object> get props => [
     askForLocation,
     displayUserLocation,
     locationFound,
-    userLocationWeather.toString()
+    userLocationWeather.toString(),
+    suggestions.toString()
   ];
-/*
-  MainState copyWith({String? name, int? age, String? email}) {
-    return User(
-      name: name ?? this.name,
-      age: age ?? this.age,
-      email: email ?? this.email,
+
+  MainState copyWith({
+    bool? askForLocation,
+    bool? displayUserLocation,
+    bool? locationFound,
+    PlaceWeather? userLocationWeather,
+    List<PlaceSuggestion>? suggestions
+  }) {
+    return MainState._(
+      askForLocation: askForLocation ?? this.displayUserLocation,
+      displayUserLocation: displayUserLocation ?? this.displayUserLocation,
+      locationFound: locationFound ?? this.locationFound,
+      userLocationWeather: userLocationWeather ?? this.userLocationWeather,
+      suggestions: suggestions ?? this.suggestions,
     );
-  }*/
+  }
 
 }

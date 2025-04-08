@@ -21,7 +21,7 @@ class MainScreen extends StatelessWidget {
       body: BlocListener<MainBloc, MainState>(
         listener: (context, state) {
           if(state.askForLocation) {
-            askForLocationDialog(context);
+            //askForLocationDialog(context);
           }
           Log().w('MainScreen', state.toString());
         },
