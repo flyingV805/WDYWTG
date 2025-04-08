@@ -1,8 +1,35 @@
 import 'package:geolocator/geolocator.dart';
 
+sealed class FindLocationResult {}
+
+class PositionFound extends FindLocationResult {
+
+  final double latitude;
+  final double longitude;
+
+  PositionFound({
+    required this.latitude,
+    required this.longitude
+  });
+
+}
+
+class PermissionError extends FindLocationResult {
+
+  final bool isForever;
+
+  PermissionError({ required this.isForever });
+
+}
+
+class ServiceError extends FindLocationResult {}
+
+class PositionError extends FindLocationResult {}
+
 class UserPosition {
 
-  static Future<Position> determinePosition() async {
+  static Future<FindLocationResult> determinePosition() async {
+
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -12,7 +39,8 @@ class UserPosition {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
       // App to enable the location services.
-      return Future.error('Location services are disabled.');
+      return ServiceError();
+      //return Future.error('Location services are disabled.');
     }
 
     permission = await Geolocator.checkPermission();
@@ -24,19 +52,24 @@ class UserPosition {
         // Android's shouldShowRequestPermissionRationale
         // returned true. According to Android guidelines
         // your App should show an explanatory UI now.
-        return Future.error('Location permissions are denied');
+        return PermissionError(isForever: false);
+        //return Future.error('Location permissions are denied');
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+      return PermissionError(isForever: true);
+      //return Future.error('Location permissions are permanently denied, we cannot request permissions.');
     }
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition();
+    final position = await Geolocator.getCurrentPosition();
+    return PositionFound(
+      latitude: position.latitude,
+      longitude: position.longitude
+    );
   }
 
 }

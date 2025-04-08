@@ -24,8 +24,8 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     super(const MainState.empty()){
       Log().w(_logTag, 'super');
       on<Initialize>(_startRoutine);
-      on<UseCurrentLocation>(_useLocation);
-      on<CancelCurrentLocationRequest>(_cancelLocation);
+      on<UseCurrentLocation>(_useApprovedLocation);
+      on<CancelCurrentLocationRequest>(_userCanceledLocation);
       on<UpdateSearch>(_onSearchUpdate);
     }
 
@@ -45,7 +45,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 
   }
 
-  Future<void> _useLocation(
+  Future<void> _useApprovedLocation(
     UseCurrentLocation event,
     Emitter<MainState> emit
   ) async {
@@ -54,11 +54,11 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 
     //state;
     emit.call(MainState.displayLocation());
-    //UserPosition.determinePosition();
+    UserPosition.determinePosition();
 
   }
 
-  Future<void> _cancelLocation(
+  Future<void> _userCanceledLocation(
     CancelCurrentLocationRequest event,
     Emitter<MainState> emit
   ) async {

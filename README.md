@@ -38,6 +38,7 @@ Make sure you have Flutter installed and set up properly.
 ### Flutter — UI toolkit
 ### Dart — programming language
 ### OpenWeatherMap API — weather data provider
+### OpenCage Geocoding API — weather data provider
 ### Geolocator — for location services
 ### BLoC — state management
 

@@ -45,6 +45,7 @@ class _WaitingForWeather extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: const Key('user_weather_preload_widget'),
       color: Colors.red,
     );
   }
@@ -60,6 +61,7 @@ class _WeatherFound extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      key: const Key('user_weather_widget'),
       children: [
         Image.asset(
           'assets/image/florida.png',
