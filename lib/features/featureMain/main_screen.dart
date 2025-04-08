@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wdywtg/core/log/loger.dart';
+import 'package:wdywtg/features/featureMain/widget/saved_places.dart';
 import 'package:wdywtg/features/featureMain/widget/search_field.dart';
 
 import 'bloc/main_bloc.dart';
-import 'dialog/ask_for_location.dart';
 import 'widget/user_location.dart';
 
 
@@ -30,7 +30,8 @@ class MainScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               UserLocation(),
-              SearchField()
+              SearchField(),
+              SavedPlaces()
             ],
           ),
         ),
