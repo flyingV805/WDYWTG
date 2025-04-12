@@ -17,6 +17,7 @@ class MainScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Where to?'),
+        centerTitle: true,
       ),
       body: BlocListener<MainBloc, MainState>(
         listener: (context, state) {
