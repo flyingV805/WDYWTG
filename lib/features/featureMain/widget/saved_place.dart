@@ -1,6 +1,8 @@
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import 'package:weather_icons/weather_icons.dart';
+import 'package:wdywtg/uiKit/aiSuggestion/ai_suggestion.dart';
+import 'package:wdywtg/uiKit/tzTime/time_zoned_time.dart';
+import 'package:wdywtg/uiKit/weatherRow/weather_row.dart';
 
 const Duration _expandTime = Duration(milliseconds: 200);
 
@@ -122,92 +124,24 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(4.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(Icons.access_time_filled),
-                              SizedBox(width: 4),
-                              Text('14:05 (GMT +2)')
-                            ],
-                          ),
+                          child: TimeZonedTime(timeZone: 'GMT +2',),
                         ),
                       ),
                     ),
                   ),
                   // Location weather
-                  Padding(
-                    padding: EdgeInsets.only(top: 68.0 + (128 * _heightFactor.value)),
-                    child: SizedBox(
-                      height: 60,
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 60.0,
-                        child: ClipRect(
-                          child: BackdropFilter(
-                            filter: ui.ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                    flex: 2,
-                                    child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [ Text('sdfsdfs') ]
-                                    )
-                                ),
-                                VerticalDivider(width: 1, thickness: 1, color: Colors.grey.withAlpha(160),),
-                                Expanded(
-                                    flex: 1,
-                                    child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Text('WED', style: Theme.of(context).textTheme.labelSmall,),
-                                          Icon(WeatherIcons.day_sunny, size: 16,),
-                                          Text('${0}', style: Theme.of(context).textTheme.labelSmall,),
-                                        ]
-                                    )
-                                ),
-                                VerticalDivider(width: 1, thickness: 1, color: Colors.grey.withAlpha(160),),
-                                Expanded(
-                                    flex: 1,
-                                    child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Text('WED', style: Theme.of(context).textTheme.labelSmall,),
-                                          Icon(WeatherIcons.day_sunny, size: 16,),
-                                          Text('${0}', style: Theme.of(context).textTheme.labelSmall,),
-                                        ]
-                                    )
-                                ),
-                                VerticalDivider(width: 1, thickness: 1, color: Colors.grey.withAlpha(160),),
-                                Expanded(
-                                    flex: 1,
-                                    child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Text('WED', style: Theme.of(context).textTheme.labelSmall,),
-                                          Icon(WeatherIcons.day_sunny, size: 16,),
-                                          Text('${0}', style: Theme.of(context).textTheme.labelSmall,),
-                                        ]
-                                    )
-                                ),
-                                VerticalDivider(width: 1, thickness: 1, color: Colors.grey.withAlpha(160),),
-                                Expanded(
-                                    flex: 1,
-                                    child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Text('WED', style: Theme.of(context).textTheme.labelSmall,),
-                                          Icon(WeatherIcons.day_sunny, size: 16,),
-                                          Text('${0}', style: Theme.of(context).textTheme.labelSmall,),
-                                        ]
-                                    )
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                  Positioned(
+                    bottom: 0,
+                    height: 60,
+                    left: 0,
+                    right: 0,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      child: BackdropFilter(
+                        filter: ui.ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                        child: WeatherRow()
                       ),
-                    ),
+                    )
                   )
                 ],
               ),
@@ -223,16 +157,7 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
         ),
       ),
     );
-    return Column(
-      children: [
-        ListTile(
-          onTap: _handleTap,
-          title: Text('EXP TITLE'),
-          leading: Icon(Icons.ac_unit_sharp),
-          subtitle: Text('EXP SUBTITLE'),
-        ),
-      ]
-    );
+
   }
 
   @override
@@ -250,14 +175,10 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('sdfsdfsdfsdfsdfsdf'),
-              Text('sdfsdfsdfsdfsdfsdf'),
-              Text('sdfsdfsdfsdfsdfsdf'),
-              Text('sdfsdfsdfsdfsdfsdf'),
-              Text('sdfsdfsdfsdfsdfsdf'),
-              Text('sdfsdfsdfsdfsdfsdf'),
-              Text('sdfsdfsdfsdfsdfsdf'),
-              Text('sdfsdfsdfsdfsdfsdf'),
+              AiSuggestion(),
+              AiSuggestion(),
+              AiSuggestion(),
+              AiSuggestion(),
             ],
           ),
         ),

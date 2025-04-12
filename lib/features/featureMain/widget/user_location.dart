@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wdywtg/features/featureMain/model/place_weather.dart';
+import 'package:wdywtg/uiKit/weatherRow/weather_row.dart';
 import 'package:weather_icons/weather_icons.dart';
 
 import '../bloc/main_bloc.dart';
@@ -110,65 +111,7 @@ class _WeatherFound extends StatelessWidget {
               child: SizedBox(
                 width: double.infinity,
                 height: 78.0,
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [ Text('sdfsdfs') ]
-                      )
-                    ),
-                    VerticalDivider(width: 1, thickness: 1, color: Colors.grey.withAlpha(160),),
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text('WED', style: Theme.of(context).textTheme.labelSmall,),
-                          Icon(WeatherIcons.day_sunny, size: 16,),
-                          Text('${weather?.forecastTemp0 ?? 0}', style: Theme.of(context).textTheme.labelSmall,),
-                        ]
-                      )
-                    ),
-                    VerticalDivider(width: 1, thickness: 1, color: Colors.grey.withAlpha(160),),
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text('WED', style: Theme.of(context).textTheme.labelSmall,),
-                          Icon(WeatherIcons.day_sunny, size: 16,),
-                          Text('${weather?.forecastTemp1}', style: Theme.of(context).textTheme.labelSmall,),
-                        ]
-                      )
-                    ),
-                    VerticalDivider(width: 1, thickness: 1, color: Colors.grey.withAlpha(160),),
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text('WED', style: Theme.of(context).textTheme.labelSmall,),
-                          Icon(WeatherIcons.day_sunny, size: 16,),
-                          Text('${weather?.forecastTemp2}', style: Theme.of(context).textTheme.labelSmall,),
-                        ]
-                      )
-                    ),
-                    VerticalDivider(width: 1, thickness: 1, color: Colors.grey.withAlpha(160),),
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text('WED', style: Theme.of(context).textTheme.labelSmall,),
-                          Icon(WeatherIcons.day_sunny, size: 16,),
-                          Text('${weather?.forecastTemp3}', style: Theme.of(context).textTheme.labelSmall,),
-                        ]
-                      )
-                    ),
-                  ],
-                ),
+                child: WeatherRow()
               ),
             ),
           ),

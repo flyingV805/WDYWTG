@@ -53,9 +53,13 @@ class _SearchFieldState extends State<SearchField>{
                 decoration: InputDecoration(
                   labelText: 'I\'m going to visit...',
                   errorText: null,
-                  suffixIcon: IconButton(
-                    onPressed: (){ _focusNode.unfocus(); },
-                    icon: const Icon(Icons.close)
+                  suffixIcon: AnimatedOpacity(
+                    opacity: _showSuggestionsList ? 1 : 0,
+                    duration: const Duration(milliseconds: 250),
+                    child: IconButton(
+                      onPressed: (){ _focusNode.unfocus(); },
+                      icon: const Icon(Icons.close)
+                    ),
                   ),
                 ),
               ),
