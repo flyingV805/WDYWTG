@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wdywtg/features/featureMain/model/place_weather.dart';
 import 'package:wdywtg/uiKit/weatherRow/weather_row.dart';
-import 'package:weather_icons/weather_icons.dart';
 
 import '../bloc/main_bloc.dart';
 
