@@ -25,8 +25,9 @@ class _TimeZonedTimeState extends State<TimeZonedTime> {
   @override
   void initState() {
     super.initState();
+    
     tz.initializeTimeZones();
-    _location = tz.getLocation('Europe/Moscow');
+    _location = tz.getLocation('Europe/Berlin');
     _currentTime = tz.TZDateTime.now(_location);
 
     _updateTimer = Timer.periodic(

@@ -24,6 +24,7 @@ class SearchResult {
     required this.latitude,
     required this.longitude,
     required this.countryCode,
+    required this.timezone,
     required this.country,
   });
 
@@ -40,6 +41,8 @@ class SearchResult {
   double longitude;
   @JsonKey(name: 'country_code')
   String countryCode;
+  @JsonKey(name: 'timezone')
+  String timezone;
   @JsonKey(name: 'country')
   String country;
 
