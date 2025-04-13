@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:wdywtg/features/featureMain/model/place_weather.dart';
 import 'package:weather_icons/weather_icons.dart';
 
 class WeatherRow extends StatelessWidget {
 
+  final PlaceWeather? weather;
+
   const WeatherRow({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+    required this.weather
+  });
 
   @override
   Widget build(BuildContext context) {

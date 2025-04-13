@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wdywtg/features/featureMain/model/place_weather.dart';
+import 'package:wdywtg/features/featureMain/model/user_place.dart';
 import 'package:wdywtg/uiKit/weatherRow/weather_row.dart';
 
 import '../bloc/main_bloc.dart';
@@ -23,12 +24,12 @@ class UserLocation extends StatelessWidget {
             child: SizedBox(
               height: state.displayUserLocation ? 256 : 0,
               child: AnimatedCrossFade(
-                crossFadeState: state.userLocationWeather == null
+                crossFadeState: state.userPlace?.weather == null
                   ? CrossFadeState.showFirst : CrossFadeState.showSecond,
                 duration: Duration(milliseconds: 250),
                 firstChild: _WaitingForWeather(),
                 secondChild: _WeatherFound(
-                  weather: state.userLocationWeather
+                  weather: state.userPlace?.weather
                 )
               ),
             ),
@@ -110,7 +111,7 @@ class _WeatherFound extends StatelessWidget {
               child: SizedBox(
                 width: double.infinity,
                 height: 78.0,
-                child: WeatherRow()
+                child: WeatherRow(weather: weather)
               ),
             ),
           ),

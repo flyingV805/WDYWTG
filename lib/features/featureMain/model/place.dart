@@ -3,7 +3,6 @@ class Place {
   final String placeName;
   final String placeTimezone;
   final String placeCountryCode;
-
   final String placePictureUrl;
 
   Place({

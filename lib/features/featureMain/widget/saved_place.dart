@@ -1,6 +1,7 @@
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import 'package:wdywtg/uiKit/aiSuggestion/ai_suggestion.dart';
+import 'package:wdywtg/features/featureMain/model/place_profile.dart';
+import 'package:wdywtg/uiKit/aiAdvice/ai_advice.dart';
 import 'package:wdywtg/uiKit/tzTime/time_zoned_time.dart';
 import 'package:wdywtg/uiKit/weatherRow/weather_row.dart';
 
@@ -8,12 +9,14 @@ const Duration _expandTime = Duration(milliseconds: 200);
 
 class SavedPlace extends StatefulWidget {
 
+  final PlaceProfile profile;
   final double collapsedHeight;
   final bool initiallyExpanded;
   final bool maintainState;
 
   const SavedPlace({
     super.key,
+    required this.profile,
     this.collapsedHeight = 128,
     this.initiallyExpanded = false,
     this.maintainState = false
@@ -23,6 +26,7 @@ class SavedPlace extends StatefulWidget {
   State<StatefulWidget> createState() => _SavedPlaceState();
 
 }
+
 
 class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateMixin {
   
@@ -83,6 +87,7 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
       child: InkWell(
+        borderRadius: BorderRadius.circular(12),
         onTap: _handleTap,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(12),
@@ -109,7 +114,10 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
                     alignment: Alignment.topLeft,
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: Text('Berlin, DE', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, color: Colors.black)),
+                      child: Text(
+                        '${widget.profile.place.placeName}, ${widget.profile.place.placeCountryCode}',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, color: Colors.black)
+                      ),
                     )
                   ),
                   // Location time
@@ -139,7 +147,7 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                       child: BackdropFilter(
                         filter: ui.ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                        child: WeatherRow()
+                        child: WeatherRow(weather: widget.profile.weather)
                       ),
                     )
                   )
@@ -174,12 +182,9 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              AiSuggestion(),
-              AiSuggestion(),
-              AiSuggestion(),
-              AiSuggestion(),
-            ],
+            children: widget.profile.advices.map(
+              (element) => AiAdvice(advice: element)
+            ).toList(growable: false),
           ),
         ),
       ),

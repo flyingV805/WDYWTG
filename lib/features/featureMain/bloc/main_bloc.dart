@@ -5,7 +5,12 @@ import 'package:equatable/equatable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:wdywtg/core/location/user_position.dart';
 import 'package:wdywtg/core/log/loger.dart';
+import 'package:wdywtg/features/featureMain/model/place_profile.dart';
+import 'package:wdywtg/features/featureMain/model/user_place.dart';
+import 'package:wdywtg/uiKit/aiAdvice/ai_advice.dart';
 
+import '../model/place.dart';
+import '../model/place_advice.dart';
 import '../model/place_suggestion.dart';
 import '../model/place_weather.dart';
 import '../repository/user/user_repository.dart';
@@ -44,11 +49,12 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 
     final showUserLocationDialog = await _userRepository.showUserLocation();
     if(showUserLocationDialog){
-      emit.call(MainState.displayLocation());
-      emit.call(MainState.updateUserWeather(PlaceWeather.exampleWeather()));
+      emit.call(state.copyWith(displayUserLocation: true));
+      //emit.call(MainState.displayLocation());
+      //emit.call(MainState.updateUserWeather(PlaceWeather.exampleWeather()));
     }else{
       var shouldAsk = await _userRepository.needAskForLocation().whenComplete((){});
-      if(shouldAsk){ emit.call(MainState.requestLocation()); }
+      if(shouldAsk){ emit.call(state.copyWith(askForLocation: true)); }
     }
 
     // searching setup - debounce
@@ -61,6 +67,14 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         add(SearchUpdated(suggestions: found));
       });
 
+    emit.call(state.copyWith(savedPlaces: [
+      PlaceProfile(
+        place: Place.examplePlace(),
+        weather: PlaceWeather.exampleWeather(),
+        advices: [PlaceAdvice.exampleAdvice(), PlaceAdvice.exampleAdvice()]
+      )
+    ]));
+
   }
 
   Future<void> _useApprovedLocation(
@@ -71,7 +85,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     _userRepository.setShowUserLocation(true);
 
     //state;
-    emit.call(MainState.displayLocation());
+    emit.call(state.copyWith(displayUserLocation: true));
     UserPosition.determinePosition();
 
   }
@@ -126,9 +140,9 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     if(searchable.isEmpty){ return []; }
     await Future.delayed(Duration(milliseconds: 500));
     return [
-      PlaceSuggestion(placeName: 'Suggestion 1'),
-      PlaceSuggestion(placeName: 'Suggestion 2'),
-      PlaceSuggestion(placeName: 'Suggestion 3')
+      PlaceSuggestion.exampleSuggestion(),
+      PlaceSuggestion.exampleSuggestion(),
+      PlaceSuggestion.exampleSuggestion(),
     ];
   }
 

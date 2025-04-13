@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:wdywtg/features/featureMain/model/place_advice.dart';
 
-class AiSuggestion extends StatelessWidget {
+class AiAdvice extends StatelessWidget {
 
-  const AiSuggestion({super.key});
+  final PlaceAdvice advice;
+
+  const AiAdvice({super.key, required this.advice});
 
   @override
   Widget build(BuildContext context) {
@@ -12,9 +15,9 @@ class AiSuggestion extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Pack an Umbrella!', style: Theme.of(context).textTheme.titleLarge),
+            Text(advice.adviceTitle, style: Theme.of(context).textTheme.titleLarge),
             SizedBox(height: 8),
-            Text('Suggestion bodySuggestion bodySuggestion bodySuggestion bodySuggestion bodySuggestion bodySuggestion body', style: Theme.of(context).textTheme.bodyMedium),
+            Text(advice.adviceBody, style: Theme.of(context).textTheme.bodyMedium),
             SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
