@@ -2,8 +2,8 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wdywtg/features/featureMain/model/place_weather.dart';
-import 'package:wdywtg/features/featureMain/model/user_place.dart';
+import 'package:wdywtg/features/featureMain/domain/model/place_weather.dart';
+import 'package:wdywtg/features/featureMain/domain/model/user_place.dart';
 import 'package:wdywtg/uiKit/weatherRow/weather_row.dart';
 
 import '../bloc/main_bloc.dart';

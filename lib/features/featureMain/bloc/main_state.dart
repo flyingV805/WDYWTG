@@ -36,7 +36,7 @@ class MainState extends Equatable {
     displayUserLocation,
     locationFound,
     userPlace.toString(),
-    suggestions.toString(),
+    suggestions?.join() ?? '',
     savedPlaces.toString()
   ];
 

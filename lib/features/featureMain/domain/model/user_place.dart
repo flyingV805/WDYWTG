@@ -1,4 +1,4 @@
-import 'package:wdywtg/features/featureMain/model/place_weather.dart';
+import 'package:wdywtg/features/featureMain/domain/model/place_weather.dart';
 
 class UserPlace {
 

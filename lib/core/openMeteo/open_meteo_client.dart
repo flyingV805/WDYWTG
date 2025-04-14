@@ -24,21 +24,8 @@ abstract class OpenMeteoClient {
     }
   );
 
-  @GET('search')
-  Future<SearchResponse> getAutocomplete(
-    @Query("name") String name,
-    {
-      @Query("count") int count = 5,
-      @Query("format") String format = "json",
-      @Query("language") String language = "en",
-    }
-  );
-
 }
 
 
 FutureOr<ForecastResponse> deserializeForecastResponse(Map<String, dynamic> json) => ForecastResponse.fromJson(json);
 FutureOr<dynamic> serializeForecastResponse(ForecastResponse object) => object.toJson();
-
-FutureOr<SearchResponse> deserializeSearchResponse(Map<String, dynamic> json) => SearchResponse.fromJson(json);
-FutureOr<dynamic> serializeSearchResponse(SearchResponse object) => object.toJson();

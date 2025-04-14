@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wdywtg/features/featureMain/model/place_weather.dart';
+import 'package:wdywtg/features/featureMain/domain/model/place_weather.dart';
 import 'package:weather_icons/weather_icons.dart';
 import 'weather_icon.dart';
 

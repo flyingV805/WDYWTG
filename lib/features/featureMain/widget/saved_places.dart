@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wdywtg/features/featureMain/widget/saved_place.dart';
 
 import '../bloc/main_bloc.dart';
-import '../model/place_profile.dart';
+import '../domain/model/place_profile.dart';
 
 class SavedPlaces extends StatelessWidget {
 

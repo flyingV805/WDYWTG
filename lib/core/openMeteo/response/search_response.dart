@@ -26,6 +26,10 @@ class SearchResult {
     required this.countryCode,
     required this.timezone,
     required this.country,
+    required this.admin1,
+    required this.admin2,
+    required this.admin3,
+    required this.admin4,
   });
 
   factory SearchResult.fromJson(Map<String, dynamic> json) =>
@@ -45,6 +49,27 @@ class SearchResult {
   String timezone;
   @JsonKey(name: 'country')
   String country;
+
+  @JsonKey(name: 'admin1')
+  String? admin1;
+  @JsonKey(name: 'admin2')
+  String? admin2;
+  @JsonKey(name: 'admin3')
+  String? admin3;
+  @JsonKey(name: 'admin4')
+  String? admin4;
+
+  String generateAdminString(){
+    String buffer = '';
+
+    if(admin4 != null) { buffer += '$admin4, '; }
+    if(admin3 != null) { buffer += '$admin3, '; }
+    if(admin2 != null) { buffer += '$admin2, '; }
+    if(admin1 != null) { buffer += '$admin1, '; }
+    buffer += country;
+
+    return buffer;
+  }
 
   Map<String, dynamic> toJson() => _$SearchResultToJson(this);
 }

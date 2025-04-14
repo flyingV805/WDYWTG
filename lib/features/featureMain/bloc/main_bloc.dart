@@ -5,14 +5,14 @@ import 'package:equatable/equatable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:wdywtg/core/location/user_position.dart';
 import 'package:wdywtg/core/log/loger.dart';
-import 'package:wdywtg/features/featureMain/model/place_profile.dart';
-import 'package:wdywtg/features/featureMain/model/user_place.dart';
+import 'package:wdywtg/features/featureMain/domain/model/place_profile.dart';
+import 'package:wdywtg/features/featureMain/domain/model/user_place.dart';
 import 'package:wdywtg/uiKit/aiAdvice/ai_advice.dart';
 
-import '../model/place.dart';
-import '../model/place_advice.dart';
-import '../model/place_suggestion.dart';
-import '../model/place_weather.dart';
+import '../domain/model/place.dart';
+import '../domain/model/place_advice.dart';
+import '../domain/model/place_suggestion.dart';
+import '../domain/model/place_weather.dart';
 import '../repository/user/user_repository.dart';
 import '../repository/weather/weather_repository.dart';
 
@@ -150,12 +150,10 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 
   Future<List<PlaceSuggestion>> _performSearch(String searchable) async {
     if(searchable.isEmpty){ return []; }
-    await Future.delayed(Duration(milliseconds: 500));
-    return [
-      PlaceSuggestion.exampleSuggestion(),
-      PlaceSuggestion.exampleSuggestion(),
-      PlaceSuggestion.exampleSuggestion(),
-    ];
+    if(searchable.length < 3){ return []; }
+
+    final suggestions = _weatherRepository.findSuggestions(searchable);
+    return suggestions;
   }
 
 }

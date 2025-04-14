@@ -74,14 +74,15 @@ class _SearchFieldState extends State<SearchField>{
                         key: const Key('suggestions_list'),
                         itemCount: searchSuggestions.length,
                         itemBuilder: (BuildContext context, int index) {
+                          final suggestion = searchSuggestions[index];
                           return ListTile(
                             onTap: (){},
                             leading: CountryFlag.fromCountryCode(
-                              'ES',
+                              suggestion.placeCountryCode,
                               shape: const Circle(),
                             ),
-                            title: Text(searchSuggestions[index].placeName),
-                            subtitle: Text('Suggestion subtitle'),
+                            title: Text(suggestion.placeName),
+                            subtitle: Text(suggestion.placeAdmin),
                           );
                         }
                       ),
