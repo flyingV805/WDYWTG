@@ -26,13 +26,11 @@ class UserLocation extends StatelessWidget {
             child: SizedBox(
               height: state.displayUserLocation ? 256 : 0,
               child: AnimatedCrossFade(
-                crossFadeState: state.userPlace?.weather == null
-                      ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                crossFadeState: state.locationFound ?
+                  CrossFadeState.showFirst : CrossFadeState.showSecond,
                 duration: Duration(milliseconds: 250),
-                firstChild: _WaitingForWeather(),
-                secondChild: _WeatherFound(
-                      weather: state.userPlace?.weather
-                )
+                firstChild: SizedBox(),
+                secondChild: SizedBox()
               ),
             ),
           )
