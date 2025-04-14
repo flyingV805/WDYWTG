@@ -6,7 +6,7 @@ sealed class MainEvent {
 
 final class Initialize extends MainEvent {}
 
-final class UseCurrentLocation extends MainEvent {}
+final class UseUserCurrentLocation extends MainEvent {}
 
 final class CancelCurrentLocationRequest extends MainEvent {}
 

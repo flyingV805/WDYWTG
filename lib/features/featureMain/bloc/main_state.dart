@@ -13,9 +13,9 @@ class MainState extends Equatable {
 
   const MainState.empty() : this._();
 
-  const MainState.requestLocation() : this._(askForLocation: true);
-  const MainState.displayLocation() : this._(displayUserLocation: true);
-  const MainState.userLocated() : this._(locationFound: true);
+  //const MainState.requestLocation() : this._(askForLocation: true);
+  //const MainState.displayLocation() : this._(displayUserLocation: true);
+  //const MainState.userLocated() : this._(locationFound: true);
   /*const MainState.updateUserWeather(PlaceWeather userLocationWeather)
     : this._(
       displayUserLocation: true,
@@ -36,7 +36,8 @@ class MainState extends Equatable {
     displayUserLocation,
     locationFound,
     userPlace.toString(),
-    suggestions.toString()
+    suggestions.toString(),
+    savedPlaces.toString()
   ];
 
   MainState copyWith({
@@ -48,7 +49,7 @@ class MainState extends Equatable {
     List<PlaceProfile>? savedPlaces
   }) {
     return MainState._(
-      askForLocation: askForLocation ?? this.displayUserLocation,
+      askForLocation: askForLocation ?? this.askForLocation,
       displayUserLocation: displayUserLocation ?? this.displayUserLocation,
       locationFound: locationFound ?? this.locationFound,
       userPlace: userPlace ?? this.userPlace,

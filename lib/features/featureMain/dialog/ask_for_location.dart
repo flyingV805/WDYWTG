@@ -30,7 +30,7 @@ void askForLocationDialog(
         actions: [
           TextButton(
             onPressed: (){
-              blocContext.read<MainBloc>().add(UseCurrentLocation());
+              blocContext.read<MainBloc>().add(UseUserCurrentLocation());
               Navigator.of(context).pop();
             },
             child: Text('Yes!')),

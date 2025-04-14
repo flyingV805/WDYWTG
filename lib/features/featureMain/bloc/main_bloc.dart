@@ -35,7 +35,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     super(const MainState.empty()){
       Log().w(_logTag, 'super');
       on<Initialize>(_startRoutine);
-      on<UseCurrentLocation>(_useApprovedLocation);
+      on<UseUserCurrentLocation>(_userApprovedLocation);
       on<CancelCurrentLocationRequest>(_userCanceledLocation);
       on<UpdateSearch>(_onSearchUpdate);
       on<SearchUpdated>(_updateSuggestions);
@@ -47,15 +47,27 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     Emitter<MainState> emit
   ) async {
 
+    Log().w(_logTag, '_startRoutine');
+
     final showUserLocationDialog = await _userRepository.showUserLocation();
+
     if(showUserLocationDialog){
       emit.call(state.copyWith(displayUserLocation: true));
-      //emit.call(MainState.displayLocation());
-      //emit.call(MainState.updateUserWeather(PlaceWeather.exampleWeather()));
     }else{
-      var shouldAsk = await _userRepository.needAskForLocation().whenComplete((){});
+      var shouldAsk = await _userRepository.needAskForLocation();
+      Log().w(_logTag, 'shouldAsk - $shouldAsk');
       if(shouldAsk){ emit.call(state.copyWith(askForLocation: true)); }
     }
+
+    Log().w(_logTag, 'pre-call');
+    emit.call(state.copyWith(savedPlaces: [
+      PlaceProfile(
+        place: Place.examplePlace(),
+        weather: PlaceWeather.exampleWeather(),
+        advices: [PlaceAdvice.exampleAdvice(), PlaceAdvice.exampleAdvice()]
+      )
+    ]));
+    Log().w(_logTag, 'post-call');
 
     // searching setup - debounce
     _searchController.stream
@@ -67,20 +79,17 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         add(SearchUpdated(suggestions: found));
       });
 
-    emit.call(state.copyWith(savedPlaces: [
-      PlaceProfile(
-        place: Place.examplePlace(),
-        weather: PlaceWeather.exampleWeather(),
-        advices: [PlaceAdvice.exampleAdvice(), PlaceAdvice.exampleAdvice()]
-      )
-    ]));
+
+    Log().w(_logTag, '_startRoutine - START COMPLETED');
 
   }
 
-  Future<void> _useApprovedLocation(
-    UseCurrentLocation event,
+  Future<void> _userApprovedLocation(
+    UseUserCurrentLocation event,
     Emitter<MainState> emit
   ) async {
+    Log().w(_logTag, '_userApprovedLocation');
+
     _userRepository.setNeedAskForLocation(false);
     _userRepository.setShowUserLocation(true);
 
@@ -94,6 +103,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     CancelCurrentLocationRequest event,
     Emitter<MainState> emit
   ) async {
+    Log().w(_logTag, '_userCanceledLocation');
 
     _userRepository.setNeedAskForLocation(false);
     _userRepository.setShowUserLocation(false);
@@ -103,7 +113,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     Initialize event,
     Emitter<MainState> emit
   ) async {
-
+    Log().w(_logTag, '_checkLocation');
     //final weather = await _weatherRepository.getWeather();
 
     //Log().w(_logTag, 'weather - $weather');
@@ -116,7 +126,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 
       });*/
 
-    await Future.delayed(Duration(milliseconds: 700)).whenComplete(() => emit.call(MainState.userLocated()) );
+    //await Future.delayed(Duration(milliseconds: 700)).whenComplete(() => emit.call(MainState.userLocated()) );
 
     Log().w(_logTag, '_checkLocation - Intial event');
 
@@ -126,6 +136,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     UpdateSearch event,
     Emitter<MainState> emit
   ) async {
+    Log().w(_logTag, '_onSearchUpdate');
     _searchController.sink.add(event.searchable);
   }
 
@@ -133,6 +144,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     SearchUpdated event,
     Emitter<MainState> emit
   ) async {
+    Log().w(_logTag, '_updateSuggestions');
     emit.call(state.copyWith(suggestions: event.suggestions));
   }
 
