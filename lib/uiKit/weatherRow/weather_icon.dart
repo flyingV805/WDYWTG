@@ -4,37 +4,51 @@ import 'package:weather_icons/weather_icons.dart';
 class OpenMeteoWeatherIcon {
 
   static IconData fromCode(int? weatherCode){
-    return switch(weatherCode){
-      0 => WeatherIcons.day_sunny,
-      1 => WeatherIcons.day_sunny ,
-      2 => WeatherIcons.cloudy,
-      3 => WeatherIcons.day_sunny_overcast,
-      45 => WeatherIcons.fog,
-      48 => WeatherIcons.fog,
-      /*51 => WeatherIcons.DrizzleLight,
-      53 => WeatherIcons.DrizzleModerate,
-      55 => WeatherIcons.DrizzleDense,
-      56 => WeatherIcons.FreezingDrizzleLight,
-      57 => WeatherIcons.FreezingDrizzleDense,
-      61 => WeatherIcons.day_rain,
-      63 => WeatherIcons.RainModerate,
-      65 => WeatherIcons.RainHeavy,
-      66 => WeatherIcons.FreezingRainLight,
-      67 => WeatherIcons.FreezingRainHeavy,
-      71 => WeatherIcons.SnowFallSlight,
-      73 => WeatherIcons.SnowFallModerate,
-      75 => WeatherIcons.SnowFallHeavy,
-      77 => WeatherIcons.SnowGrain,
-      80 => WeatherIcons.RainShowerSlight,
-      81 => WeatherIcons.RainShowerModerate,
-      82 => WeatherIcons.RainShowerViolent,
-      85 => WeatherIcons.SnowShowerSlight,
-      86 => WeatherIcons.SnowShowerHeavy,
-      95 => WeatherIcons.ThunderstormSlight,
-      96 => WeatherIcons.ThunderStormSlightHail,
-      99 => WeatherIcons.ThunderStormHeavyHail,*/
-        _ => WeatherIcons.day_sunny,
-    };
+    switch (weatherCode) {
+      case 0:
+        return WeatherIcons.day_sunny;
+      case 1:
+      case 2:
+      case 3:
+        return WeatherIcons.day_cloudy;
+      case 45:
+      case 48:
+        return WeatherIcons.fog;
+      case 51:
+      case 53:
+      case 55:
+        return WeatherIcons.sprinkle;
+      case 56:
+      case 57:
+        return WeatherIcons.snowflake_cold;
+      case 61:
+      case 63:
+      case 65:
+        return WeatherIcons.rain;
+      case 66:
+      case 67:
+        return WeatherIcons.rain_mix;
+      case 71:
+      case 73:
+      case 75:
+        return WeatherIcons.snow;
+      case 77:
+        return WeatherIcons.snow_wind;
+      case 80:
+      case 81:
+      case 82:
+        return WeatherIcons.showers;
+      case 85:
+      case 86:
+        return WeatherIcons.snow_wind;
+      case 95:
+        return WeatherIcons.thunderstorm;
+      case 96:
+      case 99:
+        return WeatherIcons.thunderstorm;
+      default:
+        return WeatherIcons.na;
+    }
   }
 
 }
