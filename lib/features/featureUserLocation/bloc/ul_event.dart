@@ -4,3 +4,8 @@ sealed class UserLocationEvent {
 }
 
 final class Initialize extends UserLocationEvent {}
+
+
+final class UserApprovedLocation extends UserLocationEvent {}
+
+final class UserDeclinedLocation extends UserLocationEvent {}

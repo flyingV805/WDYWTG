@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wdywtg/features/featureMain/domain/model/place_advice.dart';
+import 'package:wdywtg/features/featureList/model/place_advice.dart';
 
 class AiAdvice extends StatelessWidget {
 

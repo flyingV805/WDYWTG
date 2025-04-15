@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wdywtg/features/featureFind/repository/geocoding_repository.dart';
+import 'package:wdywtg/screen/MainScreen.dart';
 
-import 'features/featureMain/feature_main.dart';
-import 'features/featureMain/repository/user/user_repository.dart';
-import 'features/featureMain/repository/user/user_repository_impl.dart';
-import 'features/featureMain/repository/weather/weather_repository.dart';
-import 'features/featureMain/repository/weather/weather_repository_impl.dart';
+import 'features/featureFind/repository/geocoding_repository_impl.dart';
+import 'features/featureUserLocation/repository/user_repository.dart';
+import 'features/featureUserLocation/repository/user_repository_impl.dart';
+import 'core/repositories/weather/weather_repository.dart';
+import 'core/repositories/weather/weather_repository_impl.dart';
 
 void main() {
+  // debugRepaintRainbowEnabled = true;
   runApp(const MyApp());
 }
 
@@ -21,6 +25,10 @@ class MyApp extends StatelessWidget {
       providers: [
         RepositoryProvider<WeatherRepository>(
           create: (_) => WeatherRepositoryImpl(),
+          dispose: (repository) => repository.dispose(),
+        ),
+        RepositoryProvider<GeocodingRepository>(
+          create: (_) => GeocodingRepositoryImpl(),
           dispose: (repository) => repository.dispose(),
         ),
         RepositoryProvider<UserRepository>(
@@ -41,7 +49,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple, brightness: Brightness.dark),
           useMaterial3: true,
         ),
-        home: const FeatureMain(),
+        home: MainScreen(),
       ),
     );
   }
