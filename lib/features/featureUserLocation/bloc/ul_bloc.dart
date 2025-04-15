@@ -38,18 +38,19 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
 
     if(showUserLocation){
       emit.call(state.copyWith(displayUserLocation: true));
+
+      await Future.delayed(Duration(seconds: 1));
+      emit.call(state.copyWith(
+        locationFound: true,
+        userPlace: UserPlace(placeName: 'Florida', placeCountryCode: 'US', placePictureUrl: 'placePictureUrl'),
+        weather: PlaceWeather.exampleWeather()
+      ));
+
     }else{
       var shouldAsk = await _userRepository.needAskForLocation();
       Log().w(_logTag, 'shouldAsk - $shouldAsk');
       if(shouldAsk){ emit.call(state.copyWith(askForLocation: true)); }
     }
-
-    await Future.delayed(Duration(seconds: 1));
-    emit.call(state.copyWith(
-      locationFound: true,
-      userPlace: UserPlace(placeName: 'Florida', placeCountryCode: 'US', placePictureUrl: 'placePictureUrl'),
-      weather: PlaceWeather.exampleWeather()
-    ));
 
   }
 
@@ -62,8 +63,15 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
     _userRepository.setShowUserLocation(true);
 
     //state;
-    emit.call(state.copyWith(displayUserLocation: true));
+    emit.call(state.copyWith(askForLocation: false, displayUserLocation: true));
     UserPosition.determinePosition();
+
+    await Future.delayed(Duration(seconds: 1));
+    emit.call(state.copyWith(
+      locationFound: true,
+      userPlace: UserPlace(placeName: 'Florida', placeCountryCode: 'US', placePictureUrl: 'placePictureUrl'),
+      weather: PlaceWeather.exampleWeather()
+    ));
 
   }
 
@@ -74,6 +82,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
 
     _userRepository.setNeedAskForLocation(false);
     _userRepository.setShowUserLocation(false);
+    emit.call(state.copyWith(askForLocation: false));
 
   }
 

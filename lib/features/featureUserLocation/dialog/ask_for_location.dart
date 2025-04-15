@@ -4,10 +4,13 @@ import 'package:lottie/lottie.dart';
 import 'package:wdywtg/features/featureUserLocation/bloc/ul_bloc.dart';
 import 'package:wdywtg/features/featureUserLocation/bloc/ul_event.dart';
 
+bool _isPresented = false;
+
 void askForLocationDialog(
   BuildContext blocContext,
 ){
-
+  if(_isPresented) { return; }
+  _isPresented = true;
   showDialog(
     context: blocContext,
     barrierDismissible: false,
@@ -42,6 +45,8 @@ void askForLocationDialog(
         ],
       );
     }
-  );
+  ).then((_){
+    _isPresented = false;
+  });
 
 }
