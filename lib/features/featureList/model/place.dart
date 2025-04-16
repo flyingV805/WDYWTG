@@ -1,5 +1,6 @@
 class Place {
 
+  final int id;
   final String placeName;
   final String placeTimezone;
   final String placeCountryCode;
@@ -8,6 +9,7 @@ class Place {
   final double longitude;
 
   Place({
+    required this.id,
     required this.placeName,
     required this.placeTimezone,
     required this.placeCountryCode,
@@ -17,6 +19,7 @@ class Place {
   });
   
   Place.examplePlace() : this(
+    id: 0,
     placeName: 'Berlin',
     placeTimezone: 'Europe/Berlin',
     placeCountryCode: 'DE',
