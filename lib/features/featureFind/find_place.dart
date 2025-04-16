@@ -56,7 +56,6 @@ class FindPlace extends StatelessWidget {
               ),
             ),
           );
-          //return ColoredBox(color: Colors.amber, child: SizedBox(width: 200, height: 56,),);
         }
       )
     );
