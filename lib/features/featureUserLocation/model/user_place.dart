@@ -1,4 +1,3 @@
-import 'package:wdywtg/commonModel/place_weather.dart';
 
 class UserPlace {
 

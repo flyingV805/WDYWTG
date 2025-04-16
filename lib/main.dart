@@ -12,7 +12,7 @@ import 'core/repositories/weather/weather_repository.dart';
 import 'core/repositories/weather/weather_repository_impl.dart';
 
 Future main() async {
-  // debugRepaintRainbowEnabled = true;
+  debugRepaintRainbowEnabled = true;
   await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }

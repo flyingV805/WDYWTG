@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:wdywtg/core/openMeteo/response/forecast_response.dart';
-import 'package:wdywtg/core/openMeteo/response/search_response.dart';
 
 part 'open_meteo_client.g.dart';
 

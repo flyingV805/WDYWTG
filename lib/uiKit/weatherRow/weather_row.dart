@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wdywtg/commonModel/place_weather.dart';
-import 'package:weather_icons/weather_icons.dart';
 import 'weather_icon.dart';
 
 class WeatherRow extends StatelessWidget {
