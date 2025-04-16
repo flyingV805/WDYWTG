@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../features/featureFind/find_place.dart';
 import '../features/featureList/places_list.dart';
 import '../features/featureUserLocation/user_location.dart';
+import '../uiKit/whereToText/where_to_text.dart';
 
 class MainScreen extends StatelessWidget {
 
@@ -20,7 +21,7 @@ class MainScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             UserLocation(),
-            Text('So, where to this time? 😃', style: Theme.of(context).textTheme.titleLarge),
+            WhereToText(),
             SizedBox(height: 8),
             FindPlace(),
             PlacesList()

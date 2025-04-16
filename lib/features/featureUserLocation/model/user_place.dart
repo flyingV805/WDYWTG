@@ -5,13 +5,15 @@ class UserPlace {
   final String placeName;
   final String placeCountryCode;
   final String placePictureUrl;
-  final PlaceWeather? weather;
+  final double latitude;
+  final double longitude;
 
   UserPlace({
     required this.placeName,
     required this.placeCountryCode,
     required this.placePictureUrl,
-    this.weather
+    required this.latitude,
+    required this.longitude,
   });
 
 

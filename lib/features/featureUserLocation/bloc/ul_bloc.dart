@@ -36,13 +36,29 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
 
     final showUserLocation = await _userRepository.showUserLocation();
 
+    // user approved using location last time
     if(showUserLocation){
       emit.call(state.copyWith(displayUserLocation: true));
+
+      // check if saved location in repository
+      final lastLocation = await _userRepository.lastUserPlace();
+      if(lastLocation != null){
+        // get from cache, and update if location changed
+        emit.call(state.copyWith(
+          locationFound: true,
+          userPlace: lastLocation,
+          weather: PlaceWeather.exampleWeather()
+        ));
+      }else{
+        //cache is empty, time to find and save to cache
+        Log().w(_logTag, 'lastLocation - null');
+        _findUserLocation();
+      }
 
       await Future.delayed(Duration(seconds: 1));
       emit.call(state.copyWith(
         locationFound: true,
-        userPlace: UserPlace(placeName: 'Florida', placeCountryCode: 'US', placePictureUrl: 'placePictureUrl'),
+        userPlace: UserPlace(placeName: 'Florida', placeCountryCode: 'US', placePictureUrl: 'placePictureUrl', latitude: 0.0, longitude: 0.0),
         weather: PlaceWeather.exampleWeather()
       ));
 
@@ -62,14 +78,12 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
     _userRepository.setNeedAskForLocation(false);
     _userRepository.setShowUserLocation(true);
 
-    //state;
     emit.call(state.copyWith(askForLocation: false, displayUserLocation: true));
-    UserPosition.determinePosition();
 
     await Future.delayed(Duration(seconds: 1));
     emit.call(state.copyWith(
       locationFound: true,
-      userPlace: UserPlace(placeName: 'Florida', placeCountryCode: 'US', placePictureUrl: 'placePictureUrl'),
+      userPlace: UserPlace(placeName: 'Florida', placeCountryCode: 'US', placePictureUrl: 'placePictureUrl', latitude: 0.0, longitude: 0.0),
       weather: PlaceWeather.exampleWeather()
     ));
 
@@ -86,5 +100,29 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
 
   }
 
+  void _findUserLocation(){
+    Log().w(_logTag, '_findUserLocation');
+    UserPosition.determinePosition().then((result){
+      Log().w(_logTag, 'determinePosition result - $result');
+      switch(result){
+        case PositionFound():
+          updatePlaceParameters(result.latitude, result.longitude);
+        case PermissionError():
+          // TODO: Handle this case.
+          throw UnimplementedError();
+        case ServiceError():
+          // TODO: Handle this case.
+          throw UnimplementedError();
+        case PositionError():
+          // TODO: Handle this case.
+          throw UnimplementedError();
+      }
+    });
+  }
+
+  void updatePlaceParameters(double latitude, double longitude){
+    Log().w(_logTag, 'updatePlaceParameters - $latitude $longitude');
+
+  }
 
 }

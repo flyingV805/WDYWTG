@@ -20,6 +20,7 @@ dependencies:
   json_annotation: ^4.9.0
 
   # data
+  flutter_dotenv: ^5.2.1
   shared_preferences: ^2.5.3
   intl: ^0.20.2
   timezone: ^0.10.0

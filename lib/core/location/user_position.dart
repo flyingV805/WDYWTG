@@ -2,7 +2,7 @@ import 'package:geolocator/geolocator.dart';
 
 sealed class FindLocationResult {}
 
-class PositionFound extends FindLocationResult {
+final class PositionFound extends FindLocationResult {
 
   final double latitude;
   final double longitude;
@@ -14,7 +14,7 @@ class PositionFound extends FindLocationResult {
 
 }
 
-class PermissionError extends FindLocationResult {
+final class PermissionError extends FindLocationResult {
 
   final bool isForever;
 
@@ -22,9 +22,9 @@ class PermissionError extends FindLocationResult {
 
 }
 
-class ServiceError extends FindLocationResult {}
+final class ServiceError extends FindLocationResult {}
 
-class PositionError extends FindLocationResult {}
+final class PositionError extends FindLocationResult {}
 
 class UserPosition {
 
