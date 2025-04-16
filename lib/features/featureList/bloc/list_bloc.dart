@@ -17,7 +17,8 @@ class ListBloc extends Bloc<ListEvent, ListState> {
 
   Future<void> _startRoutine(Initialize event, Emitter<ListState> emit) async {
 
-    emit.call(state.copyWith(places: [
+    emit.call(state.copyWith(
+      noSavedPlaces: true/*places: [
       PlaceProfile(
         place: Place.examplePlace(),
         weather: PlaceWeather.exampleWeather(),
@@ -28,7 +29,7 @@ class ListBloc extends Bloc<ListEvent, ListState> {
           weather: PlaceWeather.exampleWeather(),
           advices: [PlaceAdvice.exampleAdvice(), PlaceAdvice.exampleAdvice()]
       )
-    ]));
+    ]*/));
 
   }
 

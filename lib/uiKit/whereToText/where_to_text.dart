@@ -50,7 +50,7 @@ class _WhereToTextState extends State<WhereToText>{
       child: Text(
         _questionText,
         textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.titleLarge,
+        style: Theme.of(context).textTheme.titleMedium,
       ),
     );
   }
