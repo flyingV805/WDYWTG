@@ -5,6 +5,7 @@ class CachedWeatherDto {
 
   @PrimaryKey(autoGenerate: true)
   final int id;
+  final int placeId;
 
   final double latitude;
   final double longitude;
@@ -35,6 +36,7 @@ class CachedWeatherDto {
 
   CachedWeatherDto(
     this.id,
+    this.placeId,
     this.latitude,
     this.longitude,
     this.updateTime,
