@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wdywtg/features/featureList/bloc/list_bloc.dart';
+import 'package:wdywtg/features/featureList/repository/saved_places_repository.dart';
 import 'package:wdywtg/features/featureList/widget/no_places_added.dart';
 import 'package:wdywtg/features/featureList/widget/saved_place.dart';
 
@@ -11,7 +12,9 @@ class PlacesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (blocContext) => ListBloc()..add(Initialize()),
+      create: (blocContext) => ListBloc(
+        placesRepository: blocContext.read<SavedPlacesRepository>(),
+      )..add(Initialize()),
       child: BlocBuilder<ListBloc, ListState>(
         builder: (context, state) => AnimatedCrossFade(
           firstChild: NoPlacesAdded(),
