@@ -5,15 +5,12 @@ import 'package:wdywtg/core/database/dto/saved_place_dto.dart';
 abstract class SavedPlaceDao {
 
   @Query('SELECT * FROM SavedPlaceDTO')
-  Future<List<SavedPlaceDto>> findAllPeople();
+  Future<List<SavedPlaceDto>> getAllPlaces();
 
-  @Query('SELECT name FROM Person')
-  Stream<List<String>> findAllPeopleName();
-
-  @Query('SELECT * FROM Person WHERE id = :id')
-  Stream<SavedPlaceDto?> findPersonById(int id);
+  @Query('SELECT * FROM SavedPlaceDTO')
+  Stream<List<SavedPlaceDto>> allPlacesLive();
 
   @insert
-  Future<void> insertPerson(SavedPlaceDto place);
+  Future<void> insertPlace(SavedPlaceDto place);
   
 }

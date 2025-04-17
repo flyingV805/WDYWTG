@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wdywtg/di/app_di.dart';
 import 'package:wdywtg/features/featureFind/repository/geocoding_repository.dart';
 import 'package:wdywtg/screen/main_screen.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -14,6 +15,7 @@ import 'core/repositories/weather/weather_repository_impl.dart';
 Future main() async {
   debugRepaintRainbowEnabled = true;
   await dotenv.load(fileName: ".env");
+  await initDI();
   runApp(const MyApp());
 }
 
