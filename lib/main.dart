@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wdywtg/di/app_di.dart';
 import 'package:wdywtg/features/featureFind/repository/geocoding_repository.dart';
@@ -7,6 +6,8 @@ import 'package:wdywtg/features/featureList/repository/saved_places_repository.d
 import 'package:wdywtg/screen/main_screen.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'features/featureFind/repository/add_place_repository.dart';
+import 'features/featureFind/repository/add_place_repository_impl.dart';
 import 'features/featureFind/repository/geocoding_repository_impl.dart';
 import 'features/featureList/repository/saved_places_repository_impl.dart';
 import 'features/featureUserLocation/repository/user_repository.dart';
@@ -31,19 +32,23 @@ class MyApp extends StatelessWidget {
       providers: [
         RepositoryProvider<WeatherRepository>(
           create: (_) => WeatherRepositoryImpl(),
-          dispose: (repository) => repository.dispose(),
+          dispose: (r) => r.dispose(),
         ),
         RepositoryProvider<GeocodingRepository>(
           create: (_) => GeocodingRepositoryImpl(),
-          dispose: (repository) => repository.dispose(),
+          dispose: (r) => r.dispose(),
+        ),
+        RepositoryProvider<AddPlaceRepository>(
+          create: (_) => AddPlaceRepositoryImpl(),
+          dispose: (r) => r.dispose(),
         ),
         RepositoryProvider<UserRepository>(
           create: (_) => UserRepositoryImpl(),
-          dispose: (repository) => repository.dispose(),
+          dispose: (r) => r.dispose(),
         ),
         RepositoryProvider<SavedPlacesRepository>(
           create: (_) => SavedPlacesRepositoryImpl(),
-          dispose: (repository) => repository.dispose(),
+          dispose: (r) => r.dispose(),
         ),
         //RepositoryProvider(create: (_) => UserRepository()),
       ],

@@ -15,8 +15,7 @@ Future<void> initDI() async {
   GetIt.I.registerSingleton<CachedWeatherDao>(database.weatherDao);
   GetIt.I.registerSingleton<AiAdviceDao>(database.aiAdviceDao);
 
-  // repositories
-  GetIt.I.registerSingleton<WeatherRepository>(WeatherRepositoryImpl());
+
 
 
 
