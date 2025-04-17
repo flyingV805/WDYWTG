@@ -23,10 +23,10 @@ class ListBloc extends Bloc<ListEvent, ListState> {
     }
 
   Future<void> _startRoutine(Initialize event, Emitter<ListState> emit) async {
-/*
+
     Future.delayed(Duration(seconds: 5)).then((_){
       _placesRepository.testInsert();
-    });*/
+    });
 
 
 /*

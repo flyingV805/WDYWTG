@@ -22,10 +22,12 @@ class SavedPlacesRepositoryImpl extends SavedPlacesRepository {
     final weatherStream = _weatherDao.allWeatherLive();
     final advicesStream = _aiAdviceDao.allAdvicesLive();
 
+    // weather and advices with empty list,
+    // to make ui more responsive when adding place happened
     return CombineLatestStream.combine3(
       placesStream, 
-      weatherStream, 
-      advicesStream, 
+      weatherStream.startWith([]),
+      advicesStream.startWith([]),
       (places, weather, advices) {
         return places.map((place)=> 
           mapPlaceProfile(
@@ -44,8 +46,8 @@ class SavedPlacesRepositoryImpl extends SavedPlacesRepository {
 
   @override
   void testInsert() {
-    _savedPlaceDao.insertPlace(SavedPlaceDto(0,
-        'Berlin',
+    _savedPlaceDao.insertPlace(SavedPlaceDto(1,
+        'Darmshdadt',
         'Europe/Berlin',
         'DE',
         'https://example.com/berlin.jpg',
