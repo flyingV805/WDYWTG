@@ -4,6 +4,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:wdywtg/core/database/dao/ai_advice_dao.dart';
 import 'package:wdywtg/core/database/dao/cached_weather_dao.dart';
 import 'package:wdywtg/core/database/dao/saved_place_dao.dart';
+import 'package:wdywtg/core/database/dto/saved_place_dto.dart';
 import 'package:wdywtg/features/featureList/model/place_profile.dart';
 import 'package:wdywtg/features/featureList/repository/mapper/place_mapper.dart';
 import 'package:wdywtg/features/featureList/repository/saved_places_repository.dart';
@@ -40,5 +41,17 @@ class SavedPlacesRepositoryImpl extends SavedPlacesRepository {
     
   @override
   void dispose() { }
+
+  @override
+  void testInsert() {
+    _savedPlaceDao.insertPlace(SavedPlaceDto(0,
+        'Berlin',
+        'Europe/Berlin',
+        'DE',
+        'https://example.com/berlin.jpg',
+        52.5200,
+        13.4050 ));
+
+  }
 
 }
