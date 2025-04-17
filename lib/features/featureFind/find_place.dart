@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wdywtg/features/featureFind/bloc/find_bloc.dart';
+import 'package:wdywtg/features/featureFind/repository/add_place_repository.dart';
 import 'package:wdywtg/features/featureFind/repository/geocoding_repository.dart';
 import 'package:wdywtg/features/featureFind/widget/suggestions_list.dart';
 
@@ -16,6 +17,7 @@ class FindPlace extends StatelessWidget {
     return BlocProvider(
       create: (blocContext) => FindBloc(
         geocodingRepository: blocContext.read<GeocodingRepository>(),
+        addRepository: blocContext.read<AddPlaceRepository>(),
         focusNode: _focusNode
       )..add(Initialize()),
       child: BlocBuilder<FindBloc, FindState>(

@@ -29,3 +29,11 @@ final class SearchUpdated extends FindEvent {
   SearchUpdated({required this.suggestions});
 
 }
+
+final class AddPlace extends FindEvent {
+
+  final PlaceSuggestion placeToAdd;
+
+  AddPlace({required this.placeToAdd});
+
+}
