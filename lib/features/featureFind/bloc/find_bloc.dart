@@ -19,17 +19,20 @@ class FindBloc extends Bloc<FindEvent, FindState> {
   final AddPlaceRepository _addRepository;
   final _searchController = StreamController<String>.broadcast();
   final FocusNode _focusNode;
+  final TextEditingController _fieldController;
 
   static final String _logTag = 'MainBloc';
 
   FindBloc({
     required GeocodingRepository geocodingRepository,
     required AddPlaceRepository addRepository,
-    required FocusNode focusNode
+    required FocusNode focusNode,
+    required TextEditingController fieldController
   }) :
     _geocodingRepository = geocodingRepository,
     _addRepository = addRepository,
     _focusNode = focusNode,
+    _fieldController = fieldController,
     super(FindState.empty()) {
       on<Initialize>(_startRoutine);
       on<FocusUpdated>(_focusUpdated);
@@ -85,7 +88,10 @@ class FindBloc extends Bloc<FindEvent, FindState> {
 
   Future _addPlace(AddPlace event, Emitter<FindState> emit) async {
     Log().w(_logTag, '_updateSuggestions');
+    _focusNode.unfocus();
+    _fieldController.clear();
     final result = await _addRepository.addSavedPlace(event.placeToAdd);
+    emit(state.copyWith(suggestions: []));
     //emit.call(state.copyWith(suggestions: event.suggestions));
   }
 

@@ -12,6 +12,7 @@ class SavedPlaceDto {
   final String placePictureUrl;
   final double latitude;
   final double longitude;
+  final int addTime;
 
   SavedPlaceDto(
     this.id, 
@@ -20,7 +21,8 @@ class SavedPlaceDto {
     this.placeCountryCode, 
     this.placePictureUrl, 
     this.latitude, 
-    this.longitude
+    this.longitude,
+    this.addTime
   );
 
 }

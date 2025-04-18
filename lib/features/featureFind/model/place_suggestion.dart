@@ -1,5 +1,6 @@
 class PlaceSuggestion {
 
+  final int placeId;
   final String placeName;
   final String placeAdmin;
   final String placeCountryCode;
@@ -8,6 +9,7 @@ class PlaceSuggestion {
   final String timezone;
 
   PlaceSuggestion({
+    required this.placeId,
     required this.placeName,
     required this.placeAdmin,
     required this.placeCountryCode,
@@ -17,6 +19,7 @@ class PlaceSuggestion {
   });
 
   PlaceSuggestion.exampleSuggestion() : this(
+    placeId: 7,
     placeName: 'Berlin',
     placeAdmin: 'Germany',
     placeCountryCode: 'DE',

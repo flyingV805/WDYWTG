@@ -16,6 +16,7 @@ class GeocodingRepositoryImpl extends GeocodingRepository {
       final result = _openGeocodeClient.getAutocomplete(input);
       return (await result).results.map(
         (item) => PlaceSuggestion(
+          placeId: item.id,
           placeName: item.name,
           placeAdmin: item.generateAdminString(),
           placeCountryCode: item.countryCode,

@@ -8,11 +8,13 @@ class SuggestionsList extends StatefulWidget {
 
   final bool isExpanded;
   final List<PlaceSuggestion>? suggestions;
+  final Function(PlaceSuggestion) onSelect;
 
   const SuggestionsList({
     super.key,
     required this.isExpanded,
     required this.suggestions,
+    required this.onSelect,
   });
 
   @override
@@ -67,6 +69,10 @@ class _SuggestionsListState extends State<SuggestionsList> with TickerProviderSt
     );
   }
 
+  void _onSelected(PlaceSuggestion suggestion){
+    widget.onSelect(suggestion);
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool isCollapsed = !widget.isExpanded && _animationController.isDismissed;
@@ -90,7 +96,7 @@ class _SuggestionsListState extends State<SuggestionsList> with TickerProviderSt
                 itemBuilder: (BuildContext context, int index) {
                   final suggestion = widget.suggestions![index];
                   return ListTile(
-                    onTap: (){},
+                    onTap: (){ _onSelected(suggestion); },
                     leading: CountryFlag.fromCountryCode(
                       suggestion.placeCountryCode,
                       shape: const Circle(),

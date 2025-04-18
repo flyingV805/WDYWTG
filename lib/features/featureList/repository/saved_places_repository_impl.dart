@@ -44,16 +44,4 @@ class SavedPlacesRepositoryImpl extends SavedPlacesRepository {
   @override
   void dispose() { }
 
-  @override
-  void testInsert() {
-    _savedPlaceDao.insertPlace(SavedPlaceDto(1,
-        'Darmshdadt',
-        'Europe/Berlin',
-        'DE',
-        'https://example.com/berlin.jpg',
-        52.5200,
-        13.4050 ));
-
-  }
-
 }

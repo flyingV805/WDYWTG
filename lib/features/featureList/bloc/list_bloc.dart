@@ -24,27 +24,6 @@ class ListBloc extends Bloc<ListEvent, ListState> {
 
   Future<void> _startRoutine(Initialize event, Emitter<ListState> emit) async {
 
-    Future.delayed(Duration(seconds: 5)).then((_){
-      _placesRepository.testInsert();
-    });
-
-
-/*
-    emit.call(state.copyWith(
-      noSavedPlaces: true, 
-      /*places: [
-      PlaceProfile(
-        place: Place.examplePlace(),
-        weather: PlaceWeather.exampleWeather(),
-        advices: [PlaceAdvice.exampleAdvice(), PlaceAdvice.exampleAdvice()]
-      ),
-      PlaceProfile(
-          place: Place.examplePlace(),
-          weather: PlaceWeather.exampleWeather(),
-          advices: [PlaceAdvice.exampleAdvice(), PlaceAdvice.exampleAdvice()]
-      )
-    ]*/));*/
-
   }
 
   Future<void> _updateState(UpdateState event, Emitter<ListState> emit) async {

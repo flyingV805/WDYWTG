@@ -7,6 +7,7 @@ import 'package:wdywtg/features/featureFind/widget/suggestions_list.dart';
 
 
 final FocusNode _focusNode = FocusNode();
+final TextEditingController _textController = TextEditingController();
 
 class FindPlace extends StatelessWidget {
 
@@ -18,7 +19,8 @@ class FindPlace extends StatelessWidget {
       create: (blocContext) => FindBloc(
         geocodingRepository: blocContext.read<GeocodingRepository>(),
         addRepository: blocContext.read<AddPlaceRepository>(),
-        focusNode: _focusNode
+        focusNode: _focusNode,
+        fieldController: _textController
       )..add(Initialize()),
       child: BlocBuilder<FindBloc, FindState>(
         builder: (context, state) {
@@ -32,6 +34,7 @@ class FindPlace extends StatelessWidget {
                   children: [
                     TextField(
                       key: const Key('place_search_field'),
+                      controller: _textController,
                       focusNode: _focusNode,
                       onChanged: (searchable) {
                         context.read<FindBloc>().add(UpdateSearch(searchable: searchable));
@@ -52,6 +55,9 @@ class FindPlace extends StatelessWidget {
                     SuggestionsList(
                       isExpanded: state.showList,
                       suggestions: state.suggestions,
+                      onSelect: (suggestion){
+                        context.read<FindBloc>().add(AddPlace(placeToAdd: suggestion));
+                      },
                     )
                   ],
                 ),

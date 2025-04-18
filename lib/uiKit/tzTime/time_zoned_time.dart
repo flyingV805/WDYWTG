@@ -27,7 +27,7 @@ class _TimeZonedTimeState extends State<TimeZonedTime> {
     super.initState();
     
     tz.initializeTimeZones();
-    _location = tz.getLocation('Europe/Berlin');
+    _location = tz.getLocation(widget.timeZone);
     _currentTime = tz.TZDateTime.now(_location);
 
     _updateTimer = Timer.periodic(
@@ -49,7 +49,7 @@ class _TimeZonedTimeState extends State<TimeZonedTime> {
       children: [
         Icon(Icons.access_time_filled),
         SizedBox(width: 4),
-        Text('${DateFormat('HH:mm').format(_currentTime)} (${widget.timeZone})')
+        Text('${DateFormat('HH:mm').format(_currentTime)} (${_location.name})')
       ],
     );
   }

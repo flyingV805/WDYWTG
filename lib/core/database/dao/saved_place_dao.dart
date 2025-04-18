@@ -7,7 +7,7 @@ abstract class SavedPlaceDao {
   @Query('SELECT * FROM SavedPlaceDTO')
   Future<List<SavedPlaceDto>> getAllPlaces();
 
-  @Query('SELECT * FROM SavedPlaceDTO')
+  @Query('SELECT * FROM SavedPlaceDTO ORDER BY addTime')
   Stream<List<SavedPlaceDto>> allPlacesLive();
 
   @insert

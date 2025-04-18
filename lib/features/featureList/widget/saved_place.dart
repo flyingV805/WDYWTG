@@ -133,7 +133,7 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(4.0),
-                          child: TimeZonedTime(timeZone: 'GMT +2',),
+                          child: TimeZonedTime(timeZone: widget.profile.place.placeTimezone,),
                         ),
                       ),
                     ),
