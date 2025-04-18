@@ -4,7 +4,7 @@ import 'package:floor/floor.dart';
 class CachedWeatherDto {
 
   @PrimaryKey(autoGenerate: true)
-  final int id;
+  final int? id = null;
   final int placeId;
 
   final double latitude;
@@ -35,7 +35,6 @@ class CachedWeatherDto {
   final int forecastTempMax3;
 
   CachedWeatherDto(
-    this.id,
     this.placeId,
     this.latitude,
     this.longitude,
