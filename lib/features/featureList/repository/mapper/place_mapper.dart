@@ -15,7 +15,7 @@ PlaceProfile mapPlaceProfile(
     place: Place(
       placeName: placeDto.placeName,
       id: placeDto.id,
-      placePictureUrl: placeDto.placePictureUrl,
+      placePictureUrl: placeDto.placePictureUrl ?? '',
       placeTimezone: placeDto.placeTimezone,
       placeCountryCode: placeDto.placeCountryCode,
       latitude: placeDto.latitude,

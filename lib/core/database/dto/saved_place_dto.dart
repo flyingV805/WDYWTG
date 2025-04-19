@@ -9,7 +9,8 @@ class SavedPlaceDto {
   final String placeName;
   final String placeTimezone;
   final String placeCountryCode;
-  final String placePictureUrl;
+  final String? placePictureUrl;
+  final String? placePictureAuthor;
   final double latitude;
   final double longitude;
   final int addTime;
@@ -19,7 +20,8 @@ class SavedPlaceDto {
     this.placeName, 
     this.placeTimezone, 
     this.placeCountryCode, 
-    this.placePictureUrl, 
+    this.placePictureUrl,
+    this.placePictureAuthor,
     this.latitude, 
     this.longitude,
     this.addTime

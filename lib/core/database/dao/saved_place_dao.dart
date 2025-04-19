@@ -12,5 +12,8 @@ abstract class SavedPlaceDao {
 
   @insert
   Future<void> insertPlace(SavedPlaceDto place);
+
+  @update
+  Future<void> updatePlace(SavedPlaceDto place);
   
 }

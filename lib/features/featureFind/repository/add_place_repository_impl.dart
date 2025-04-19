@@ -34,7 +34,8 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
       suggestion.placeName,
       suggestion.timezone,
       suggestion.placeCountryCode,
-      'https://example.com/berlin.jpg',
+      null,
+      null,
       suggestion.latitude,
       suggestion.longitude,
       DateTime.now().millisecondsSinceEpoch ~/ 1000
