@@ -27,6 +27,7 @@ class PlacesList extends StatelessWidget {
               final item = state.places![index];
               return SavedPlace(
                 key: ValueKey(item.place.placeName),
+                initiallyExpanded: state.places!.length == 1,
                 profile: item
               );
             }

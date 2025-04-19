@@ -12,5 +12,8 @@ abstract class AiAdviceDao {
 
   @insert
   Future<void> insertAdvice(AiAdviceDto advice);
+
+  @insert
+  Future<void> insertAdvices(List<AiAdviceDto> advices);
   
 }

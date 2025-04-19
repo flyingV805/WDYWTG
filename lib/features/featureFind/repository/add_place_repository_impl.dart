@@ -1,5 +1,7 @@
 import 'package:get_it/get_it.dart';
+import 'package:wdywtg/core/database/dao/ai_advice_dao.dart';
 import 'package:wdywtg/core/database/dao/cached_weather_dao.dart';
+import 'package:wdywtg/core/gemini/gemini_client.dart';
 import 'package:wdywtg/features/featureFind/model/add_result.dart';
 import 'package:wdywtg/features/featureFind/model/place_suggestion.dart';
 import '../../../core/database/dao/saved_place_dao.dart';
@@ -13,7 +15,13 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
 
   final _savedPlaceDao = GetIt.I.get<SavedPlaceDao>();
   final _cachedWeatherDao = GetIt.I.get<CachedWeatherDao>();
+  final _aiAdvicesDao = GetIt.I.get<AiAdviceDao>();
+
   final _openMeteoClient = GetIt.I.get<OpenMeteoClient>();
+
+
+  final _geminiClient = GetIt.I.get<GeminiClient>();
+
   static final String _logTag = 'AddPlaceRepositoryImpl';
 
   @override
@@ -46,7 +54,12 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
       return WeatherError();
     }
 
-
+    try{
+      final advices = await _geminiClient.generatePlaceAdvices(placeDto);    
+      _aiAdvicesDao.insertAdvices(advices);
+    }catch(e){
+      return AdvicesError();
+    }
 
     return Success();
 

@@ -11,14 +11,12 @@ const Duration _expandTime = Duration(milliseconds: 200);
 class SavedPlace extends StatefulWidget {
 
   final PlaceProfile profile;
-  final double collapsedHeight;
   final bool initiallyExpanded;
   final bool maintainState;
 
   const SavedPlace({
     super.key,
     required this.profile,
-    this.collapsedHeight = 128,
     this.initiallyExpanded = false,
     this.maintainState = false
   });
@@ -99,13 +97,13 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
                 children: [
                   // Location image
                   Align(
-                    heightFactor: ui.clampDouble(0.5 + _heightFactor.value, .5, 1.0),
+                    heightFactor: ui.clampDouble(0.7 + _heightFactor.value, .7, 1.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Image.asset(
                         'assets/image/florida.png',
                         width: double.infinity,
-                        height: 256,
+                        height: 186,
                         fit: BoxFit.fill
                       ),
                     ),

@@ -96,6 +96,7 @@ class FindBloc extends Bloc<FindEvent, FindState> {
   }
 
   Future<List<PlaceSuggestion>> _performSearch(String searchable) async {
+    searchable = searchable.trim();
     if(searchable.isEmpty){ return []; }
     if(searchable.length < 3){ return []; }
     final suggestions = _geocodingRepository.findSuggestions(searchable);

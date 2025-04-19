@@ -38,7 +38,7 @@ class WeatherRow extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                _rowDayFormat.format(DateTime.fromMillisecondsSinceEpoch(weather?.forecastDayOfWeek0 ?? 0, isUtc: true)),
+                _rowDayFormat.format(DateTime.fromMillisecondsSinceEpoch(weather?.forecastDateTime0 ?? 0, isUtc: true)),
                 style: Theme.of(context).textTheme.labelSmall,
               ),
               Icon(OpenMeteoWeatherIcon.fromCode(weather?.forecastCode0), size: 16,),
@@ -56,7 +56,7 @@ class WeatherRow extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                _rowDayFormat.format(DateTime.fromMillisecondsSinceEpoch(weather?.forecastDayOfWeek1 ?? 0, isUtc: true)),
+                _rowDayFormat.format(DateTime.fromMillisecondsSinceEpoch(weather?.forecastDateTime1 ?? 0, isUtc: true)),
                 style: Theme.of(context).textTheme.labelSmall,
               ),
               Icon(OpenMeteoWeatherIcon.fromCode(weather?.forecastCode1), size: 16,),
@@ -74,7 +74,7 @@ class WeatherRow extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                _rowDayFormat.format(DateTime.fromMillisecondsSinceEpoch(weather?.forecastDayOfWeek2 ?? 0, isUtc: true)),
+                _rowDayFormat.format(DateTime.fromMillisecondsSinceEpoch(weather?.forecastDateTime2 ?? 0, isUtc: true)),
                 style: Theme.of(context).textTheme.labelSmall,
               ),
               Icon(OpenMeteoWeatherIcon.fromCode(weather?.forecastCode2), size: 16,),
@@ -92,7 +92,7 @@ class WeatherRow extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                _rowDayFormat.format(DateTime.fromMillisecondsSinceEpoch(weather?.forecastDayOfWeek3 ?? 0, isUtc: true)),
+                _rowDayFormat.format(DateTime.fromMillisecondsSinceEpoch(weather?.forecastDateTime3 ?? 0, isUtc: true)),
                 style: Theme.of(context).textTheme.labelSmall,
               ),
               Icon(OpenMeteoWeatherIcon.fromCode(weather?.forecastCode3), size: 16,),

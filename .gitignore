@@ -41,6 +41,10 @@ app.*.map.json
 .env
 *.g.dart
 
+# Firebase
+firebase.json
+lib/firebase_options.dart
+
 # Android Studio will place build artifacts here
 /android/app/debug
 /android/app/profile

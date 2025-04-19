@@ -23,7 +23,7 @@ class UserPlaceWidget extends StatelessWidget {
         Image.asset(
           'assets/image/florida.png',
           width: double.infinity,
-          height: 256,
+          height: 186,
           fit: BoxFit.fill
         ),
         // Location name

@@ -15,9 +15,13 @@ import 'features/featureUserLocation/repository/user_repository_impl.dart';
 import 'core/repositories/weather/weather_repository.dart';
 import 'core/repositories/weather/weather_repository_impl.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
 Future main() async {
   //debugRepaintRainbowEnabled = true;
   await dotenv.load(fileName: ".env");
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await initDI();
   runApp(const MyApp());
 }
@@ -50,7 +54,6 @@ class MyApp extends StatelessWidget {
           create: (_) => SavedPlacesRepositoryImpl(),
           dispose: (r) => r.dispose(),
         ),
-        //RepositoryProvider(create: (_) => UserRepository()),
       ],
       child: MaterialApp(
         title: 'Where do you want to go today?',
@@ -64,6 +67,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple, brightness: Brightness.dark),
           useMaterial3: true,
         ),
+        themeMode: ThemeMode.dark,
         home: MainScreen(),
       ),
     );
