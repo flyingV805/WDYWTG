@@ -3,8 +3,7 @@ import 'package:floor/floor.dart';
 @entity
 class CachedWeatherDto {
 
-  @PrimaryKey(autoGenerate: true)
-  final int? id = null;
+  @primaryKey
   final int placeId;
 
   final double latitude;

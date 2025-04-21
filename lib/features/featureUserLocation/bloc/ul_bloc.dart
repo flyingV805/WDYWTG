@@ -6,25 +6,27 @@ import 'package:wdywtg/features/featureUserLocation/model/user_place.dart';
 
 import '../../../core/location/user_position.dart';
 import '../../../core/log/loger.dart';
-import '../../../core/repositories/weather/weather_repository.dart';
 import '../repository/user_repository.dart';
 
 class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
 
   static final String _logTag = 'UserLocationBloc';
 
-  final WeatherRepository _weatherRepository;
   final UserRepository _userRepository;
 
   UserLocationBloc({
-    required WeatherRepository weatherRepository,
     required UserRepository userRepository,
-  }):  _weatherRepository = weatherRepository,
-       _userRepository = userRepository,
+  }): _userRepository = userRepository,
   super(UserLocationState.empty()){
     on<Initialize>(_startRoutine);
+    on<UpdatePlaceData>(_updatePlaceInfo);
     on<UserApprovedLocation>(_locationApproved);
     on<UserDeclinedLocation>(_locationDeclined);
+
+    userRepository.userPlaceLive().listen((userPlace){
+      add(UpdatePlaceData(place: userPlace));
+    });
+
   }
 
   Future<void> _startRoutine(
@@ -39,29 +41,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
     // user approved using location last time
     if(showUserLocation){
       emit.call(state.copyWith(displayUserLocation: true));
-
-      // check if saved location in repository
-      final lastLocation = await _userRepository.lastUserPlace();
-      if(lastLocation != null){
-        // get from cache, and update if location changed
-        emit.call(state.copyWith(
-          locationFound: true,
-          userPlace: lastLocation,
-          weather: PlaceWeather.exampleWeather()
-        ));
-      }else{
-        //cache is empty, time to find and save to cache
-        Log().w(_logTag, 'lastLocation - null');
-        _findUserLocation();
-      }
-
-      await Future.delayed(Duration(seconds: 1));
-      emit.call(state.copyWith(
-        locationFound: true,
-        userPlace: UserPlace(placeName: 'Florida', placeCountryCode: 'US', placePictureUrl: 'placePictureUrl', latitude: 0.0, longitude: 0.0),
-        weather: PlaceWeather.exampleWeather()
-      ));
-
+      _findUserLocation();
     }else{
       var shouldAsk = await _userRepository.needAskForLocation();
       Log().w(_logTag, 'shouldAsk - $shouldAsk');
@@ -79,13 +59,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
     _userRepository.setShowUserLocation(true);
 
     emit.call(state.copyWith(askForLocation: false, displayUserLocation: true));
-
-    await Future.delayed(Duration(seconds: 1));
-    emit.call(state.copyWith(
-      locationFound: true,
-      userPlace: UserPlace(placeName: 'Florida', placeCountryCode: 'US', placePictureUrl: 'placePictureUrl', latitude: 0.0, longitude: 0.0),
-      weather: PlaceWeather.exampleWeather()
-    ));
+    _findUserLocation();
 
   }
 
@@ -97,6 +71,21 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
     _userRepository.setNeedAskForLocation(false);
     _userRepository.setShowUserLocation(false);
     emit.call(state.copyWith(askForLocation: false));
+
+  }
+
+  Future<void> _updatePlaceInfo(
+    UpdatePlaceData event,
+    Emitter<UserLocationState> emit
+  ) async {
+
+    final place = event.place?.toPlace();
+    emit.call(state.copyWith(
+      askForLocation: false,
+      locationFound: place != null,
+      userPlace: place,
+      weather: event.place?.weather
+    ));
 
   }
 
@@ -120,9 +109,9 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
     });
   }
 
-  void updatePlaceParameters(double latitude, double longitude){
+  void updatePlaceParameters(double latitude, double longitude) async {
     Log().w(_logTag, 'updatePlaceParameters - $latitude $longitude');
-
+    final result = await _userRepository.updateUserPlace(latitude, longitude);
   }
 
 }

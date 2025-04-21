@@ -1,6 +1,9 @@
 
+import 'package:wdywtg/features/featureUserLocation/model/place_setup_response.dart';
+
 import '../../../core/repositories/abstract/repository.dart';
 import '../model/user_place.dart';
+import '../model/user_place_profile.dart';
 
 abstract class UserRepository extends Repository {
 
@@ -10,7 +13,7 @@ abstract class UserRepository extends Repository {
   Future<bool> showUserLocation();
   void setShowUserLocation(bool value);
 
-  Future<UserPlace?> lastUserPlace();
-  void setLastUserPlace(UserPlace place);
+  Future<PlaceSetupResponse> updateUserPlace(double latitude, double longitude);
+  Stream<UserPlaceProfile?> userPlaceLive();
 
 }

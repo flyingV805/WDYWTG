@@ -18,7 +18,6 @@ class UserLocation extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext blocContext) => UserLocationBloc(
-        weatherRepository: blocContext.read<WeatherRepository>(),
         userRepository: blocContext.read<UserRepository>()
       )..add(Initialize()),
       child:  BlocListener<UserLocationBloc, UserLocationState>(

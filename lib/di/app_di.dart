@@ -9,6 +9,7 @@ import 'package:wdywtg/core/openCage/open_cage_client.dart';
 import 'package:wdywtg/core/openMeteo/open_geocode_client.dart';
 
 import '../core/openMeteo/open_meteo_client.dart';
+import '../features/featureUpdater/info_updater.dart';
 
 // App's DI Graph
 Future<void> initDI() async {
@@ -23,8 +24,9 @@ Future<void> initDI() async {
   GetIt.I.registerFactory<OpenMeteoClient>(() => OpenMeteoClient(dio));
   GetIt.I.registerFactory<OpenGeocodeClient>(() => OpenGeocodeClient(dio));
   GetIt.I.registerFactory<OpenCageClient>(() => OpenCageClient(dio));
-
   GetIt.I.registerLazySingleton<GeminiClient>(() => GeminiClient());
 
+
+  GetIt.I.registerLazySingleton<InfoUpdater>(() => InfoUpdater());
 
 }

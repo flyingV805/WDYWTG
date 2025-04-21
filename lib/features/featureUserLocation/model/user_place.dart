@@ -3,16 +3,14 @@ class UserPlace {
 
   final String placeName;
   final String placeCountryCode;
-  final String placePictureUrl;
-  final double latitude;
-  final double longitude;
+  final String? placePictureUrl;
+  final String? placePictureAuthor;
 
   UserPlace({
     required this.placeName,
     required this.placeCountryCode,
     required this.placePictureUrl,
-    required this.latitude,
-    required this.longitude,
+    required this.placePictureAuthor
   });
 
 

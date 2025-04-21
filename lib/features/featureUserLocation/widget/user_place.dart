@@ -31,7 +31,7 @@ class UserPlaceWidget extends StatelessWidget {
           alignment: Alignment.topLeft,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text('Florida, US', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
+            child: Text('${place?.placeName ?? ''}, ${place?.placeCountryCode ?? ''}', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
           )
         ),
         // 'You are here'

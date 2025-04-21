@@ -10,7 +10,13 @@ abstract class CachedWeatherDao {
   @Query('SELECT * FROM CachedWeatherDto')
   Stream<List<CachedWeatherDto>> allWeatherLive();
 
+  @Query('SELECT * FROM CachedWeatherDto WHERE placeId = :placeId')
+  Stream<CachedWeatherDto?> placeWeatherLive(int placeId);
+
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertWeather(CachedWeatherDto weather);
-  
+
+  @update
+  Future<void> updateWeather(CachedWeatherDto weather);
+
 }

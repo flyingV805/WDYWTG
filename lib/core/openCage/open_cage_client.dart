@@ -12,7 +12,7 @@ abstract class OpenCageClient {
   factory OpenCageClient(Dio dio, {String? baseUrl}) = _OpenCageClient;
 
   @GET('json')
-  Future<ReverseGeocodeResponse> getAutocomplete(
+  Future<ReverseGeocodeResponse> findPlace(
     @Query("q") String query,
     @Query("key") String key
   );

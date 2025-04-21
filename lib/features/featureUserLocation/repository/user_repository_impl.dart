@@ -1,10 +1,31 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get_it/get_it.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wdywtg/features/featureUserLocation/model/user_place.dart';
+import 'package:wdywtg/core/database/dto/saved_place_dto.dart';
+import 'package:wdywtg/features/featureUserLocation/model/place_setup_response.dart';
 import 'package:wdywtg/features/featureUserLocation/repository/user_repository.dart';
+
+import '../../../core/database/constants.dart';
+import '../../../core/database/dao/cached_weather_dao.dart';
+import '../../../core/database/dao/saved_place_dao.dart';
+import '../../../core/log/loger.dart';
+import '../../../core/mapper/place_weather_mapper.dart';
+import '../../../core/openCage/open_cage_client.dart';
+import '../../../core/openMeteo/open_meteo_client.dart';
+import '../model/user_place_profile.dart';
+import 'mapper/weather_mapper.dart';
 
 class UserRepositoryImpl extends UserRepository {
 
   final _preferences = SharedPreferencesAsync();
+
+  final _savedPlaceDao = GetIt.I.get<SavedPlaceDao>();
+  final _cachedWeatherDao = GetIt.I.get<CachedWeatherDao>();
+  final _openCageClient = GetIt.I.get<OpenCageClient>();
+  final _openMeteoClient = GetIt.I.get<OpenMeteoClient>();
+
+  static final String _logTag = 'UserRepositoryImpl';
 
   @override
   Future<bool> needAskForLocation() async {
@@ -29,31 +50,61 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<UserPlace?> lastUserPlace() async {
-    final placeName = await _preferences.getString('placeName');
-    if(placeName == null) { return null; }
+  Future<PlaceSetupResponse> updateUserPlace(double latitude, double longitude) async {
 
-    final String placeCountryCode = await _preferences.getString('placeCountryCode') ?? '';
-    final String placePictureUrl = await _preferences.getString('placePictureUrl') ?? '';
-    final double latitude = await _preferences.getDouble('latitude') ?? 0.0;
-    final double longitude = await _preferences.getDouble('longitude') ?? 0.0;
+    try {
+      final reverseGeocodeQuery = '$latitude+$longitude';
+      final geocodeResult = await _openCageClient.findPlace(reverseGeocodeQuery, dotenv.get('OPEN_CAGE_API_KEY'));
+      Log().w(_logTag, geocodeResult.toJson().toString());
+      final userPlaceDto = SavedPlaceDto(
+        Constants.userPlaceId,
+        geocodeResult.results.first.component.city,
+        '',
+        geocodeResult.results.first.component.countryCode.toUpperCase(),
+        null,
+        null,
+        latitude,
+        longitude,
+        0
+      );
+      _savedPlaceDao.insertPlace(userPlaceDto);
+    } catch (e){
+      Log().w(_logTag, e.toString());
+    }
 
-    return UserPlace(
-      placeName: placeName,
-      placeCountryCode: placeCountryCode,
-      placePictureUrl: placePictureUrl,
-      latitude: latitude,
-      longitude: longitude
-    );
+    try{
+      final weather = await _openMeteoClient.getForecast(latitude, longitude);
+      final weatherDto = mapFromNetwork(weather, Constants.userPlaceId, latitude, longitude);
+      _cachedWeatherDao.insertWeather(weatherDto);
+    }catch(e){
+      Log().w(_logTag, e.toString());
+    }
+
+    return Success();
+
   }
 
   @override
-  void setLastUserPlace(UserPlace place) {
-    _preferences.setString('placeName', place.placeName);
-    _preferences.setString('placeCountryCode', place.placeCountryCode);
-    _preferences.setString('placePictureUrl', place.placePictureUrl);
-    _preferences.setDouble('latitude', place.latitude);
-    _preferences.setDouble('longitude', place.longitude);
+  Stream<UserPlaceProfile?> userPlaceLive() {
+
+    final placesStream = _savedPlaceDao.placeLive(Constants.userPlaceId);
+    final weatherStream = _cachedWeatherDao.placeWeatherLive(Constants.userPlaceId);
+
+    return CombineLatestStream.combine2(
+      placesStream.startWith(null),
+      weatherStream.startWith(null),
+      (place, weather) {
+        if (place == null) return null;
+        return UserPlaceProfile(
+          placeName: place.placeName,
+          placeCountryCode: place.placeCountryCode,
+          placePictureUrl: place.placePictureUrl,
+          placePictureAuthor: place.placePictureAuthor,
+          weather: mapWeatherDtoToModel(weather)
+        );
+      }
+    );
+
   }
 
   @override
