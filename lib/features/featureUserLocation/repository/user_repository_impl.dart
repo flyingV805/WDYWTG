@@ -14,6 +14,7 @@ import '../../../core/mapper/place_weather_mapper.dart';
 import '../../../core/openCage/open_cage_client.dart';
 import '../../../core/openMeteo/open_meteo_client.dart';
 import '../model/user_place_profile.dart';
+import 'mapper/place_mapper.dart';
 import 'mapper/weather_mapper.dart';
 
 class UserRepositoryImpl extends UserRepository {
@@ -52,21 +53,13 @@ class UserRepositoryImpl extends UserRepository {
   @override
   Future<PlaceSetupResponse> updateUserPlace(double latitude, double longitude) async {
 
+    // step 0 - check if place is changed
+
+
     try {
       final reverseGeocodeQuery = '$latitude+$longitude';
       final geocodeResult = await _openCageClient.findPlace(reverseGeocodeQuery, dotenv.get('OPEN_CAGE_API_KEY'));
-      Log().w(_logTag, geocodeResult.toJson().toString());
-      final userPlaceDto = SavedPlaceDto(
-        Constants.userPlaceId,
-        geocodeResult.results.first.component.city,
-        '',
-        geocodeResult.results.first.component.countryCode.toUpperCase(),
-        null,
-        null,
-        latitude,
-        longitude,
-        0
-      );
+      final userPlaceDto = mapFromGeocode(geocodeResult.results.first, latitude, longitude);
       _savedPlaceDao.insertPlace(userPlaceDto);
     } catch (e){
       Log().w(_logTag, e.toString());
