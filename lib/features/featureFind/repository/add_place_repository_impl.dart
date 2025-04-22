@@ -30,24 +30,16 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
 
     Log().w(_logTag, 'addSavedPlace - ${suggestion.toString()} ${suggestion.timezone}');
 
-    final placeDto = SavedPlaceDto(
-      suggestion.placeId,
-      suggestion.placeName,
-      suggestion.timezone,
-      suggestion.placeCountryCode,
-      null,
-      null,
-      suggestion.latitude,
-      suggestion.longitude,
-      DateTime.now().millisecondsSinceEpoch ~/ 1000
-    );
+    final placeDto = _createFromSuggestion(suggestion);
 
+    // save to database
     try{
       await _savedPlaceDao.insertPlace(placeDto);
     }catch(e){
       return AlreadyAddedError();
     }
-    
+
+    // get weather
     try{
       final weather = await _openMeteoClient.getForecast(suggestion.latitude, suggestion.longitude);
       final weatherDto = mapFromNetwork(weather, suggestion.placeId, suggestion.latitude, suggestion.longitude);
@@ -56,6 +48,7 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
       return WeatherError();
     }
 
+    // get place image
     try{
       final image = await _unsplashClient.getPicture(
         '${suggestion.placeName} city, ${suggestion.placeCountryCode.toUpperCase()}',
@@ -68,9 +61,10 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
       );
       await _savedPlaceDao.updatePlace(updatedPlace);
     }catch(e){
-      return WeatherError();
+      return ImageError();
     }
-    
+
+    // get ai advices
     try{
       final advices = await _geminiClient.generatePlaceAdvices(placeDto, false, false);
       _aiAdvicesDao.insertAdvices(advices);
@@ -80,6 +74,20 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
 
     return Success();
 
+  }
+
+  SavedPlaceDto _createFromSuggestion(PlaceSuggestion suggestion){
+    return SavedPlaceDto(
+      suggestion.placeId,
+      suggestion.placeName,
+      suggestion.timezone,
+      suggestion.placeCountryCode,
+      null,
+      null,
+      suggestion.latitude,
+      suggestion.longitude,
+      DateTime.now().millisecondsSinceEpoch ~/ 1000
+    );
   }
 
   SavedPlaceDto _updatePicture(SavedPlaceDto dto, String pictureUrl, String pictureAuthor){
