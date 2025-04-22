@@ -56,7 +56,7 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
     }
 
     try{
-      final advices = await _geminiClient.generatePlaceAdvices(placeDto);    
+      final advices = await _geminiClient.generatePlaceAdvices(placeDto, false, false);
       _aiAdvicesDao.insertAdvices(advices);
     }catch(e){
       return AdvicesError();
