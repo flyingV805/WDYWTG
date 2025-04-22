@@ -58,7 +58,7 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
 
     try{
       final image = await _unsplashClient.getPicture(
-        '${suggestion.placeName}, ${suggestion.placeCountryCode.toUpperCase()}',
+        '${suggestion.placeName} city, ${suggestion.placeCountryCode.toUpperCase()}',
         dotenv.get('UNSPLASH_API_ACCESS_KEY')
       );
       final updatedPlace = _updatePicture(
