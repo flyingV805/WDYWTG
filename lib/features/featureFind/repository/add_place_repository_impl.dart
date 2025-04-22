@@ -1,7 +1,9 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:wdywtg/core/database/dao/ai_advice_dao.dart';
 import 'package:wdywtg/core/database/dao/cached_weather_dao.dart';
 import 'package:wdywtg/core/gemini/gemini_client.dart';
+import 'package:wdywtg/core/unsplash/unsplash_client.dart';
 import 'package:wdywtg/features/featureFind/model/add_result.dart';
 import 'package:wdywtg/features/featureFind/model/place_suggestion.dart';
 import '../../../core/database/dao/saved_place_dao.dart';
@@ -18,8 +20,7 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
   final _aiAdvicesDao = GetIt.I.get<AiAdviceDao>();
 
   final _openMeteoClient = GetIt.I.get<OpenMeteoClient>();
-
-
+  final _unsplashClient = GetIt.I.get<UnsplashClient>();
   final _geminiClient = GetIt.I.get<GeminiClient>();
 
   static final String _logTag = 'AddPlaceRepositoryImpl';
@@ -46,7 +47,7 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
     }catch(e){
       return AlreadyAddedError();
     }
-
+    
     try{
       final weather = await _openMeteoClient.getForecast(suggestion.latitude, suggestion.longitude);
       final weatherDto = mapFromNetwork(weather, suggestion.placeId, suggestion.latitude, suggestion.longitude);
@@ -56,6 +57,21 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
     }
 
     try{
+      final image = await _unsplashClient.getPicture(
+        '${suggestion.placeName}, ${suggestion.placeCountryCode.toUpperCase()}',
+        dotenv.get('UNSPLASH_API_ACCESS_KEY')
+      );
+      final updatedPlace = _updatePicture(
+        placeDto,
+        image.results.first.urls.regular,
+        image.results.first.user.name
+      );
+      await _savedPlaceDao.updatePlace(updatedPlace);
+    }catch(e){
+      return WeatherError();
+    }
+    
+    try{
       final advices = await _geminiClient.generatePlaceAdvices(placeDto, false, false);
       _aiAdvicesDao.insertAdvices(advices);
     }catch(e){
@@ -64,6 +80,20 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
 
     return Success();
 
+  }
+
+  SavedPlaceDto _updatePicture(SavedPlaceDto dto, String pictureUrl, String pictureAuthor){
+    return SavedPlaceDto(
+      dto.id,
+      dto.placeName,
+      dto.placeTimezone,
+      dto.placeCountryCode,
+      pictureUrl,
+      pictureAuthor,
+      dto.latitude,
+      dto.longitude,
+      dto.addTime
+    );
   }
 
 
