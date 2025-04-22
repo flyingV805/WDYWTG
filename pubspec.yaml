@@ -18,6 +18,7 @@ dependencies:
   # network
   dio: ^5.8.0
   retrofit: ^4.4.0
+  cached_network_image: ^3.4.1
   # logger: ^2.4.0  # for logging purpose
   json_annotation: ^4.9.0
 

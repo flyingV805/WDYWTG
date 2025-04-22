@@ -31,7 +31,14 @@ class UserPlaceWidget extends StatelessWidget {
           alignment: Alignment.topLeft,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text('${place?.placeName ?? ''}, ${place?.placeCountryCode ?? ''}', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('${place?.placeName ?? ''}, ${place?.placeCountryCode ?? ''}', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
+                Text('Photo by Vvvv Hhhhhh (Unsplash)', style: Theme.of(context).textTheme.labelSmall)
+              ],
+            ),
           )
         ),
         // 'You are here'

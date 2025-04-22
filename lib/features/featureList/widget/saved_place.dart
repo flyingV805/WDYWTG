@@ -1,10 +1,12 @@
 import 'dart:ui' as ui;
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:wdywtg/uiKit/aiAdvice/ai_advice.dart';
 import 'package:wdywtg/uiKit/tzTime/time_zoned_time.dart';
 import 'package:wdywtg/uiKit/weatherRow/weather_row.dart';
 
 import '../model/place_profile.dart';
+import '../../../uiKit/cityImagePlaceholder/image_placeholder.dart';
 
 const Duration _expandTime = Duration(milliseconds: 200);
 
@@ -100,12 +102,19 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
                     heightFactor: ui.clampDouble(0.7 + _heightFactor.value, .7, 1.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
-                      child: Image.asset(
-                        'assets/image/florida.png',
+                      child: CachedNetworkImage(
+                        imageUrl: widget.profile.place.placePictureUrl,
+                        width: double.infinity,
+                        height: 186,
+                        fit: BoxFit.fill,
+                        placeholder: (context, url) => ImagePlaceholder(),
+                        errorWidget: (context, url, error) => ImagePlaceholder(),
+                      )/*Image.asset(
+                        'assets/image/city_placeholder.png',
                         width: double.infinity,
                         height: 186,
                         fit: BoxFit.fill
-                      ),
+                      ),*/
                     ),
                   ),
                   // Location name
@@ -113,9 +122,19 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
                     alignment: Alignment.topLeft,
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        '${widget.profile.place.placeName}, ${widget.profile.place.placeCountryCode}',
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, color: Colors.black)
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${widget.profile.place.placeName}, ${widget.profile.place.placeCountryCode}',
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, color: Colors.black)
+                          ),
+                          Text(
+                            widget.profile.place.placePictureAuthor.isEmpty ? '' : 'Photo by ${widget.profile.place.placePictureAuthor} (Unsplash)',
+                            style: Theme.of(context).textTheme.labelSmall
+                          )
+                        ],
                       ),
                     )
                   ),
