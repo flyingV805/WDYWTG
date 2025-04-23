@@ -66,7 +66,10 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
 
     // get ai advices
     try{
-      final advices = await _geminiClient.generatePlaceAdvices(placeDto, false, false);
+      final userPlace = await _savedPlaceDao.getUserPlace();
+      final isCountryDifferent =
+          userPlace?.placeCountryCode.toUpperCase() != suggestion.placeCountryCode.toUpperCase();
+      final advices = await _geminiClient.generatePlaceAdvices(placeDto, isCountryDifferent);
       _aiAdvicesDao.insertAdvices(advices);
     }catch(e){
       return AdvicesError();

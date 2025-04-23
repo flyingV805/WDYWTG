@@ -15,6 +15,9 @@ abstract class SavedPlaceDao {
   @Query('SELECT * FROM SavedPlaceDTO WHERE id = :placeId')
   Stream<SavedPlaceDto?> placeLive(int placeId);
 
+  @Query('SELECT * FROM SavedPlaceDTO WHERE id = ${Constants.userPlaceId}')
+  Future<SavedPlaceDto?> getUserPlace();
+
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertPlace(SavedPlaceDto place);
 

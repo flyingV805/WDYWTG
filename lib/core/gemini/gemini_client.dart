@@ -13,8 +13,7 @@ class GeminiClient {
 
   Future<List<AiAdviceDto>> generatePlaceAdvices(
     SavedPlaceDto place,
-    bool includeMoney,
-    bool includeCultural
+    bool differentCountry
   ) async {
 
     final prompt = [ 
