@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
@@ -13,6 +15,7 @@ import '../../../core/log/loger.dart';
 import '../../../core/mapper/place_weather_mapper.dart';
 import '../../../core/openCage/open_cage_client.dart';
 import '../../../core/openMeteo/open_meteo_client.dart';
+import '../../../core/unsplash/unsplash_client.dart';
 import '../model/user_place_profile.dart';
 import 'mapper/place_mapper.dart';
 import 'mapper/weather_mapper.dart';
@@ -25,6 +28,7 @@ class UserRepositoryImpl extends UserRepository {
   final _cachedWeatherDao = GetIt.I.get<CachedWeatherDao>();
   final _openCageClient = GetIt.I.get<OpenCageClient>();
   final _openMeteoClient = GetIt.I.get<OpenMeteoClient>();
+  final _unsplashClient = GetIt.I.get<UnsplashClient>();
 
   static final String _logTag = 'UserRepositoryImpl';
 
@@ -54,7 +58,22 @@ class UserRepositoryImpl extends UserRepository {
   Future<PlaceSetupResponse> updateUserPlace(double latitude, double longitude) async {
 
     // step 0 - check if place is changed
+    final userPlace = await _savedPlaceDao.getUserPlace();
 
+    if(userPlace != null){
+      final locationsDistance = _calculateDistance(
+        latitude, longitude,
+        userPlace.latitude, userPlace.longitude
+      );
+
+
+      Log().w(_logTag, 'locationsDistance - $locationsDistance');
+
+      /*if(locationsDistance < ){
+        return Success();
+      }*/
+
+    }
 
     try {
       final reverseGeocodeQuery = '$latitude+$longitude';
@@ -71,6 +90,24 @@ class UserRepositoryImpl extends UserRepository {
       _cachedWeatherDao.insertWeather(weatherDto);
     }catch(e){
       Log().w(_logTag, e.toString());
+    }
+
+    // get place image
+    try{
+      final userPlace = await _savedPlaceDao.getUserPlace();
+      if(userPlace == null) { return ImageError(); }
+      final image = await _unsplashClient.getPicture(
+        '${userPlace.placeName} city, ${userPlace.placeCountryCode.toUpperCase()}',
+        dotenv.get('UNSPLASH_API_ACCESS_KEY')
+      );
+      final updatedPlace = _updatePicture(
+        userPlace,
+        image.results.first.urls.regular,
+        image.results.first.user.name
+      );
+      await _savedPlaceDao.updatePlace(updatedPlace);
+    }catch(e){
+      return ImageError();
     }
 
     return Success();
@@ -98,6 +135,27 @@ class UserRepositoryImpl extends UserRepository {
       }
     );
 
+  }
+
+  SavedPlaceDto _updatePicture(SavedPlaceDto dto, String pictureUrl, String pictureAuthor){
+    return SavedPlaceDto(
+        dto.id,
+        dto.placeName,
+        dto.placeTimezone,
+        dto.placeCountryCode,
+        pictureUrl,
+        pictureAuthor,
+        dto.latitude,
+        dto.longitude,
+        dto.addTime
+    );
+  }
+
+  double _calculateDistance(lat1, lon1, lat2, lon2){
+    var p = 0.017453292519943295;
+    var c = cos;
+    var a = 0.5 - c((lat2 - lat1) * p)/2 + c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p))/2;
+    return 12742 * asin(sqrt(a));
   }
 
   @override
