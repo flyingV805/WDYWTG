@@ -34,10 +34,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider<WeatherRepository>(
-          create: (_) => WeatherRepositoryImpl(),
-          dispose: (r) => r.dispose(),
-        ),
         RepositoryProvider<GeocodingRepository>(
           create: (_) => GeocodingRepositoryImpl(),
           dispose: (r) => r.dispose(),
