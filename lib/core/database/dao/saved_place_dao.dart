@@ -9,7 +9,7 @@ abstract class SavedPlaceDao {
   @Query('SELECT * FROM SavedPlaceDTO')
   Future<List<SavedPlaceDto>> getAllPlaces();
 
-  @Query('SELECT * FROM SavedPlaceDTO WHERE id != ${Constants.userPlaceId} ORDER BY addTime')
+  @Query('SELECT * FROM SavedPlaceDTO WHERE id != ${Constants.userPlaceId} ORDER BY addTime DESC')
   Stream<List<SavedPlaceDto>> allPlacesLive();
 
   @Query('SELECT * FROM SavedPlaceDTO WHERE id = :placeId')

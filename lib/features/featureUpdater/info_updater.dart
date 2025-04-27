@@ -16,6 +16,12 @@ class InfoUpdater {
     Log().i(_logTag, 'updater called');
     final weatherUpdateResult = _updateRepository.updateCachedWeather();
 
+    // update ai advices, if needed
+
+    // update place photo, if old enough
+
+    // update user place
+
   }
 
   void startUpdater(BuildContext context){
