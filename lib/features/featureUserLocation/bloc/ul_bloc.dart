@@ -1,8 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wdywtg/commonModel/place_weather.dart';
 import 'package:wdywtg/features/featureUserLocation/bloc/ul_event.dart';
 import 'package:wdywtg/features/featureUserLocation/bloc/ul_state.dart';
-import 'package:wdywtg/features/featureUserLocation/model/user_place.dart';
+import 'package:wdywtg/features/featureUserLocation/model/place_setup_response.dart';
 
 import '../../../core/location/user_position.dart';
 import '../../../core/log/loger.dart';
@@ -112,6 +111,13 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
   void updatePlaceParameters(double latitude, double longitude) async {
     Log().w(_logTag, 'updatePlaceParameters - $latitude $longitude');
     final result = await _userRepository.updateUserPlace(latitude, longitude);
+    switch(result){
+      case Success(): break;
+      case FindPlaceError(): break;
+      case WeatherError(): break;
+      case ImageError(): break;
+    }
+
   }
 
 }
