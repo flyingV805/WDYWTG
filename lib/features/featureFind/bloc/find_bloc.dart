@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:wdywtg/features/featureFind/model/add_result.dart';
 import 'package:wdywtg/features/featureFind/repository/add_place_repository.dart';
 
 import '../../../core/log/loger.dart';
@@ -34,7 +35,7 @@ class FindBloc extends Bloc<FindEvent, FindState> {
     _focusNode = focusNode,
     _fieldController = fieldController,
     super(FindState.empty()) {
-      on<Initialize>(_startRoutine);
+
       on<FocusUpdated>(_focusUpdated);
       on<UpdateSearch>(_onSearchUpdate);
       on<SearchUpdated>(_updateSuggestions);
@@ -54,21 +55,6 @@ class FindBloc extends Bloc<FindEvent, FindState> {
           add(SearchUpdated(suggestions: found));
         });
 
-  }
-
-  Future<void> _startRoutine(Initialize event, Emitter<FindState> emit) async {
-    // searching setup - debounce
-    /*_searchController.stream
-      .debounceTime(const Duration(milliseconds: 500))
-      .distinct()
-      .switchMap((query) => _performSearch(query).asStream())
-      .listen((found) {
-        Log().w(_logTag, '_searching - ${found.join()}');
-        add(SearchUpdated(suggestions: found));
-      }
-    );*/
-
-    Log().w(_logTag, '_startRoutine - START COMPLETED');
   }
 
   Future<void> _focusUpdated(FocusUpdated event, Emitter<FindState> emit) async {
@@ -91,6 +77,14 @@ class FindBloc extends Bloc<FindEvent, FindState> {
     _focusNode.unfocus();
     _fieldController.clear();
     final result = await _addRepository.addSavedPlace(event.placeToAdd);
+
+    switch(result){
+      case Success(): break;
+      case AlreadyAddedError(): break;
+      case WeatherError(): break;
+      case ImageError(): break;
+      case AdvicesError(): break;
+    }
     emit(state.copyWith(suggestions: []));
     //emit.call(state.copyWith(suggestions: event.suggestions));
   }

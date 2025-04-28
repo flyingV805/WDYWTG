@@ -21,7 +21,7 @@ class FindPlace extends StatelessWidget {
         addRepository: blocContext.read<AddPlaceRepository>(),
         focusNode: _focusNode,
         fieldController: _textController
-      )..add(Initialize()),
+      ),
       child: BlocBuilder<FindBloc, FindState>(
         builder: (context, state) {
           return Padding(

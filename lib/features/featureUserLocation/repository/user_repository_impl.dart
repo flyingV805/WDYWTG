@@ -69,14 +69,8 @@ class UserRepositoryImpl extends UserRepository {
         latitude, longitude,
         userPlace.latitude, userPlace.longitude
       );
-
-
       Log().w(_logTag, 'locationsDistance - $locationsDistance');
-
-      /*if(locationsDistance < ){
-        return Success();
-      }*/
-
+      if(locationsDistance < 5000){ return Success(); }
     }
 
     try {
@@ -86,6 +80,7 @@ class UserRepositoryImpl extends UserRepository {
       _savedPlaceDao.insertPlace(userPlaceDto);
     } catch (e){
       Log().w(_logTag, e.toString());
+      return FindPlaceError();
     }
 
     try{
@@ -94,6 +89,7 @@ class UserRepositoryImpl extends UserRepository {
       _cachedWeatherDao.insertWeather(weatherDto);
     }catch(e){
       Log().w(_logTag, e.toString());
+      return WeatherError();
     }
 
     // get place image

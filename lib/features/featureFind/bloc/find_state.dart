@@ -12,6 +12,7 @@ class FindState extends Equatable {
   final bool showList;
   final List<PlaceSuggestion>? suggestions;
 
+
   @override
   List<Object> get props => [showList, suggestions ?? []];
 

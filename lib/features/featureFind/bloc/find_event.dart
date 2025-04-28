@@ -4,8 +4,6 @@ sealed class FindEvent {
   const FindEvent();
 }
 
-final class Initialize extends FindEvent {}
-
 final class FocusUpdated extends FindEvent {
 
   final bool isFocused;
