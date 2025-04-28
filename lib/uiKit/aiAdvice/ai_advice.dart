@@ -18,13 +18,13 @@ class AiAdvice extends StatelessWidget {
             Text(advice.adviceTitle, style: Theme.of(context).textTheme.titleLarge),
             SizedBox(height: 8),
             Text(advice.adviceBody, style: Theme.of(context).textTheme.bodyMedium),
-            SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(Icons.gamepad),
-                SizedBox(width: 8),
-                Text('suggested by Gemini'),
+                Text('suggested by', style: Theme.of(context).textTheme.labelSmall),
+                SizedBox(width: 5),
+                Image.asset('assets/image/gemini.png', height: 24),
               ],
             )
           ],

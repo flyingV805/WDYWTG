@@ -45,7 +45,7 @@ class GeminiClient {
       place.id,
       DateTime.now().millisecondsSinceEpoch ~/ 1000,
       'Clothes advice',
-      (result.text ?? '').replaceAll('**', '')
+      (result.text ?? '').replaceAll('**', '').replaceAll('#', '')
     );
   }
 
@@ -61,7 +61,7 @@ class GeminiClient {
       place.id,
       DateTime.now().millisecondsSinceEpoch ~/ 1000,
       'Preparing money',
-      (result.text ?? '').replaceAll('**', '')
+      (result.text ?? '').replaceAll('**', '').replaceAll('#', '')
     );
   }
 
@@ -77,7 +77,7 @@ class GeminiClient {
       place.id,
       DateTime.now().millisecondsSinceEpoch ~/ 1000,
       'Cultural features',
-      (result.text ?? '').replaceAll('**', '')
+      (result.text ?? '').replaceAll('**', '').replaceAll('#', '')
     );
   }
 
