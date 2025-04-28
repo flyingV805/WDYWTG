@@ -22,50 +22,55 @@ class FindPlace extends StatelessWidget {
         focusNode: _focusNode,
         fieldController: _textController
       ),
-      child: BlocBuilder<FindBloc, FindState>(
-        builder: (context, state) {
-          return Padding(
-            padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                      key: const Key('place_search_field'),
-                      controller: _textController,
-                      focusNode: _focusNode,
-                      onChanged: (searchable) {
-                        context.read<FindBloc>().add(UpdateSearch(searchable: searchable));
-                      },
-                      decoration: InputDecoration(
-                        labelText: 'I\'m going to visit...',
-                        errorText: null,
-                        suffixIcon: AnimatedOpacity(
-                          opacity: state.showList ? 1 : 0,
-                          duration: const Duration(milliseconds: 250),
-                          child: IconButton(
-                            onPressed: (){ _focusNode.unfocus(); },
-                            icon: const Icon(Icons.close)
+      child: BlocListener<FindBloc, FindState>(
+        listener: (context, state){
+
+        },
+        child: BlocBuilder<FindBloc, FindState>(
+          builder: (context, state) {
+            return Padding(
+              padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextField(
+                        key: const Key('place_search_field'),
+                        controller: _textController,
+                        focusNode: _focusNode,
+                        onChanged: (searchable) {
+                          context.read<FindBloc>().add(UpdateSearch(searchable: searchable));
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'I\'m going to visit...',
+                          errorText: null,
+                          suffixIcon: AnimatedOpacity(
+                            opacity: state.showList ? 1 : 0,
+                            duration: const Duration(milliseconds: 250),
+                            child: IconButton(
+                              onPressed: (){ _focusNode.unfocus(); },
+                              icon: const Icon(Icons.close)
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SuggestionsList(
-                      isExpanded: state.showList,
-                      suggestions: state.suggestions,
-                      onSelect: (suggestion){
-                        context.read<FindBloc>().add(AddPlace(placeToAdd: suggestion));
-                      },
-                    )
-                  ],
+                      SuggestionsList(
+                        isExpanded: state.showList,
+                        suggestions: state.suggestions,
+                        onSelect: (suggestion){
+                          context.read<FindBloc>().add(AddPlace(placeToAdd: suggestion));
+                        },
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
-        }
-      )
+            );
+          }
+        ),
+      ),
     );
   }
 
