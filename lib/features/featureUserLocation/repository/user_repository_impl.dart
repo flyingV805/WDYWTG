@@ -1,9 +1,12 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
+import 'package:palette_generator/palette_generator.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wdywtg/commonModel/place_picture_palette.dart';
 import 'package:wdywtg/core/database/dto/saved_place_dto.dart';
 import 'package:wdywtg/features/featureUserLocation/model/place_setup_response.dart';
 import 'package:wdywtg/features/featureUserLocation/repository/user_repository.dart';
@@ -15,6 +18,7 @@ import '../../../core/log/loger.dart';
 import '../../../core/mapper/place_weather_mapper.dart';
 import '../../../core/openCage/open_cage_client.dart';
 import '../../../core/openMeteo/open_meteo_client.dart';
+import '../../../core/unsplash/image_palette.dart';
 import '../../../core/unsplash/unsplash_client.dart';
 import '../model/user_place_profile.dart';
 import 'mapper/place_mapper.dart';
@@ -100,10 +104,12 @@ class UserRepositoryImpl extends UserRepository {
         '${userPlace.placeName} city, ${userPlace.placeCountryCode.toUpperCase()}',
         dotenv.get('UNSPLASH_API_ACCESS_KEY')
       );
+      final palette = await findTextPalette(image.results.first.urls.thumb);
       final updatedPlace = _updatePicture(
         userPlace,
         image.results.first.urls.regular,
-        image.results.first.user.name
+        image.results.first.user.name,
+        palette
       );
       await _savedPlaceDao.updatePlace(updatedPlace);
     }catch(e){
@@ -137,7 +143,7 @@ class UserRepositoryImpl extends UserRepository {
 
   }
 
-  SavedPlaceDto _updatePicture(SavedPlaceDto dto, String pictureUrl, String pictureAuthor){
+  SavedPlaceDto _updatePicture(SavedPlaceDto dto, String pictureUrl, String pictureAuthor, PlacePicturePalette palette){
     return SavedPlaceDto(
         dto.id,
         dto.placeName,
@@ -145,6 +151,7 @@ class UserRepositoryImpl extends UserRepository {
         dto.placeCountryCode,
         pictureUrl,
         pictureAuthor,
+        palette,
         dto.latitude,
         dto.longitude,
         dto.addTime

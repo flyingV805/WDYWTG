@@ -1,0 +1,4 @@
+enum PlacePicturePalette {
+  light,
+  dark
+}

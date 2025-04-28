@@ -36,9 +36,13 @@ class UnsplashUrls {
 
   UnsplashUrls({
     required this.regular,
+    required this.small,
+    required this.thumb,
   });
 
   @JsonKey(name: 'regular') String regular;
+  @JsonKey(name: 'small') String small;
+  @JsonKey(name: 'thumb') String thumb;
 
   factory UnsplashUrls.fromJson(Map<String, dynamic> json) => _$UnsplashUrlsFromJson(json);
   Map<String, dynamic> toJson() => _$UnsplashUrlsToJson(this);

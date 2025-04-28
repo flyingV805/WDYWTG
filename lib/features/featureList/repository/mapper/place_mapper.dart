@@ -19,6 +19,7 @@ PlaceProfile mapPlaceProfile(
       placeTimezone: placeDto.placeTimezone,
       placeCountryCode: placeDto.placeCountryCode,
       placePictureAuthor: placeDto.placePictureAuthor ?? '',
+      placePicturePalette: placeDto.placePicturePalette,
       latitude: placeDto.latitude,
       longitude: placeDto.longitude,
     ),

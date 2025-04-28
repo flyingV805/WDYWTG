@@ -1,5 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
+import 'package:wdywtg/commonModel/place_picture_palette.dart';
 import 'package:wdywtg/core/database/dao/ai_advice_dao.dart';
 import 'package:wdywtg/core/database/dao/cached_weather_dao.dart';
 import 'package:wdywtg/core/gemini/gemini_client.dart';
@@ -11,6 +12,7 @@ import '../../../core/database/dto/saved_place_dto.dart';
 import '../../../core/log/loger.dart';
 import '../../../core/mapper/place_weather_mapper.dart';
 import '../../../core/openMeteo/open_meteo_client.dart';
+import '../../../core/unsplash/image_palette.dart';
 import 'add_place_repository.dart';
 
 class AddPlaceRepositoryImpl extends AddPlaceRepository {
@@ -54,10 +56,12 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
         '${suggestion.placeName}, ${suggestion.placeCountryCode.toUpperCase()}',
         dotenv.get('UNSPLASH_API_ACCESS_KEY')
       );
+      final palette = await findTextPalette(image.results.first.urls.thumb);
       final updatedPlace = _updatePicture(
         placeDto,
         image.results.first.urls.regular,
-        image.results.first.user.name
+        image.results.first.user.name,
+        palette
       );
       await _savedPlaceDao.updatePlace(updatedPlace);
     }catch(e){
@@ -87,13 +91,14 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
       suggestion.placeCountryCode,
       null,
       null,
+      null,
       suggestion.latitude,
       suggestion.longitude,
       DateTime.now().millisecondsSinceEpoch ~/ 1000
     );
   }
 
-  SavedPlaceDto _updatePicture(SavedPlaceDto dto, String pictureUrl, String pictureAuthor){
+  SavedPlaceDto _updatePicture(SavedPlaceDto dto, String pictureUrl, String pictureAuthor, PlacePicturePalette palette){
     return SavedPlaceDto(
       dto.id,
       dto.placeName,
@@ -101,6 +106,7 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
       dto.placeCountryCode,
       pictureUrl,
       pictureAuthor,
+      palette,
       dto.latitude,
       dto.longitude,
       dto.addTime

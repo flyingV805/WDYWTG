@@ -1,3 +1,4 @@
+import 'package:wdywtg/commonModel/place_picture_palette.dart';
 import 'package:wdywtg/commonModel/place_weather.dart';
 import 'package:wdywtg/features/featureUserLocation/model/user_place.dart';
 
@@ -22,7 +23,8 @@ class UserPlaceProfile {
       placeName: placeName,
       placeCountryCode: placeCountryCode,
       placePictureUrl: placePictureUrl,
-      placePictureAuthor: placePictureAuthor
+      placePictureAuthor: placePictureAuthor,
+      placePicturePalette: PlacePicturePalette.dark
     );
   }
 

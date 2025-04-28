@@ -1,5 +1,7 @@
 import 'package:floor/floor.dart';
 
+import '../../../commonModel/place_picture_palette.dart';
+
 @entity
 class SavedPlaceDto {
 
@@ -11,6 +13,7 @@ class SavedPlaceDto {
   final String placeCountryCode;
   final String? placePictureUrl;
   final String? placePictureAuthor;
+  final PlacePicturePalette? placePicturePalette;
   final double latitude;
   final double longitude;
   final int addTime;
@@ -22,6 +25,7 @@ class SavedPlaceDto {
     this.placeCountryCode, 
     this.placePictureUrl,
     this.placePictureAuthor,
+    this.placePicturePalette,
     this.latitude, 
     this.longitude,
     this.addTime

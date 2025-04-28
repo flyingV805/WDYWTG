@@ -11,6 +11,7 @@ SavedPlaceDto mapFromGeocode(GeocodeResult geocode, double latitude, double long
     geocode.component.countryCode.toUpperCase(),
     null,
     null,
+    null,
     latitude,
     longitude,
     0

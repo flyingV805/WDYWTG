@@ -9,9 +9,13 @@ import 'package:wdywtg/core/database/dto/ai_advice_dto.dart';
 import 'package:wdywtg/core/database/dto/cached_weather_dto.dart';
 import 'package:wdywtg/core/database/dto/saved_place_dto.dart';
 
+import '../../commonModel/place_picture_palette.dart';
+import 'converter/picture_palette_converter.dart';
+
 part 'app_database.g.dart'; // the generated code will be there
 
 @Database(version: 1, entities: [SavedPlaceDto, AiAdviceDto, CachedWeatherDto])
+@TypeConverters([PicturePaletteConverter])
 abstract class AppDatabase extends FloorDatabase {
   SavedPlaceDao get placesDao;
   CachedWeatherDao get weatherDao;

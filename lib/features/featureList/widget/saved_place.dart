@@ -5,6 +5,7 @@ import 'package:wdywtg/uiKit/aiAdvice/ai_advice.dart';
 import 'package:wdywtg/uiKit/tzTime/time_zoned_time.dart';
 import 'package:wdywtg/uiKit/weatherRow/weather_row.dart';
 
+import '../../../uiKit/animatedColorText/animated_color_text.dart';
 import '../model/place_profile.dart';
 import '../../../uiKit/cityImagePlaceholder/image_placeholder.dart';
 
@@ -126,13 +127,15 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            '${widget.profile.place.placeName}, ${widget.profile.place.placeCountryCode}',
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, color: Colors.black)
+                          AnimatedColorText(
+                            text: '${widget.profile.place.placeName}, ${widget.profile.place.placeCountryCode}',
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                            palette: widget.profile.place.placePicturePalette,
                           ),
-                          Text(
-                            widget.profile.place.placePictureAuthor.isEmpty ? '' : 'Photo by ${widget.profile.place.placePictureAuthor} (Unsplash)',
-                            style: Theme.of(context).textTheme.labelSmall
+                          AnimatedColorText(
+                            text: widget.profile.place.placePictureAuthor.isEmpty ? '' : 'Photo by ${widget.profile.place.placePictureAuthor} (Unsplash)',
+                            style: Theme.of(context).textTheme.labelSmall,
+                            palette: widget.profile.place.placePicturePalette,
                           )
                         ],
                       ),

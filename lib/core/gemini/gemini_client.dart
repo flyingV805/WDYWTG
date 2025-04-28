@@ -16,22 +16,22 @@ class GeminiClient {
     bool differentCountry
   ) async {
 
-    final prompt = [ 
-      Content.text('Write a short tip on what clothes to take with you to ${place.placeName}, ${place.placeCountryCode}') 
-    ];
+    List<AiAdviceDto> result = [];
 
-    final result = await model.generateContent(prompt);
+    final clothesAdvice = await _clothesAdvice(place);
+    result.add(clothesAdvice);
 
-    final clothesAdvice = AiAdviceDto(
-      place.id, 
-      DateTime.now().millisecondsSinceEpoch ~/ 1000, 
-      'Clothes advice', 
-      (result.text ?? '').replaceAll('**', '')
-    );
+    if(differentCountry){
 
-    Log().w(_logTag, 'generatePlaceAdvices - ${result.text}');
+      final moneyAdvice = await _moneyAdvice(place);
+      result.add(moneyAdvice);
 
-    return [clothesAdvice];
+      final culturalAdvice = await _culturalAdvice(place);
+      result.add(culturalAdvice);
+
+    }
+
+    return result;
   }
 
   Future<AiAdviceDto> _clothesAdvice(SavedPlaceDto place) async {
@@ -42,42 +42,42 @@ class GeminiClient {
     final result = await model.generateContent(prompt);
 
     return AiAdviceDto(
-        place.id,
-        DateTime.now().millisecondsSinceEpoch ~/ 1000,
-        'Clothes advice',
-        (result.text ?? '').replaceAll('**', '')
+      place.id,
+      DateTime.now().millisecondsSinceEpoch ~/ 1000,
+      'Clothes advice',
+      (result.text ?? '').replaceAll('**', '')
     );
   }
 
   // create only if user country is different
   Future<AiAdviceDto> _moneyAdvice(SavedPlaceDto place) async {
     final prompt = [
-      Content.text('Write a short tip on what clothes to take with you to ${place.placeName}, ${place.placeCountryCode}')
+      Content.text('Write a short advice on whether it is necessary to prepare money for a trip to ${place.placeName}, ${place.placeCountryCode}')
     ];
 
     final result = await model.generateContent(prompt);
 
     return AiAdviceDto(
-        place.id,
-        DateTime.now().millisecondsSinceEpoch ~/ 1000,
-        'Clothes advice',
-        (result.text ?? '').replaceAll('**', '')
+      place.id,
+      DateTime.now().millisecondsSinceEpoch ~/ 1000,
+      'Preparing money',
+      (result.text ?? '').replaceAll('**', '')
     );
   }
 
   // create only if user country is different
   Future<AiAdviceDto> _culturalAdvice(SavedPlaceDto place) async {
     final prompt = [
-      Content.text('Write a short tip on what clothes to take with you to ${place.placeName}, ${place.placeCountryCode}')
+      Content.text('Write a short cultural tip for a trip to ${place.placeName}, ${place.placeCountryCode}')
     ];
 
     final result = await model.generateContent(prompt);
 
     return AiAdviceDto(
-        place.id,
-        DateTime.now().millisecondsSinceEpoch ~/ 1000,
-        'Clothes advice',
-        (result.text ?? '').replaceAll('**', '')
+      place.id,
+      DateTime.now().millisecondsSinceEpoch ~/ 1000,
+      'Cultural features',
+      (result.text ?? '').replaceAll('**', '')
     );
   }
 

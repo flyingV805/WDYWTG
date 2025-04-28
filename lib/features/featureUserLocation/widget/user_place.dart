@@ -1,6 +1,9 @@
 import 'dart:ui' as ui;
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../../commonModel/place_weather.dart';
+import '../../../uiKit/animatedColorText/animated_color_text.dart';
+import '../../../uiKit/cityImagePlaceholder/image_placeholder.dart';
 import '../../../uiKit/weatherRow/weather_row.dart';
 import '../model/user_place.dart';
 
@@ -20,12 +23,20 @@ class UserPlaceWidget extends StatelessWidget {
     return Stack(
       key: const Key('user_weather_widget'),
       children: [
-        Image.asset(
+        CachedNetworkImage(
+          imageUrl: place?.placePictureUrl ?? '',
+          width: double.infinity,
+          height: 186,
+          fit: BoxFit.fill,
+          placeholder: (context, url) => ImagePlaceholder(),
+          errorWidget: (context, url, error) => ImagePlaceholder(),
+        ),
+        /*Image.asset(
           'assets/image/florida.png',
           width: double.infinity,
           height: 186,
           fit: BoxFit.fill
-        ),
+        ),*/
         // Location name
         Align(
           alignment: Alignment.topLeft,
@@ -35,8 +46,16 @@ class UserPlaceWidget extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('${place?.placeName ?? ''}, ${place?.placeCountryCode ?? ''}', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
-                Text('Photo by Vvvv Hhhhhh (Unsplash)', style: Theme.of(context).textTheme.labelSmall)
+                AnimatedColorText(
+                  text: '${place?.placeName ?? ''}, ${place?.placeCountryCode ?? ''}',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                  palette: place?.placePicturePalette,
+                ),
+                AnimatedColorText(
+                  text: (place?.placePictureAuthor ?? '').isEmpty ? '' : 'Photo by ${place?.placePictureAuthor} (Unsplash)',
+                  style: Theme.of(context).textTheme.labelSmall,
+                  palette: place?.placePicturePalette,
+                )
               ],
             ),
           )
