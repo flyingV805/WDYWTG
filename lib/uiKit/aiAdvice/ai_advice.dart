@@ -17,7 +17,8 @@ class AiAdvice extends StatelessWidget {
           children: [
             Text(advice.adviceTitle, style: Theme.of(context).textTheme.titleLarge),
             SizedBox(height: 8),
-            Text(advice.adviceBody, style: Theme.of(context).textTheme.bodyMedium),
+            Text(advice.adviceBody.trim(), style: Theme.of(context).textTheme.bodyMedium),
+            SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
