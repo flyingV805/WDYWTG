@@ -85,43 +85,49 @@ class FindBloc extends Bloc<FindEvent, FindState> {
     final result = await _addRepository.addSavedPlace(event.placeToAdd);
 
     Log().w(_logTag, 'adding result - $result');
-
-    switch(result){
-      case Success():
-        emit(FindState.successfullyAdded());
-        break;
-      case AlreadyAddedError():
-        emit(state.copyWith(error: AlreadyExistsError(place: event.placeToAdd)));
-        break;
-      case WeatherError():
-        emit(state.copyWith(error: GetWeatherError(place: event.placeToAdd)));
-        break;
-      case ImageError():
-        emit(state.copyWith(error: GetImageError(place: event.placeToAdd)));
-        break;
-      case AdvicesError():
-        emit(state.copyWith(error: GetAdvicesError(place: event.placeToAdd)));
-        break;
-    }
+    _handleResult(emit, event.placeToAdd, result);
 
   }
 
   Future _retryWeather(RetryWeather event, Emitter<FindState> emit) async {
     final result = await _addRepository.retryFromWeather(event.placeToAdd);
+    _handleResult(emit, event.placeToAdd, result);
   }
 
   Future _retryImage(RetryImage event, Emitter<FindState> emit) async {
     final result = await _addRepository.retryFromImage(event.placeToAdd);
+    _handleResult(emit, event.placeToAdd, result);
   }
 
   Future _retryAdvices(RetryAdvices event, Emitter<FindState> emit) async {
     final result = await _addRepository.retryFromAdvices(event.placeToAdd);
+    _handleResult(emit, event.placeToAdd, result);
   }
 
   Future _cancelError(CancelError event, Emitter<FindState> emit) async {
     _focusNode.unfocus();
     _fieldController.clear();
     emit(FindState.successfullyAdded());
+  }
+
+  void _handleResult(Emitter<FindState> emit, PlaceSuggestion place, AddResult result){
+    switch(result){
+      case Success():
+        emit(FindState.successfullyAdded());
+        break;
+      case AlreadyAddedError():
+        emit(state.copyWith(error: AlreadyExistsError(place: place)));
+        break;
+      case WeatherError():
+        emit(state.copyWith(error: GetWeatherError(place: place)));
+        break;
+      case ImageError():
+        emit(state.copyWith(error: GetImageError(place: place)));
+        break;
+      case AdvicesError():
+        emit(state.copyWith(error: GetAdvicesError(place: place)));
+        break;
+    }
   }
 
   Future<List<PlaceSuggestion>> _performSearch(String searchable) async {
