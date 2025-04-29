@@ -35,3 +35,36 @@ final class AddPlace extends FindEvent {
   AddPlace({required this.placeToAdd});
 
 }
+
+final class RetryWeather extends FindEvent {
+
+  final PlaceSuggestion placeToAdd;
+
+  RetryWeather({required this.placeToAdd});
+
+}
+
+final class RetryImage extends FindEvent {
+
+  final PlaceSuggestion placeToAdd;
+
+  RetryImage({required this.placeToAdd});
+
+}
+
+final class RetryAdvices extends FindEvent {
+
+  final PlaceSuggestion placeToAdd;
+
+  RetryAdvices({required this.placeToAdd});
+
+}
+
+
+final class CancelError extends FindEvent {
+
+  final PlaceSuggestion placeToAdd;
+
+  CancelError({required this.placeToAdd});
+
+}

@@ -8,6 +8,8 @@ import 'package:wdywtg/features/featureFind/repository/geocoding_repository.dart
 import 'package:wdywtg/features/featureFind/widget/suggestions_list.dart';
 
 import '../../core/log/loger.dart';
+import 'dialog/image_error_dialog.dart';
+import 'dialog/weather_error_dialog.dart';
 
 
 final FocusNode _focusNode = FocusNode();
@@ -36,12 +38,13 @@ class FindPlace extends StatelessWidget {
             case null: break;
             case AlreadyExistsError():
               AlreadyAddedDialog().show(context, error.place);
+              break;
             case GetWeatherError():
-              // TODO: Handle this case.
-              throw UnimplementedError();
+              WeatherErrorDialog().show(context, error.place);
+              break;
             case GetImageError():
-              // TODO: Handle this case.
-              throw UnimplementedError();
+              ImageErrorDialog().show(context, error.place);
+              break;
             case GetAdvicesError():
               AdvicesErrorDialog().show(context, error.place);
               break;

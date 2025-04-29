@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import '../bloc/find_bloc.dart';
 import '../model/place_suggestion.dart';
 import 'find_error_dialog.dart';
 
@@ -37,14 +39,14 @@ class AdvicesErrorDialog extends FindErrorDialog {
           actions: [
             TextButton(
               onPressed: (){
-                  //context.read<FindBloc>().add(UserApprovedLocation());
+                context.read<FindBloc>().add(RetryAdvices(placeToAdd: suggestion));
                 Navigator.of(context).pop();
               },
               child: Text('Retry')
             ),
             TextButton(
               onPressed: (){
-                //context.read<FindBloc>().add(UserApprovedLocation());
+                context.read<FindBloc>().add(CancelError(placeToAdd: suggestion));
                 Navigator.of(context).pop();
               },
               child: Text('I don\'t need advice')

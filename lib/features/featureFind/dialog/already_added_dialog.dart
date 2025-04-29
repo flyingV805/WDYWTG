@@ -43,7 +43,7 @@ class AlreadyAddedDialog extends FindErrorDialog {
           actions: [
             TextButton(
               onPressed: (){
-                //context.read<FindBloc>().add(UserApprovedLocation());
+                context.read<FindBloc>().add(CancelError(placeToAdd: suggestion));
                 Navigator.of(context).pop();
               },
               child: Text('Ok, my bad')

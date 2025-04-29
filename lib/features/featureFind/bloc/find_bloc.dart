@@ -41,6 +41,12 @@ class FindBloc extends Bloc<FindEvent, FindState> {
       on<SearchUpdated>(_updateSuggestions);
       on<AddPlace>(_addPlace);
 
+      // errors interactions
+      on<RetryWeather>(_retryWeather);
+      on<RetryImage>(_retryImage);
+      on<RetryAdvices>(_retryAdvices);
+      on<CancelError>(_cancelError);
+
       _focusNode.addListener(() {
         Log().w(_logTag, '_focusNode - ${_focusNode.hasFocus}');
         add(FocusUpdated(isFocused: _focusNode.hasFocus));
@@ -98,6 +104,30 @@ class FindBloc extends Bloc<FindEvent, FindState> {
         break;
     }
 
+  }
+
+  Future _retryWeather(RetryWeather event, Emitter<FindState> emit) async {
+    _focusNode.unfocus();
+    _fieldController.clear();
+    emit(FindState.successfullyAdded());
+  }
+
+  Future _retryImage(RetryImage event, Emitter<FindState> emit) async {
+    _focusNode.unfocus();
+    _fieldController.clear();
+    emit(FindState.successfullyAdded());
+  }
+
+  Future _retryAdvices(RetryAdvices event, Emitter<FindState> emit) async {
+    _focusNode.unfocus();
+    _fieldController.clear();
+    emit(FindState.successfullyAdded());
+  }
+
+  Future _cancelError(CancelError event, Emitter<FindState> emit) async {
+    _focusNode.unfocus();
+    _fieldController.clear();
+    emit(FindState.successfullyAdded());
   }
 
   Future<List<PlaceSuggestion>> _performSearch(String searchable) async {
