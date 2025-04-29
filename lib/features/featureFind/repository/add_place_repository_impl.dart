@@ -83,7 +83,25 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
 
   }
 
+  @override
+  Future<AddResult> retryFromAdvices(PlaceSuggestion suggestion) {
+    // TODO: implement retryFromAdvices
+    throw UnimplementedError();
+  }
 
+  @override
+  Future<AddResult> retryFromImage(PlaceSuggestion suggestion) {
+    // TODO: implement retryFromImage
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<AddResult> retryFromWeather(PlaceSuggestion suggestion) {
+    // TODO: implement retryFromWeather
+    throw UnimplementedError();
+  }
+
+  /* * */
 
   SavedPlaceDto _createFromSuggestion(PlaceSuggestion suggestion){
     return SavedPlaceDto(

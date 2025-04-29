@@ -107,21 +107,15 @@ class FindBloc extends Bloc<FindEvent, FindState> {
   }
 
   Future _retryWeather(RetryWeather event, Emitter<FindState> emit) async {
-    _focusNode.unfocus();
-    _fieldController.clear();
-    emit(FindState.successfullyAdded());
+    final result = await _addRepository.retryFromWeather(event.placeToAdd);
   }
 
   Future _retryImage(RetryImage event, Emitter<FindState> emit) async {
-    _focusNode.unfocus();
-    _fieldController.clear();
-    emit(FindState.successfullyAdded());
+    final result = await _addRepository.retryFromImage(event.placeToAdd);
   }
 
   Future _retryAdvices(RetryAdvices event, Emitter<FindState> emit) async {
-    _focusNode.unfocus();
-    _fieldController.clear();
-    emit(FindState.successfullyAdded());
+    final result = await _addRepository.retryFromAdvices(event.placeToAdd);
   }
 
   Future _cancelError(CancelError event, Emitter<FindState> emit) async {
