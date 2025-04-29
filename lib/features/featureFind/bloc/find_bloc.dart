@@ -22,7 +22,7 @@ class FindBloc extends Bloc<FindEvent, FindState> {
   final FocusNode _focusNode;
   final TextEditingController _fieldController;
 
-  static final String _logTag = 'MainBloc';
+  static final String _logTag = 'FindBloc';
 
   FindBloc({
     required GeocodingRepository geocodingRepository,
@@ -73,20 +73,31 @@ class FindBloc extends Bloc<FindEvent, FindState> {
   }
 
   Future _addPlace(AddPlace event, Emitter<FindState> emit) async {
-    Log().w(_logTag, '_updateSuggestions');
+
     _focusNode.unfocus();
     _fieldController.clear();
     final result = await _addRepository.addSavedPlace(event.placeToAdd);
 
+    Log().w(_logTag, 'adding result - $result');
+
     switch(result){
-      case Success(): break;
-      case AlreadyAddedError(): break;
-      case WeatherError(): break;
-      case ImageError(): break;
-      case AdvicesError(): break;
+      case Success():
+        emit(FindState.successfullyAdded());
+        break;
+      case AlreadyAddedError():
+        emit(state.copyWith(error: AlreadyExistsError(place: event.placeToAdd)));
+        break;
+      case WeatherError():
+        emit(state.copyWith(error: GetWeatherError(place: event.placeToAdd)));
+        break;
+      case ImageError():
+        emit(state.copyWith(error: GetImageError(place: event.placeToAdd)));
+        break;
+      case AdvicesError():
+        emit(state.copyWith(error: GetAdvicesError(place: event.placeToAdd)));
+        break;
     }
-    emit(state.copyWith(suggestions: []));
-    //emit.call(state.copyWith(suggestions: event.suggestions));
+
   }
 
   Future<List<PlaceSuggestion>> _performSearch(String searchable) async {

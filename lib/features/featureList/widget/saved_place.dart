@@ -100,7 +100,7 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
                 children: [
                   // Location image
                   Align(
-                    heightFactor: ui.clampDouble(0.7 + _heightFactor.value, .7, 1.0),
+                    heightFactor: ui.clampDouble(0.7 + _heightFactor.value, .8, 1.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: CachedNetworkImage(

@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wdywtg/features/featureFind/bloc/find_bloc.dart';
+import 'package:wdywtg/features/featureFind/dialog/advices_error_dialog.dart';
+import 'package:wdywtg/features/featureFind/dialog/already_added_dialog.dart';
 import 'package:wdywtg/features/featureFind/repository/add_place_repository.dart';
 import 'package:wdywtg/features/featureFind/repository/geocoding_repository.dart';
 import 'package:wdywtg/features/featureFind/widget/suggestions_list.dart';
+
+import '../../core/log/loger.dart';
 
 
 final FocusNode _focusNode = FocusNode();
 final TextEditingController _textController = TextEditingController();
 
 class FindPlace extends StatelessWidget {
+
+  static final String _logTag = 'FindPlace';
 
   const FindPlace({super.key});
 
@@ -24,7 +30,22 @@ class FindPlace extends StatelessWidget {
       ),
       child: BlocListener<FindBloc, FindState>(
         listener: (context, state){
-
+          final error = state.error;
+          Log().w(_logTag, 'BlocListener error - $error');
+          switch(error){
+            case null: break;
+            case AlreadyExistsError():
+              AlreadyAddedDialog().show(context, error.place);
+            case GetWeatherError():
+              // TODO: Handle this case.
+              throw UnimplementedError();
+            case GetImageError():
+              // TODO: Handle this case.
+              throw UnimplementedError();
+            case GetAdvicesError():
+              AdvicesErrorDialog().show(context, error.place);
+              break;
+          }
         },
         child: BlocBuilder<FindBloc, FindState>(
           builder: (context, state) {

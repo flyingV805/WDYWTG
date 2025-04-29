@@ -6,9 +6,7 @@ abstract class FindErrorDialog {
 
   void show(
     BuildContext context,
-    PlaceSuggestion suggestion,
-    Function() onRetry,
-    Function() onCancel
+    PlaceSuggestion suggestion
   );
 
 }

@@ -18,7 +18,7 @@ abstract class SavedPlaceDao {
   @Query('SELECT * FROM SavedPlaceDTO WHERE id = ${Constants.userPlaceId}')
   Future<SavedPlaceDto?> getUserPlace();
 
-  @Insert(onConflict: OnConflictStrategy.replace)
+  @Insert(onConflict: OnConflictStrategy.abort)
   Future<void> insertPlace(SavedPlaceDto place);
 
   @update

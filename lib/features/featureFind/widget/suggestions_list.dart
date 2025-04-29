@@ -1,5 +1,6 @@
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:wdywtg/features/featureFind/model/place_suggestion.dart';
 
 import '../../../core/log/loger.dart';
@@ -84,14 +85,24 @@ class _SuggestionsListState extends State<SuggestionsList> with TickerProviderSt
         child: Padding(
           padding: EdgeInsets.zero,
           child: AnimatedCrossFade(
-            firstChild: SizedBox(
-              height: 256,
-              child: Text('Nothing found')
+            firstChild: Align(
+              alignment: Alignment.topCenter,
+              child: SizedBox(
+                height: 256,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Lottie.asset(
+                    'assets/lottie/not_found.json',
+                    width: 160
+                  ),
+                ),
+              ),
             ),
             secondChild: SizedBox(
               height: 256,
               child: ListView.builder(
                 key: const Key('suggestions_list'),
+                shrinkWrap: true,
                 itemCount: widget.suggestions?.length ?? 0,
                 itemBuilder: (BuildContext context, int index) {
                   final suggestion = widget.suggestions![index];
