@@ -130,7 +130,8 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
   }
 
   Future<bool> _setPlaceWeather(PlaceSuggestion suggestion) async {
-
+    await Future.delayed(Duration(milliseconds: 250));
+    return false;
     try{
       final weather = await _openMeteoClient.getForecast(suggestion.latitude, suggestion.longitude);
       final weatherDto = mapFromNetwork(weather, suggestion.placeId, suggestion.latitude, suggestion.longitude);

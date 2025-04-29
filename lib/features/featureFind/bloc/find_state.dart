@@ -21,7 +21,7 @@ class FindState extends Equatable {
   final AddingError? error;
 
   @override
-  List<Object> get props => [showList, suggestions ?? [], error.toString()];
+  List<Object> get props => [showList, suggestions ?? [], error ?? Empty];
 
   FindState copyWith({
     bool? showList,
@@ -39,7 +39,9 @@ class FindState extends Equatable {
 
 sealed class AddingError {}
 
-class AlreadyExistsError extends AddingError {
+final class Empty extends AddingError {}
+
+final class AlreadyExistsError extends AddingError {
 
   final PlaceSuggestion place;
 
@@ -47,7 +49,7 @@ class AlreadyExistsError extends AddingError {
 
 }
 
-class GetWeatherError extends AddingError {
+final class GetWeatherError extends AddingError {
 
   final PlaceSuggestion place;
 
@@ -55,7 +57,7 @@ class GetWeatherError extends AddingError {
 
 }
 
-class GetImageError extends AddingError {
+final class GetImageError extends AddingError {
 
   final PlaceSuggestion place;
 
@@ -63,7 +65,7 @@ class GetImageError extends AddingError {
 
 }
 
-class GetAdvicesError extends AddingError {
+final class GetAdvicesError extends AddingError {
 
   final PlaceSuggestion place;
 

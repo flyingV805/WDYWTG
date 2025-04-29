@@ -46,7 +46,7 @@ class AdvicesErrorDialog extends FindErrorDialog {
             ),
             TextButton(
               onPressed: (){
-                context.read<FindBloc>().add(CancelError(placeToAdd: suggestion));
+                context.read<FindBloc>().add(SkipAdvices(placeToAdd: suggestion));
                 Navigator.of(context).pop();
               },
               child: Text('I don\'t need advice')

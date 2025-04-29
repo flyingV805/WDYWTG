@@ -44,7 +44,9 @@ class FindBloc extends Bloc<FindEvent, FindState> {
       // errors interactions
       on<RetryWeather>(_retryWeather);
       on<RetryImage>(_retryImage);
+      on<SkipImage>(_skipImage);
       on<RetryAdvices>(_retryAdvices);
+      on<SkipAdvices>(_skipAdvices);
       on<CancelError>(_cancelError);
 
       _focusNode.addListener(() {
@@ -90,7 +92,10 @@ class FindBloc extends Bloc<FindEvent, FindState> {
   }
 
   Future _retryWeather(RetryWeather event, Emitter<FindState> emit) async {
+    Log().w(_logTag, '_retryWeather');
+    emit(state.copyWith(error: Empty()));
     final result = await _addRepository.retryFromWeather(event.placeToAdd);
+    Log().w(_logTag, '_retryWeather result - $result');
     _handleResult(emit, event.placeToAdd, result);
   }
 
@@ -99,9 +104,17 @@ class FindBloc extends Bloc<FindEvent, FindState> {
     _handleResult(emit, event.placeToAdd, result);
   }
 
+  Future _skipImage(SkipImage event, Emitter<FindState> emit) async {
+    add(RetryAdvices(placeToAdd: event.placeToAdd));
+  }
+
   Future _retryAdvices(RetryAdvices event, Emitter<FindState> emit) async {
     final result = await _addRepository.retryFromAdvices(event.placeToAdd);
     _handleResult(emit, event.placeToAdd, result);
+  }
+
+  Future _skipAdvices(SkipAdvices event, Emitter<FindState> emit) async {
+    emit(FindState.successfullyAdded());
   }
 
   Future _cancelError(CancelError event, Emitter<FindState> emit) async {
@@ -111,6 +124,7 @@ class FindBloc extends Bloc<FindEvent, FindState> {
   }
 
   void _handleResult(Emitter<FindState> emit, PlaceSuggestion place, AddResult result){
+    Log().w(_logTag, '_handleResult - $result');
     switch(result){
       case Success():
         emit(FindState.successfullyAdded());

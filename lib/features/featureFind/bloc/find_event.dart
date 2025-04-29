@@ -52,6 +52,14 @@ final class RetryImage extends FindEvent {
 
 }
 
+final class SkipImage extends FindEvent {
+
+  final PlaceSuggestion placeToAdd;
+
+  SkipImage({required this.placeToAdd});
+
+}
+
 final class RetryAdvices extends FindEvent {
 
   final PlaceSuggestion placeToAdd;
@@ -60,6 +68,13 @@ final class RetryAdvices extends FindEvent {
 
 }
 
+final class SkipAdvices extends FindEvent {
+
+  final PlaceSuggestion placeToAdd;
+
+  SkipAdvices({required this.placeToAdd});
+
+}
 
 final class CancelError extends FindEvent {
 

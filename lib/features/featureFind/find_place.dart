@@ -35,7 +35,6 @@ class FindPlace extends StatelessWidget {
           final error = state.error;
           Log().w(_logTag, 'BlocListener error - $error');
           switch(error){
-            case null: break;
             case AlreadyExistsError():
               AlreadyAddedDialog().show(context, error.place);
               break;
@@ -48,6 +47,7 @@ class FindPlace extends StatelessWidget {
             case GetAdvicesError():
               AdvicesErrorDialog().show(context, error.place);
               break;
+            default: break;
           }
         },
         child: BlocBuilder<FindBloc, FindState>(
