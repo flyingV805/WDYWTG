@@ -7,6 +7,8 @@ WDYWTG is a mobile app built with Flutter that helps users prepare for their tri
 ## 🧭 Features
 
 - 🌤 Get weather forecasts for any location and date.
+- 💸 Get tips on preparing cash for a new place.
+- 🤝 Get tips on cultural differences.
 - 🧥 Recommendations on what to wear and which shoes to take based on weather conditions.
 - 🧳 Plan trips ahead of time (planned).
 - 📍 Location and map integration.
