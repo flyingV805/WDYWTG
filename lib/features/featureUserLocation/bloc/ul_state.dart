@@ -11,6 +11,7 @@ class UserLocationState extends Equatable {
     this.locationFound = false,
     this.userPlace,
     this.weather,
+    this.error,
   });
 
   const UserLocationState.empty() : this._();
@@ -20,6 +21,7 @@ class UserLocationState extends Equatable {
   final bool locationFound;
   final UserPlace? userPlace;
   final PlaceWeather? weather;
+  final UserLocationError? error;
 
   @override
   List<Object?> get props => [
@@ -27,7 +29,8 @@ class UserLocationState extends Equatable {
     displayUserLocation,
     locationFound,
     userPlace,
-    weather
+    weather,
+    error ?? Empty
   ];
 
   UserLocationState copyWith({
@@ -35,15 +38,39 @@ class UserLocationState extends Equatable {
     bool? displayUserLocation,
     bool? locationFound,
     UserPlace? userPlace,
-    PlaceWeather? weather
+    PlaceWeather? weather,
+    UserLocationError? error
   }) {
     return UserLocationState._(
       askForLocation: askForLocation ?? this.askForLocation,
       displayUserLocation: displayUserLocation ?? this.displayUserLocation,
       locationFound: locationFound ?? this.locationFound,
       userPlace: userPlace ?? this.userPlace,
-      weather: weather ?? this.weather
+      weather: weather ?? this.weather,
+      error: error ?? this.error
     );
   }
 
 }
+
+sealed class UserLocationError {}
+
+final class Empty extends UserLocationError {}
+
+final class PermissionDeclinedError extends UserLocationError {
+
+  final bool isForever;
+
+  PermissionDeclinedError({required this.isForever});
+
+}
+
+final class ServiceDisabledError extends UserLocationError {}
+
+final class FetchLocationError extends UserLocationError {}
+
+final class GeocodeError extends UserLocationError {}
+
+final class GetWeatherError extends UserLocationError {}
+
+final class GetImageError extends UserLocationError {}

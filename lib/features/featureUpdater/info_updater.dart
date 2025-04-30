@@ -14,6 +14,11 @@ class InfoUpdater {
 
   Future<void> _update(Timer? timer) async {
     Log().i(_logTag, 'updater called');
+
+    // Check if there are any places without weather
+
+
+    // update weather
     final weatherUpdateResult = _updateRepository.updateCachedWeather();
 
     // update ai advices, if needed

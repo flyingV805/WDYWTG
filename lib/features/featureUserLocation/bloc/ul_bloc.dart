@@ -40,7 +40,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
     // user approved using location last time
     if(showUserLocation){
       emit.call(state.copyWith(displayUserLocation: true));
-      _findUserLocation();
+      _findUserLocation(emit);
     }else{
       var shouldAsk = await _userRepository.needAskForLocation();
       Log().w(_logTag, 'shouldAsk - $shouldAsk');
@@ -58,7 +58,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
     _userRepository.setShowUserLocation(true);
 
     emit.call(state.copyWith(askForLocation: false, displayUserLocation: true));
-    _findUserLocation();
+    _findUserLocation(emit);
 
   }
 
@@ -88,34 +88,35 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
 
   }
 
-  void _findUserLocation(){
+  void _findUserLocation(Emitter<UserLocationState> emit){
     Log().w(_logTag, '_findUserLocation');
     UserPosition.determinePosition().then((result){
       Log().w(_logTag, 'determinePosition result - $result');
       switch(result){
         case PositionFound():
-          updatePlaceParameters(result.latitude, result.longitude);
+          updatePlaceParameters(result.latitude, result.longitude, emit);
+          break;
         case PermissionError():
-          // TODO: Handle this case.
-          throw UnimplementedError();
+          emit(state.copyWith(error: PermissionDeclinedError(isForever: result.isForever)));
+          break;
         case ServiceError():
-          // TODO: Handle this case.
-          throw UnimplementedError();
+          emit(state.copyWith(error: ServiceDisabledError()));
+          break;
         case PositionError():
-          // TODO: Handle this case.
-          throw UnimplementedError();
+          emit(state.copyWith(error: FetchLocationError()));
+          break;
       }
     });
   }
 
-  void updatePlaceParameters(double latitude, double longitude) async {
+  void updatePlaceParameters(double latitude, double longitude, Emitter<UserLocationState> emit) async {
     Log().w(_logTag, 'updatePlaceParameters - $latitude $longitude');
     final result = await _userRepository.updateUserPlace(latitude, longitude);
     switch(result){
       case Success(): break;
-      case FindPlaceError(): break;
-      case WeatherError(): break;
-      case ImageError(): break;
+      case FindPlaceError(): emit(state.copyWith(error: GeocodeError())); break;
+      case WeatherError(): emit(state.copyWith(error: GetWeatherError())); break;
+      case ImageError(): emit(state.copyWith(error: GetImageError())); break;
     }
 
   }

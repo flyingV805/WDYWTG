@@ -10,12 +10,12 @@ bool _isPresented = false;
 class ImageErrorDialog extends FindErrorDialog {
 
   @override
-  void show(BuildContext context, PlaceSuggestion suggestion) {
+  void show(BuildContext blocContext, PlaceSuggestion suggestion) {
     if (_isPresented) { return; }
     _isPresented = true;
 
     showDialog(
-      context: context,
+      context: blocContext,
       barrierDismissible: false,
       builder: (context){
         return AlertDialog(
@@ -34,15 +34,17 @@ class ImageErrorDialog extends FindErrorDialog {
           actions: [
             TextButton(
               onPressed: (){
-                context.read<FindBloc>().add(RetryImage(placeToAdd: suggestion));
+                _isPresented = false;
                 Navigator.of(context).pop();
+                blocContext.read<FindBloc>().add(RetryImage(placeToAdd: suggestion));
               },
               child: Text('Retry')
             ),
             TextButton(
               onPressed: (){
-                context.read<FindBloc>().add(SkipImage(placeToAdd: suggestion));
+                _isPresented = false;
                 Navigator.of(context).pop();
+                blocContext.read<FindBloc>().add(SkipImage(placeToAdd: suggestion));
               },
               child: Text('Skip the picture')
             ),
@@ -50,7 +52,7 @@ class ImageErrorDialog extends FindErrorDialog {
         );
       }
     ).then((_){
-      _isPresented = false;
+      //_isPresented = false;
     });
 
   }

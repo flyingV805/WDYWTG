@@ -130,8 +130,6 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
   }
 
   Future<bool> _setPlaceWeather(PlaceSuggestion suggestion) async {
-    await Future.delayed(Duration(milliseconds: 250));
-    return false;
     try{
       final weather = await _openMeteoClient.getForecast(suggestion.latitude, suggestion.longitude);
       final weatherDto = mapFromNetwork(weather, suggestion.placeId, suggestion.latitude, suggestion.longitude);
@@ -144,11 +142,10 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
   }
 
   Future<bool> _setPlaceImage(PlaceSuggestion suggestion) async {
-
     try{
       final image = await _unsplashClient.getPicture(
-          '${suggestion.placeName}, ${suggestion.placeCountryCode.toUpperCase()}',
-          dotenv.get('UNSPLASH_API_ACCESS_KEY')
+        '${suggestion.placeName}, ${suggestion.placeCountryCode.toUpperCase()}',
+        dotenv.get('UNSPLASH_API_ACCESS_KEY')
       );
       final palette = await findTextPalette(image.results.first.urls.thumb);
       await _savedPlaceDao.updatePlacePicture(

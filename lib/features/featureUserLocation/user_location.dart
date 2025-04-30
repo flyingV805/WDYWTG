@@ -5,10 +5,14 @@ import 'package:wdywtg/features/featureUserLocation/bloc/ul_state.dart';
 import 'package:wdywtg/features/featureUserLocation/repository/user_repository.dart';
 import 'package:wdywtg/features/featureUserLocation/widget/preloader.dart';
 import 'package:wdywtg/features/featureUserLocation/widget/user_place.dart';
-
-import '../../core/repositories/weather/weather_repository.dart';
 import 'bloc/ul_event.dart';
 import 'dialog/ask_for_location.dart';
+import 'dialog/geocode_error_dialog.dart';
+import 'dialog/image_error_dialog.dart';
+import 'dialog/location_error_dialog.dart';
+import 'dialog/permission_declined_dialog.dart';
+import 'dialog/service_disabled_dialog.dart';
+import 'dialog/weather_error_dialog.dart';
 
 class UserLocation extends StatelessWidget {
 
@@ -22,7 +26,31 @@ class UserLocation extends StatelessWidget {
       )..add(Initialize()),
       child:  BlocListener<UserLocationBloc, UserLocationState>(
         listener: (context, state) {
-          if(state.askForLocation) { askForLocationDialog(context); }
+          if(state.askForLocation) { AskForLocationDialog().show(context); }
+          final error = state.error;
+          switch(error){
+            case PermissionDeclinedError():
+              PermissionDeclinedDialog(forever: error.isForever).show(context);
+              break;
+            case ServiceDisabledError():
+              ServiceDisabledDialog().show(context);
+              break;
+            case FetchLocationError():
+              LocationErrorDialog().show(context);
+              break;
+            case GeocodeError():
+              GeocodeErrorDialog().show(context);
+              break;
+            case GetWeatherError():
+              WeatherErrorDialog().show(context);
+              break;
+            case GetImageError():
+              ImageErrorDialog().show(context);
+              break;
+            case null:
+            case Empty():
+              break;
+          }
         },
         child: BlocBuilder<UserLocationBloc, UserLocationState>(
         builder: (context, state) => Padding(

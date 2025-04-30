@@ -1,21 +1,21 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-import '../bloc/find_bloc.dart';
-import '../model/place_suggestion.dart';
-import 'find_error_dialog.dart';
+import 'package:wdywtg/features/featureUserLocation/dialog/user_location_dialog.dart';
+
+import '../bloc/ul_bloc.dart';
 
 bool _isPresented = false;
 
-class AdvicesErrorDialog extends FindErrorDialog {
+class PermissionDeclinedDialog extends UserLocationDialog {
 
+  final bool forever;
+
+  PermissionDeclinedDialog({required this.forever});
 
   @override
-  void show(
-    BuildContext blocContext,
-    PlaceSuggestion suggestion,
-  ) {
-
+  void show(BuildContext blocContext) {
     if(_isPresented) { return; }
     _isPresented = true;
 
@@ -24,7 +24,7 @@ class AdvicesErrorDialog extends FindErrorDialog {
       barrierDismissible: false,
       builder: (context){
         return AlertDialog(
-          title: Text('Error searching for tips for ${suggestion.placeName}, ${suggestion.placeCountryCode}'),
+          title: Text('You have denied a required permission for this feature'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -33,7 +33,7 @@ class AdvicesErrorDialog extends FindErrorDialog {
                 width: 160
               ),
               SizedBox(height: 16),
-              Text("It may be a problem with internet access or application problems.")
+              Text('If you want to use this feature, you need to grant location access..')
             ],
           ),
           actions: [
@@ -41,24 +41,21 @@ class AdvicesErrorDialog extends FindErrorDialog {
               onPressed: (){
                 _isPresented = false;
                 Navigator.of(context).pop();
-                blocContext.read<FindBloc>().add(RetryAdvices(placeToAdd: suggestion));
+                //blocContext.read<UserLocationBloc>().add(UserApprovedLocation());
               },
-              child: Text('Retry')
-            ),
+              child: Text('Grant access')),
             TextButton(
               onPressed: (){
                 _isPresented = false;
                 Navigator.of(context).pop();
-                blocContext.read<FindBloc>().add(SkipAdvices(placeToAdd: suggestion));
+                //blocContext.read<UserLocationBloc>().add(UserDeclinedLocation());
               },
-              child: Text('I don\'t need advice')
-            ),
+              child: Text('Disable feature')
+            )
           ],
         );
       }
-    ).then((_){
-      //_isPresented = false;
-    });
+    ).then((_){});
 
   }
 

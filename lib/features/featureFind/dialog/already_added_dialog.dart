@@ -14,7 +14,7 @@ class AlreadyAddedDialog extends FindErrorDialog {
 
   @override
   void show(
-    BuildContext context,
+    BuildContext blocContext,
     PlaceSuggestion suggestion,
   ) {
 
@@ -22,7 +22,7 @@ class AlreadyAddedDialog extends FindErrorDialog {
     _isPresented = true;
 
     showDialog(
-      context: context,
+      context: blocContext,
       barrierDismissible: false,
       builder: (context){
         return AlertDialog(
@@ -43,8 +43,9 @@ class AlreadyAddedDialog extends FindErrorDialog {
           actions: [
             TextButton(
               onPressed: (){
-                context.read<FindBloc>().add(CancelError(placeToAdd: suggestion));
+                _isPresented = false;
                 Navigator.of(context).pop();
+                blocContext.read<FindBloc>().add(CancelError(placeToAdd: suggestion));
               },
               child: Text('Ok, my bad')
             ),
