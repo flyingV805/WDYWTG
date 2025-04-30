@@ -18,6 +18,8 @@ WDYWTG is a mobile app built with Flutter that helps users prepare for their tri
 
 ## 🚀 Getting Started
 
+Make sure you have Flutter installed and set up properly.
+
 1. Clone the repository:
    ```bash
    git clone https://github.com/flyingV805/WDYWTG
@@ -42,8 +44,6 @@ WDYWTG is a mobile app built with Flutter that helps users prepare for their tri
    ```bash
    flutter run
    ```
-
-Make sure you have Flutter installed and set up properly.
 
 ## 🧩 Technologies Used
 ### Flutter — UI toolkit
