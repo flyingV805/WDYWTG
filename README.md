@@ -20,14 +20,25 @@ WDYWTG is a mobile app built with Flutter that helps users prepare for their tri
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/wdywtg.git
+   git clone https://github.com/flyingV805/WDYWTG
    cd wdywtg
    ```
 2. Install dependencies:
    ```bash
    flutter pub get
    ```
-3. Run the app:
+3. Run `build_runner`:
+   ```bash
+   dart run build_runner build
+   ```
+4. Add the .env file to the root of the project and add the following parameters to it:
+   ```bash
+   OPEN_CAGE_API_KEY=<>
+   UNSPLASH_API_ACCESS_KEY=<>
+   ```
+5. Setup Firebase (https://firebase.flutter.dev/docs/overview/) and enable Vertex AI in Firebase Console:
+
+6. Run the app:
    ```bash
    flutter run
    ```
@@ -43,7 +54,7 @@ Make sure you have Flutter installed and set up properly.
 ### BLoC — state management
 
 ## 📌 Roadmap
-📅 Multi-day weather forecast
+📅 Multi-day weather forecast  ✅
 
 🧳 Smart packing list based on weather
 
