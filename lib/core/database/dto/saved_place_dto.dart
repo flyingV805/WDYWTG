@@ -16,6 +16,7 @@ class SavedPlaceDto {
   final PlacePicturePalette? placePicturePalette;
   final double latitude;
   final double longitude;
+  final bool advicesAvailable;
   final int addTime;
 
   SavedPlaceDto(
@@ -28,6 +29,7 @@ class SavedPlaceDto {
     this.placePicturePalette,
     this.latitude, 
     this.longitude,
+    this.advicesAvailable,
     this.addTime
   );
 

@@ -6,11 +6,13 @@ class PlaceProfile {
 
   final Place place;
   final PlaceWeather? weather;
+  final bool advicesAvailable;
   final List<PlaceAdvice> advices;
 
   const PlaceProfile({
     required this.place,
     this.weather,
+    this.advicesAvailable = true,
     this.advices = const []
   });
 

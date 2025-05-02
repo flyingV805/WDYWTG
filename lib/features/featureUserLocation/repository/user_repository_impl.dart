@@ -150,6 +150,7 @@ class UserRepositoryImpl extends UserRepository {
         palette,
         dto.latitude,
         dto.longitude,
+        false,
         dto.addTime
     );
   }

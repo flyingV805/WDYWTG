@@ -14,6 +14,7 @@ SavedPlaceDto mapFromGeocode(GeocodeResult geocode, double latitude, double long
     null,
     latitude,
     longitude,
+    false,
     0
   );
 }

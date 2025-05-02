@@ -191,8 +191,15 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+
     final bool closed = !_isExpanded && _animationController.isDismissed;
     final bool shouldRemoveChildren = closed && !widget.maintainState;
+    final bool showAdvicesLoading = widget.profile.advices.isEmpty;
+
+    final List<Widget> children = showAdvicesLoading ?
+      [ SizedBox( width: 56, height: 56, child: CircularProgressIndicator()) ]
+        :
+      widget.profile.advices.map((element) => AiAdvice(advice: element)).toList(growable: false);
 
     final Widget result = Offstage(
       offstage: closed,
@@ -203,9 +210,7 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: widget.profile.advices.map(
-              (element) => AiAdvice(advice: element)
-            ).toList(growable: false),
+            children: children,
           ),
         ),
       ),

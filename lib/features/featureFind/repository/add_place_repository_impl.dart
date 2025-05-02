@@ -110,7 +110,8 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
       null,
       suggestion.latitude,
       suggestion.longitude,
-      DateTime.now().millisecondsSinceEpoch ~/ 1000
+      true,
+      DateTime.now().millisecondsSinceEpoch ~/ 1000,
     );
   }
 
@@ -125,6 +126,7 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
       palette,
       dto.latitude,
       dto.longitude,
+      true,
       dto.addTime
     );
   }
