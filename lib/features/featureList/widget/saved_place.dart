@@ -196,17 +196,6 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
     final bool shouldRemoveChildren = closed && !widget.maintainState;
     final bool showAdvicesLoading = widget.profile.advices.isEmpty;
 
-    final List<Widget> children = showAdvicesLoading ? [
-      SizedBox(height: 16),
-      SizedBox( width: 36, height: 36, child: CircularProgressIndicator()),
-      Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text('Your travel oracle is whispering... hold on! 🤖'),
-      )
-    ] : widget.profile.advices.map(
-      (element) => AiAdvice(advice: element)
-    ).toList(growable: false);
-
     final Widget result = Offstage(
       offstage: closed,
       child: TickerMode(
@@ -216,7 +205,24 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: children,
+            children: [
+              if(showAdvicesLoading) SizedBox(height: 16),
+              if(showAdvicesLoading) SizedBox(
+                width: 36,
+                height: 36,
+                child: CircularProgressIndicator()
+              ),
+              if(showAdvicesLoading) Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  'Your travel oracle is whispering... hold on! 🤖',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ),
+              ...widget.profile.advices.map(
+                (element) => AiAdvice(advice: element)
+              )
+            ],
           ),
         ),
       ),

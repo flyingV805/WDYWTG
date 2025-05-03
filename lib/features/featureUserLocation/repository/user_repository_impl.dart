@@ -141,17 +141,17 @@ class UserRepositoryImpl extends UserRepository {
 
   SavedPlaceDto _updatePicture(SavedPlaceDto dto, String pictureUrl, String pictureAuthor, PlacePicturePalette palette){
     return SavedPlaceDto(
-        dto.id,
-        dto.placeName,
-        dto.placeTimezone,
-        dto.placeCountryCode,
-        pictureUrl,
-        pictureAuthor,
-        palette,
-        dto.latitude,
-        dto.longitude,
-        false,
-        dto.addTime
+      dto.id,
+      dto.placeName,
+      dto.placeTimezone,
+      dto.placeCountryCode,
+      pictureUrl,
+      pictureAuthor,
+      palette,
+      dto.latitude,
+      dto.longitude,
+      false,
+      dto.addTime
     );
   }
 
