@@ -81,7 +81,14 @@ class FindPlace extends StatelessWidget {
                           prefixIcon: AnimatedSwitcher(
                             duration: const Duration(milliseconds: 250),
                             child: state.searching ?
-                              Icon(key: ValueKey('searching'), Icons.manage_search)
+                              UnconstrainedBox(
+                                key: ValueKey('searching'),
+                                child: SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(strokeWidth: 2),
+                                ),
+                              )
                                 :
                               Icon(key: ValueKey('searched'), Icons.search)
                           )

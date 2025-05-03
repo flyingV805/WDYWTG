@@ -72,12 +72,16 @@ class FindBloc extends Bloc<FindEvent, FindState> {
 
   Future<void> _onSearchUpdate(UpdateSearch event, Emitter<FindState> emit) async {
     Log().w(_logTag, '_onSearchUpdate');
-    _searchController.sink.add(event.searchable);
+    final searchable = event.searchable.trim();
+    if(searchable.isEmpty){ return; }
+    if(searchable.length < 3){ return; }
+    emit(state.copyWith(searching: true));
+    _searchController.sink.add(searchable);
   }
 
   Future _updateSuggestions(SearchUpdated event, Emitter<FindState> emit) async {
     Log().w(_logTag, '_updateSuggestions');
-    emit.call(state.copyWith(suggestions: event.suggestions));
+    emit.call(state.copyWith(suggestions: event.suggestions, searching: false));
   }
 
   Future _addPlace(AddPlace event, Emitter<FindState> emit) async {
@@ -145,9 +149,6 @@ class FindBloc extends Bloc<FindEvent, FindState> {
   }
 
   Future<List<PlaceSuggestion>> _performSearch(String searchable) async {
-    searchable = searchable.trim();
-    if(searchable.isEmpty){ return []; }
-    if(searchable.length < 3){ return []; }
     final suggestions = _geocodingRepository.findSuggestions(searchable);
     return suggestions;
   }
