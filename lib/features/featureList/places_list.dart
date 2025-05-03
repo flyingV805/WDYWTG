@@ -9,58 +9,6 @@ class PlacesList extends StatelessWidget {
 
   const PlacesList({super.key});
 
-  /*@override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (blocContext) => ListBloc(
-        placesRepository: blocContext.read<SavedPlacesRepository>(),
-      )..add(Initialize()),
-      child: BlocBuilder<ListBloc, ListState>(
-        builder: (context, state) => AnimatedCrossFade(
-          firstChild: NoPlacesAdded(),
-          secondChild: ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.zero,
-            shrinkWrap: true,
-            itemCount: state.places?.length ?? 0,
-            itemBuilder: (BuildContext context, int index) {
-              final item = state.places![index];
-              return SavedPlace(
-                key: ValueKey(item.place.placeName),
-                initiallyExpanded: state.places!.length == 1,
-                profile: item
-              );
-            }
-          ),
-          crossFadeState: state.noSavedPlaces ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-          duration: const Duration(milliseconds: 250)
-        )
-      ),
-    );
-  }*/
-
-  Widget _buildSliverList(ListState state) {
-    return CustomScrollView(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      slivers: [
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              final item = state.places![index];
-              return SavedPlace(
-                key: ValueKey(item.place.placeName),
-                initiallyExpanded: state.places!.length == 1,
-                profile: item,
-              );
-            },
-            childCount: state.places?.length ?? 0,
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -73,16 +21,16 @@ class PlacesList extends StatelessWidget {
           return SliverList.list(
             children: [
               AnimatedSwitcher(
+                key: ValueKey('AnimatedSwitcher'),
                 duration: Duration(milliseconds: 250),
                 child: isEmpty ? NoPlacesAdded(key: ValueKey('NoPlacesAdded')) : SizedBox.shrink(key: ValueKey('placeHolder'),),
               ),
               ...?
                 state.places?.map((item) => SavedPlace(
-                  key: ValueKey(item.place.placeName),
+                  key: PageStorageKey(item.place.placeName),
                   initiallyExpanded: state.places!.length == 1,
                   profile: item
                 ))
-
             ]
           );
         },
