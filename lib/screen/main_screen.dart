@@ -33,17 +33,15 @@ class _MainScreenState extends State<MainScreen> {
         title: Text('Where to?'),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            UserLocation(),
-            WhereToText(),
-            SizedBox(height: 8),
-            FindPlace(),
-            PlacesList()
-          ],
-        ),
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(child: UserLocation()),
+          SliverToBoxAdapter(child: WhereToText()),
+          SliverToBoxAdapter(child: SizedBox(height: 8)),
+          SliverToBoxAdapter(child: FindPlace()),
+          PlacesList()
+          //SliverToBoxAdapter(child: ),
+        ],
       ),
     );
   }

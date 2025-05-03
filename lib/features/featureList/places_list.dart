@@ -9,7 +9,7 @@ class PlacesList extends StatelessWidget {
 
   const PlacesList({super.key});
 
-  @override
+  /*@override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (blocContext) => ListBloc(
@@ -37,8 +37,57 @@ class PlacesList extends StatelessWidget {
         )
       ),
     );
+  }*/
+
+  Widget _buildSliverList(ListState state) {
+    return CustomScrollView(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      slivers: [
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              final item = state.places![index];
+              return SavedPlace(
+                key: ValueKey(item.place.placeName),
+                initiallyExpanded: state.places!.length == 1,
+                profile: item,
+              );
+            },
+            childCount: state.places?.length ?? 0,
+          ),
+        ),
+      ],
+    );
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (blocContext) => ListBloc(
+        placesRepository: blocContext.read<SavedPlacesRepository>(),
+      )..add(Initialize()),
+      child: BlocBuilder<ListBloc, ListState>(
+        builder: (context, state) {
+          final bool isEmpty = state.noSavedPlaces;
+          return SliverList.list(
+            children: [
+              AnimatedSwitcher(
+                duration: Duration(milliseconds: 250),
+                child: isEmpty ? NoPlacesAdded(key: ValueKey('NoPlacesAdded')) : SizedBox.shrink(key: ValueKey('placeHolder'),),
+              ),
+              ...?
+                state.places?.map((item) => SavedPlace(
+                  key: ValueKey(item.place.placeName),
+                  initiallyExpanded: state.places!.length == 1,
+                  profile: item
+                ))
 
+            ]
+          );
+        },
+      ),
+    );
+  }
 
 }

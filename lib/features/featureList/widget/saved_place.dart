@@ -5,6 +5,7 @@ import 'package:wdywtg/uiKit/aiAdvice/ai_advice.dart';
 import 'package:wdywtg/uiKit/tzTime/time_zoned_time.dart';
 import 'package:wdywtg/uiKit/weatherRow/weather_row.dart';
 
+import '../../../core/log/loger.dart';
 import '../../../uiKit/animatedColorText/animated_color_text.dart';
 import '../model/place_profile.dart';
 import '../../../uiKit/cityImagePlaceholder/image_placeholder.dart';
@@ -31,7 +32,9 @@ class SavedPlace extends StatefulWidget {
 
 
 class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateMixin {
-  
+
+  static final String _logTag = '_SavedPlaceState';
+
   final Tween<double> _heightFactorTween = Tween<double>(begin: 0.0, end: 1.0);
 
   late AnimationController _animationController;
@@ -41,6 +44,8 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
 
   @override
   void initState() {
+
+    Log().w(_logTag, 'initState');
 
     _animationController = AnimationController(
       duration: _expandTime, 
