@@ -6,6 +6,7 @@ class FindState extends Equatable {
     this.showList = false,
     this.suggestions,
     this.error,
+    this.searching = false
   });
 
   const FindState.empty() : this._();
@@ -19,19 +20,22 @@ class FindState extends Equatable {
   final bool showList;
   final List<PlaceSuggestion>? suggestions;
   final AddingError? error;
+  final bool searching;
 
   @override
-  List<Object> get props => [showList, suggestions ?? [], error ?? Empty];
+  List<Object> get props => [showList, suggestions ?? [], error ?? Empty, searching];
 
   FindState copyWith({
     bool? showList,
     List<PlaceSuggestion>? suggestions,
     AddingError? error,
+    bool? searching,
   }) {
     return FindState._(
       showList: showList ?? this.showList,
       suggestions: suggestions ?? this.suggestions,
       error: error ?? this.error,
+      searching: searching ?? this.searching,
     );
   }
 

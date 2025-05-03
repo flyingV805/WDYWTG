@@ -78,6 +78,13 @@ class FindPlace extends StatelessWidget {
                               icon: const Icon(Icons.close)
                             ),
                           ),
+                          prefixIcon: AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 250),
+                            child: state.searching ?
+                              Icon(key: ValueKey('searching'), Icons.manage_search)
+                                :
+                              Icon(key: ValueKey('searched'), Icons.search)
+                          )
                         ),
                       ),
                       SuggestionsList(
