@@ -11,13 +11,6 @@ CachedWeatherDto mapFromNetwork(
 
   final datetimeFormat = DateFormat('yyyy-MM-dd');
 
-  int firstDayIndex = 1;
-  for(int i = 0; i < (networkResponse.daily?.time.length ?? 0); i++){
-
-  }
-
-
-
   return CachedWeatherDto(
     placeId,
     latitude,
