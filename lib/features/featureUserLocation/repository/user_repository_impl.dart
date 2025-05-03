@@ -78,6 +78,7 @@ class UserRepositoryImpl extends UserRepository {
       final geocodeResult = await _openCageClient.findPlace(reverseGeocodeQuery, dotenv.get('OPEN_CAGE_API_KEY'));
       final userPlaceDto = mapFromGeocode(geocodeResult.results.first, latitude, longitude);
       _savedPlaceDao.insertPlace(userPlaceDto);
+      Log().w(_logTag, 'insertPlace');
     } catch (e){
       Log().w(_logTag, e.toString());
       return FindPlaceError();
@@ -86,7 +87,8 @@ class UserRepositoryImpl extends UserRepository {
     try{
       final weather = await _openMeteoClient.getForecast(latitude, longitude);
       final weatherDto = mapFromNetwork(weather, Constants.userPlaceId, latitude, longitude);
-      _cachedWeatherDao.insertWeather(weatherDto);
+      await _cachedWeatherDao.insertWeather(weatherDto);
+      Log().w(_logTag, 'insertWeather');
     }catch(e){
       Log().w(_logTag, e.toString());
       return WeatherError();
@@ -108,6 +110,7 @@ class UserRepositoryImpl extends UserRepository {
         palette
       );
       await _savedPlaceDao.updatePlace(updatedPlace);
+      Log().w(_logTag, 'updatePicture');
     }catch(e){
       return ImageError();
     }
@@ -126,6 +129,7 @@ class UserRepositoryImpl extends UserRepository {
       placesStream.startWith(null),
       weatherStream.startWith(null),
       (place, weather) {
+        Log().w(_logTag, 'userPlaceLive - place: $place , weather: $weather');
         if (place == null) return null;
         return UserPlaceProfile(
           placeName: place.placeName,
