@@ -115,12 +115,7 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
                         fit: BoxFit.fill,
                         placeholder: (context, url) => ImagePlaceholder(),
                         errorWidget: (context, url, error) => ImagePlaceholder(),
-                      )/*Image.asset(
-                        'assets/image/city_placeholder.png',
-                        width: double.infinity,
-                        height: 186,
-                        fit: BoxFit.fill
-                      ),*/
+                      )
                     ),
                   ),
                   // Location name
@@ -201,10 +196,16 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
     final bool shouldRemoveChildren = closed && !widget.maintainState;
     final bool showAdvicesLoading = widget.profile.advices.isEmpty;
 
-    final List<Widget> children = showAdvicesLoading ?
-      [ SizedBox( width: 56, height: 56, child: CircularProgressIndicator()) ]
-        :
-      widget.profile.advices.map((element) => AiAdvice(advice: element)).toList(growable: false);
+    final List<Widget> children = showAdvicesLoading ? [
+      SizedBox(height: 16),
+      SizedBox( width: 36, height: 36, child: CircularProgressIndicator()),
+      Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text('Your travel oracle is whispering... hold on! 🤖'),
+      )
+    ] : widget.profile.advices.map(
+      (element) => AiAdvice(advice: element)
+    ).toList(growable: false);
 
     final Widget result = Offstage(
       offstage: closed,
