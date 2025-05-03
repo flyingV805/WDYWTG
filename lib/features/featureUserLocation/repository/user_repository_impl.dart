@@ -88,6 +88,8 @@ class UserRepositoryImpl extends UserRepository {
       final weather = await _openMeteoClient.getForecast(latitude, longitude);
       final weatherDto = mapFromNetwork(weather, Constants.userPlaceId, latitude, longitude);
       await _cachedWeatherDao.insertWeather(weatherDto);
+      // why? IDFK... but without it - wrong behavior
+      _cachedWeatherDao.updateWeather(weatherDto);
       Log().w(_logTag, 'insertWeather');
     }catch(e){
       Log().w(_logTag, e.toString());
