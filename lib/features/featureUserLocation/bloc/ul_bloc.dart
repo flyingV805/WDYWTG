@@ -17,6 +17,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
     required UserRepository userRepository,
   }): _userRepository = userRepository,
   super(UserLocationState.empty()){
+
     on<Initialize>(_startRoutine);
     on<UpdatePlaceData>(_updatePlaceInfo);
     on<UserApprovedLocation>(_locationApproved);
