@@ -13,7 +13,7 @@ final class UpdatePlaceData extends UserLocationEvent {
   UpdatePlaceData({ required this.place });
 
 }
-
+//
 final class RetryLocation extends UserLocationEvent {}
 
 final class RetryWeather extends UserLocationEvent {}
@@ -26,10 +26,8 @@ final class RetryGeocode extends UserLocationEvent {}
 
 final class SkipGeocode extends UserLocationEvent {}
 
-final class LocationServiceRetry extends UserLocationEvent {}
-
+final class DisableFeature extends UserLocationEvent {}
+//
 final class UserApprovedLocation extends UserLocationEvent {}
 
 final class UserDeclinedLocation extends UserLocationEvent {}
-
-final class DisableFeature extends UserLocationEvent {}

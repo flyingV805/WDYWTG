@@ -22,6 +22,14 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
     on<UserApprovedLocation>(_locationApproved);
     on<UserDeclinedLocation>(_locationDeclined);
 
+    on<RetryLocation>(_retryLocation);
+    on<RetryWeather>(_retryWeather);
+    on<RetryImage>(_retryImage);
+    on<SkipImage>(_skipImage);
+    on<RetryGeocode>(_retryGeocode);
+    on<SkipGeocode>(_skipGeocode);
+    on<DisableFeature>(_disableFeature);
+
     userRepository.userPlaceLive().listen((userPlace){
       add(UpdatePlaceData(place: userPlace));
     });
@@ -67,6 +75,34 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
       userPlace: place,
       weather: event.place?.weather
     ));
+
+  }
+
+  Future<void> _retryLocation(RetryLocation event, Emitter<UserLocationState> emit) async {
+
+  }
+
+  Future<void> _retryWeather(RetryWeather event, Emitter<UserLocationState> emit) async {
+
+  }
+
+  Future<void> _retryImage(RetryImage event, Emitter<UserLocationState> emit) async {
+
+  }
+
+  Future<void> _skipImage(SkipImage event, Emitter<UserLocationState> emit) async {
+
+  }
+
+  Future<void> _retryGeocode(RetryGeocode event, Emitter<UserLocationState> emit) async {
+
+  }
+
+  Future<void> _skipGeocode(SkipGeocode event, Emitter<UserLocationState> emit) async {
+
+  }
+
+  Future<void> _disableFeature(DisableFeature event, Emitter<UserLocationState> emit) async {
 
   }
 
