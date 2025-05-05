@@ -47,25 +47,19 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
   }
 
   Future<void> _locationApproved(UserApprovedLocation event, Emitter<UserLocationState> emit) async {
-
     _userRepository.setNeedAskForLocation(false);
     _userRepository.setShowUserLocation(true);
-
     emit.call(state.copyWith(askForLocation: false, displayUserLocation: true));
     _findUserLocation(emit);
-
   }
 
   Future<void> _locationDeclined(UserDeclinedLocation event, Emitter<UserLocationState> emit) async {
-
     _userRepository.setNeedAskForLocation(false);
     _userRepository.setShowUserLocation(false);
     emit.call(state.copyWith(askForLocation: false));
-
   }
 
   Future<void> _updatePlaceInfo(UpdatePlaceData event, Emitter<UserLocationState> emit) async {
-
     final place = event.place?.toPlace();
     emit.call(state.copyWith(
       askForLocation: false,
