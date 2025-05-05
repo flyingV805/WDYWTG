@@ -62,4 +62,4 @@ Make sure you have Flutter installed and set up properly.
 
 ☁️ Cloud sync (Google/Apple accounts)
 
-🧠 ML-powered personalized suggestions
+🧠 ML-powered personalized suggestions  ✅
