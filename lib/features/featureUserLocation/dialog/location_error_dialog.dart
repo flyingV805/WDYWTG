@@ -1,7 +1,11 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wdywtg/features/featureUserLocation/dialog/user_location_dialog.dart';
+
+import '../bloc/ul_bloc.dart';
+import '../bloc/ul_event.dart';
 
 bool _isPresented = false;
 
@@ -34,7 +38,7 @@ class LocationErrorDialog extends UserLocationDialog {
               onPressed: (){
                 _isPresented = false;
                 Navigator.of(context).pop();
-                //blocContext.read<UserLocationBloc>().add(UserApprovedLocation());
+                blocContext.read<UserLocationBloc>().add(RetryLocation());
               },
               child: Text('Retry')
             ),
@@ -42,7 +46,7 @@ class LocationErrorDialog extends UserLocationDialog {
               onPressed: (){
                 _isPresented = false;
                 Navigator.of(context).pop();
-                //blocContext.read<UserLocationBloc>().add(UserDeclinedLocation());
+                blocContext.read<UserLocationBloc>().add(DisableFeature());
               },
               child: Text('Disable this feature')
             )

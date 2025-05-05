@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:wdywtg/features/featureUserLocation/dialog/user_location_dialog.dart';
 
 import '../bloc/ul_bloc.dart';
+import '../bloc/ul_event.dart';
 
 bool _isPresented = false;
 
@@ -41,14 +42,18 @@ class PermissionDeclinedDialog extends UserLocationDialog {
               onPressed: (){
                 _isPresented = false;
                 Navigator.of(context).pop();
-                //blocContext.read<UserLocationBloc>().add(UserApprovedLocation());
+                if(forever){
+                  // open apps permissions
+                }else{
+                  blocContext.read<UserLocationBloc>().add(RetryLocation());
+                }
               },
               child: Text('Grant access')),
             TextButton(
               onPressed: (){
                 _isPresented = false;
                 Navigator.of(context).pop();
-                //blocContext.read<UserLocationBloc>().add(UserDeclinedLocation());
+                blocContext.read<UserLocationBloc>().add(DisableFeature());
               },
               child: Text('Disable this feature')
             )
