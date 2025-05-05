@@ -28,10 +28,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
 
   }
 
-  Future<void> _startRoutine(
-    Initialize event,
-    Emitter<UserLocationState> emit
-  ) async {
+  Future<void> _startRoutine(Initialize event, Emitter<UserLocationState> emit) async {
 
     Log().w(_logTag, '_startRoutine');
 
@@ -49,10 +46,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
 
   }
 
-  Future<void> _locationApproved(
-    UserApprovedLocation event,
-    Emitter<UserLocationState> emit
-  ) async {
+  Future<void> _locationApproved(UserApprovedLocation event, Emitter<UserLocationState> emit) async {
 
     _userRepository.setNeedAskForLocation(false);
     _userRepository.setShowUserLocation(true);
@@ -62,10 +56,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
 
   }
 
-  Future<void> _locationDeclined(
-    UserDeclinedLocation event,
-    Emitter<UserLocationState> emit
-  ) async {
+  Future<void> _locationDeclined(UserDeclinedLocation event, Emitter<UserLocationState> emit) async {
 
     _userRepository.setNeedAskForLocation(false);
     _userRepository.setShowUserLocation(false);
@@ -73,10 +64,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
 
   }
 
-  Future<void> _updatePlaceInfo(
-    UpdatePlaceData event,
-    Emitter<UserLocationState> emit
-  ) async {
+  Future<void> _updatePlaceInfo(UpdatePlaceData event, Emitter<UserLocationState> emit) async {
 
     final place = event.place?.toPlace();
     emit.call(state.copyWith(
