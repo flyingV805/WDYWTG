@@ -1,12 +1,8 @@
 
 import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:wdywtg/core/database/dto/ai_advice_dto.dart';
-import 'package:wdywtg/core/database/dto/saved_place_dto.dart';
-import 'package:wdywtg/core/log/loger.dart';
 
 class GeminiClient {
-
-  static final String _logTag = 'GeminiClient';
 
   final model =
       FirebaseVertexAI.instance.generativeModel(model: 'gemini-2.0-flash');

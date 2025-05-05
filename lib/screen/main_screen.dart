@@ -5,7 +5,6 @@ import '../features/featureFind/find_place.dart';
 import '../features/featureList/places_list.dart';
 import '../features/featureUpdater/info_updater.dart';
 import '../features/featureUserLocation/user_location.dart';
-import '../uiKit/waitForAdvice/wait_for_advice.dart';
 import '../uiKit/whereToText/where_to_text.dart';
 
 class MainScreen extends StatefulWidget {

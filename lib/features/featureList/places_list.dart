@@ -5,8 +5,6 @@ import 'package:wdywtg/features/featureList/repository/saved_places_repository.d
 import 'package:wdywtg/features/featureList/widget/no_places_added.dart';
 import 'package:wdywtg/features/featureList/widget/saved_place.dart';
 
-import '../../uiKit/waitForAdvice/wait_for_advice.dart';
-
 class PlacesList extends StatelessWidget {
 
   const PlacesList({super.key});

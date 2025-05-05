@@ -1,6 +1,5 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
-import 'package:wdywtg/commonModel/place_picture_palette.dart';
 import 'package:wdywtg/core/database/dao/ai_advice_dao.dart';
 import 'package:wdywtg/core/database/dao/cached_weather_dao.dart';
 import 'package:wdywtg/core/gemini/gemini_client.dart';
@@ -115,22 +114,6 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
       suggestion.longitude,
       true,
       DateTime.now().millisecondsSinceEpoch ~/ 1000,
-    );
-  }
-
-  SavedPlaceDto _updatePicture(SavedPlaceDto dto, String pictureUrl, String pictureAuthor, PlacePicturePalette palette){
-    return SavedPlaceDto(
-      dto.id,
-      dto.placeName,
-      dto.placeTimezone,
-      dto.placeCountryCode,
-      pictureUrl,
-      pictureAuthor,
-      palette,
-      dto.latitude,
-      dto.longitude,
-      true,
-      dto.addTime
     );
   }
 
