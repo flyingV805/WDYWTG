@@ -10,6 +10,7 @@ PlaceProfile mapPlaceProfile(
   SavedPlaceDto placeDto,
   CachedWeatherDto? weatherDto,
   Iterable<AiAdviceDto> aiAdviceDto,
+  bool lastAdded
 ) {
   return PlaceProfile(
     place: Place(
@@ -22,6 +23,7 @@ PlaceProfile mapPlaceProfile(
       placePicturePalette: placeDto.placePicturePalette,
       latitude: placeDto.latitude,
       longitude: placeDto.longitude,
+      lastAdded: lastAdded
     ),
     weather: weatherDto == null ? null : PlaceWeather(
       currentCode: weatherDto.currentCode,

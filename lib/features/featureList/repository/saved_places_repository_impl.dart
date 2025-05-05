@@ -8,11 +8,14 @@ import 'package:wdywtg/features/featureList/model/place_profile.dart';
 import 'package:wdywtg/features/featureList/repository/mapper/place_mapper.dart';
 import 'package:wdywtg/features/featureList/repository/saved_places_repository.dart';
 
+import '../../../core/userSession/user_session.dart';
+
 class SavedPlacesRepositoryImpl extends SavedPlacesRepository {
 
   final _savedPlaceDao = GetIt.I.get<SavedPlaceDao>();
   final _weatherDao = GetIt.I.get<CachedWeatherDao>();
   final _aiAdviceDao = GetIt.I.get<AiAdviceDao>();
+  final _userSession = GetIt.I.get<UserSession>();
 
   @override
   Stream<List<PlaceProfile>> placesStream(){
@@ -28,11 +31,13 @@ class SavedPlacesRepositoryImpl extends SavedPlacesRepository {
       weatherStream.startWith([]),
       advicesStream.startWith([]),
       (places, weather, advices) {
+        final lastPlaceId = _userSession.lastAddedId;
         return places.map((place)=> 
           mapPlaceProfile(
             place, 
             weather.firstWhereOrNull(((item) => item.placeId == place.id)), 
-            advices.where((item) => item.placeId == place.id)
+            advices.where((item) => item.placeId == place.id),
+            lastPlaceId == place.id
           )
         ).toList();
       }

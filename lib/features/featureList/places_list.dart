@@ -5,6 +5,8 @@ import 'package:wdywtg/features/featureList/repository/saved_places_repository.d
 import 'package:wdywtg/features/featureList/widget/no_places_added.dart';
 import 'package:wdywtg/features/featureList/widget/saved_place.dart';
 
+import '../../uiKit/waitForAdvice/wait_for_advice.dart';
+
 class PlacesList extends StatelessWidget {
 
   const PlacesList({super.key});
@@ -28,7 +30,7 @@ class PlacesList extends StatelessWidget {
               ...?
                 state.places?.map((item) => SavedPlace(
                   key: PageStorageKey(item.place.placeName),
-                  initiallyExpanded: state.places!.length == 1,
+                  initiallyExpanded: item.place.lastAdded || state.places!.length == 1,
                   profile: item
                 ))
             ]

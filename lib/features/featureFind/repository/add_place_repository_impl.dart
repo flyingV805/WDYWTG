@@ -13,6 +13,7 @@ import '../../../core/log/loger.dart';
 import '../../../core/mapper/place_weather_mapper.dart';
 import '../../../core/openMeteo/open_meteo_client.dart';
 import '../../../core/unsplash/image_palette.dart';
+import '../../../core/userSession/user_session.dart';
 import 'add_place_repository.dart';
 
 class AddPlaceRepositoryImpl extends AddPlaceRepository {
@@ -20,6 +21,7 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
   final _savedPlaceDao = GetIt.I.get<SavedPlaceDao>();
   final _cachedWeatherDao = GetIt.I.get<CachedWeatherDao>();
   final _aiAdvicesDao = GetIt.I.get<AiAdviceDao>();
+  final _userSession = GetIt.I.get<UserSession>();
 
   final _openMeteoClient = GetIt.I.get<OpenMeteoClient>();
   final _unsplashClient = GetIt.I.get<UnsplashClient>();
@@ -36,6 +38,7 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
 
     // save to database
     try{
+      _userSession.lastAddedId = placeDto.id;
       await _savedPlaceDao.insertPlace(placeDto);
     }catch(e){
       return AlreadyAddedError();

@@ -7,6 +7,7 @@ import 'package:wdywtg/uiKit/weatherRow/weather_row.dart';
 
 import '../../../core/log/loger.dart';
 import '../../../uiKit/animatedColorText/animated_color_text.dart';
+import '../../../uiKit/waitForAdvice/wait_for_advice.dart';
 import '../model/place_profile.dart';
 import '../../../uiKit/cityImagePlaceholder/image_placeholder.dart';
 
@@ -214,10 +215,7 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
               ),
               if(showAdvicesLoading) Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  'Your travel oracle is whispering... hold on! 🤖',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
+                child: WaitForAdvice()
               ),
               ...widget.profile.advices.map(
                 (element) => AiAdvice(advice: element)

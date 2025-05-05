@@ -10,6 +10,7 @@ import 'package:wdywtg/core/openMeteo/open_geocode_client.dart';
 import 'package:wdywtg/core/unsplash/unsplash_client.dart';
 
 import '../core/openMeteo/open_meteo_client.dart';
+import '../core/userSession/user_session.dart';
 import '../features/featureUpdater/info_updater.dart';
 
 // App's DI Graph
@@ -20,6 +21,7 @@ Future<void> initDI() async {
   GetIt.I.registerSingleton<SavedPlaceDao>(database.placesDao);
   GetIt.I.registerSingleton<CachedWeatherDao>(database.weatherDao);
   GetIt.I.registerSingleton<AiAdviceDao>(database.aiAdviceDao);
+  GetIt.I.registerSingleton<UserSession>(UserSession());
 
   final dio = Dio();
   GetIt.I.registerFactory<OpenMeteoClient>(() => OpenMeteoClient(dio));

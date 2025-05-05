@@ -11,6 +11,7 @@ class Place {
   final PlacePicturePalette? placePicturePalette;
   final double latitude;
   final double longitude;
+  final bool lastAdded;
 
   Place({
     required this.id,
@@ -22,6 +23,7 @@ class Place {
     required this.placePicturePalette,
     required this.latitude,
     required this.longitude,
+    required this.lastAdded,
   });
   
   Place.examplePlace() : this(
@@ -33,7 +35,8 @@ class Place {
     placePictureAuthor: '',
     placePicturePalette: PlacePicturePalette.dark,
     latitude: 52.5200,
-    longitude: 13.4050 
+    longitude: 13.4050 ,
+    lastAdded: false
   );
 
 }
