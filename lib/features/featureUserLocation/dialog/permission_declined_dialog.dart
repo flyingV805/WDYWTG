@@ -55,7 +55,7 @@ class PermissionDeclinedDialog extends UserLocationDialog {
           ],
         );
       }
-    ).then((_){});
+    );
 
   }
 
