@@ -80,7 +80,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
   }
 
   Future<void> _retryLocation(RetryLocation event, Emitter<UserLocationState> emit) async {
-
+    _findUserLocation(emit);
   }
 
   Future<void> _retryWeather(RetryWeather event, Emitter<UserLocationState> emit) async {
@@ -104,7 +104,9 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
   }
 
   Future<void> _disableFeature(DisableFeature event, Emitter<UserLocationState> emit) async {
-
+    _userRepository.setNeedAskForLocation(false);
+    _userRepository.setShowUserLocation(false);
+    emit.call(state.copyWith(askForLocation: false, displayUserLocation: false));
   }
 
   void _findUserLocation(Emitter<UserLocationState> emit){
