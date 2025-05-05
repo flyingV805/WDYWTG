@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class Preloader extends StatelessWidget {
 
@@ -8,7 +9,11 @@ class Preloader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       key: const Key('user_weather_preload_widget'),
-      color: Colors.red,
+      alignment: Alignment.center,
+      child: Lottie.asset(
+        'assets/lottie/not_found.json',
+        width: 160
+      ),
     );
   }
 

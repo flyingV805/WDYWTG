@@ -19,8 +19,8 @@ class NoPlacesAdded extends StatelessWidget {
           ),
         ),
         Lottie.asset(
-            'assets/lottie/empty_list.json',
-            width: 160
+          'assets/lottie/empty_list.json',
+          width: 160
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
