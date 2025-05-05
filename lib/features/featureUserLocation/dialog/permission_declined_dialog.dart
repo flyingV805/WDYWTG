@@ -50,7 +50,7 @@ class PermissionDeclinedDialog extends UserLocationDialog {
                 Navigator.of(context).pop();
                 //blocContext.read<UserLocationBloc>().add(UserDeclinedLocation());
               },
-              child: Text('Disable feature')
+              child: Text('Disable this feature')
             )
           ],
         );

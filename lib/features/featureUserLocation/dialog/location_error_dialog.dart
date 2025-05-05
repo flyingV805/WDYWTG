@@ -17,7 +17,7 @@ class LocationErrorDialog extends UserLocationDialog {
       barrierDismissible: false,
       builder: (context){
         return AlertDialog(
-          title: Text('Couldn\'t find a photo of the place where you are located'),
+          title: Text('Unable to access location'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -44,7 +44,7 @@ class LocationErrorDialog extends UserLocationDialog {
                 Navigator.of(context).pop();
                 //blocContext.read<UserLocationBloc>().add(UserDeclinedLocation());
               },
-              child: Text('It\'s okay, it\'s not necessary.')
+              child: Text('Disable this feature')
             )
           ],
         );

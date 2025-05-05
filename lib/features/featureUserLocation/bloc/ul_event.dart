@@ -14,6 +14,18 @@ final class UpdatePlaceData extends UserLocationEvent {
 
 }
 
+final class RetryWeather extends UserLocationEvent {}
+
+final class RetryImage extends UserLocationEvent {}
+
+final class SkipImage extends UserLocationEvent {}
+
+final class RetryGeocode extends UserLocationEvent {}
+
+final class SkipGeocode extends UserLocationEvent {}
+
+final class LocationServiceRetry extends UserLocationEvent {}
+
 final class UserApprovedLocation extends UserLocationEvent {}
 
 final class UserDeclinedLocation extends UserLocationEvent {}
