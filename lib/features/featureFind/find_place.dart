@@ -65,7 +65,6 @@ class FindPlace extends StatelessWidget {
                         controller: _textController,
                         focusNode: _focusNode,
                         textInputAction: TextInputAction.none,
-
                         onChanged: (searchable) {
                           context.read<FindBloc>().add(UpdateSearch(searchable: searchable));
                         },
