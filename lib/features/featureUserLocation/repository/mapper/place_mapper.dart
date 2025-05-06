@@ -12,6 +12,7 @@ SavedPlaceDto mapFromGeocode(GeocodeResult geocode, double latitude, double long
     null,
     null,
     null,
+    null,
     latitude,
     longitude,
     false,

@@ -110,6 +110,7 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
       null,
       null,
       null,
+      null,
       suggestion.latitude,
       suggestion.longitude,
       true,
@@ -140,6 +141,7 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
         suggestion.placeId,
         image.results.first.urls.regular,
         image.results.first.user.name,
+        'https://unsplash.com/@${image.results.first.user.username}',
         palette.index
       );
     }catch(e){

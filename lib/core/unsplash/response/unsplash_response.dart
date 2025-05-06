@@ -54,9 +54,11 @@ class UnsplashUser {
 
   UnsplashUser({
     required this.name,
+    required this.username,
   });
 
   @JsonKey(name: 'name') String name;
+  @JsonKey(name: 'username') String username;
 
   factory UnsplashUser.fromJson(Map<String, dynamic> json) => _$UnsplashUserFromJson(json);
   Map<String, dynamic> toJson() => _$UnsplashUserToJson(this);

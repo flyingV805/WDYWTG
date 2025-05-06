@@ -13,6 +13,7 @@ class SavedPlaceDto {
   final String placeCountryCode;
   final String? placePictureUrl;
   final String? placePictureAuthor;
+  final String? placePictureAuthorUrl;
   final PlacePicturePalette? placePicturePalette;
   final double latitude;
   final double longitude;
@@ -26,6 +27,7 @@ class SavedPlaceDto {
     this.placeCountryCode, 
     this.placePictureUrl,
     this.placePictureAuthor,
+    this.placePictureAuthorUrl,
     this.placePicturePalette,
     this.latitude, 
     this.longitude,

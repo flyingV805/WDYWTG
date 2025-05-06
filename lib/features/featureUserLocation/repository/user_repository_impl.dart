@@ -112,6 +112,7 @@ class UserRepositoryImpl extends UserRepository {
         userPlace,
         image.results.first.urls.regular,
         image.results.first.user.name,
+        'https://unsplash.com/@${image.results.first.user.username}',
         palette
       );
       await _savedPlaceDao.updatePlace(updatedPlace);
@@ -133,6 +134,7 @@ class UserRepositoryImpl extends UserRepository {
         'Your Location',
         '',
         '',
+        null,
         null,
         null,
         null,
@@ -189,6 +191,7 @@ class UserRepositoryImpl extends UserRepository {
         userPlace,
         image.results.first.urls.regular,
         image.results.first.user.name,
+        'https://unsplash.com/@${image.results.first.user.username}',
         palette
       );
       await _savedPlaceDao.updatePlace(updatedPlace);
@@ -220,6 +223,7 @@ class UserRepositoryImpl extends UserRepository {
         userPlace,
         image.results.first.urls.regular,
         image.results.first.user.name,
+        'https://unsplash.com/@${image.results.first.user.username}',
         palette
       );
       await _savedPlaceDao.updatePlace(updatedPlace);
@@ -256,7 +260,7 @@ class UserRepositoryImpl extends UserRepository {
 
   }
 
-  SavedPlaceDto _updatePicture(SavedPlaceDto dto, String pictureUrl, String pictureAuthor, PlacePicturePalette palette){
+  SavedPlaceDto _updatePicture(SavedPlaceDto dto, String pictureUrl, String pictureAuthor, String pictureUsername, PlacePicturePalette palette){
     return SavedPlaceDto(
       dto.id,
       dto.placeName,
@@ -264,6 +268,7 @@ class UserRepositoryImpl extends UserRepository {
       dto.placeCountryCode,
       pictureUrl,
       pictureAuthor,
+      'https://unsplash.com/@$pictureUsername',
       palette,
       dto.latitude,
       dto.longitude,

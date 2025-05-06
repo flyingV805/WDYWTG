@@ -24,8 +24,8 @@ abstract class SavedPlaceDao {
   @update
   Future<void> updatePlace(SavedPlaceDto place);
 
-  @Query('UPDATE SavedPlaceDTO SET placePictureUrl = :url, placePictureAuthor = :author, placePicturePalette =:palette WHERE id = :placeId')
-  Future<void> updatePlacePicture(int placeId, String url, String author, int palette);
+  @Query('UPDATE SavedPlaceDTO SET placePictureUrl = :url, placePictureAuthor = :author, placePictureAuthorUrl = :userUrl, placePicturePalette =:palette WHERE id = :placeId')
+  Future<void> updatePlacePicture(int placeId, String url, String author, String userUrl, int palette);
 
   @Query('DELETE FROM SavedPlaceDTO WHERE id = :placeId')
   Future<void> deletePlace(int placeId);

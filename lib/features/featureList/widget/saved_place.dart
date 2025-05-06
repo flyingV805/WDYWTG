@@ -135,10 +135,16 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
                             style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                             palette: widget.profile.place.placePicturePalette,
                           ),
-                          AnimatedColorText(
-                            text: widget.profile.place.placePictureAuthor.isEmpty ? '' : 'Photo by ${widget.profile.place.placePictureAuthor} (Unsplash)',
-                            style: Theme.of(context).textTheme.labelSmall,
-                            palette: widget.profile.place.placePicturePalette,
+                          SizedBox(height: 4),
+                          InkWell(
+                            onTap: (){ Log().w('SavedPlace', 'CLICK'); },
+                            child: AnimatedColorText(
+                              text: widget.profile.place.placePictureAuthor.isEmpty ? '' : 'Photo by ${widget.profile.place.placePictureAuthor} (Unsplash)',
+                              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                decoration: TextDecoration.underline
+                              ),
+                              palette: widget.profile.place.placePicturePalette,
+                            ),
                           )
                         ],
                       ),
@@ -221,9 +227,6 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
               ),
               if(!showAdvicesLoading) Row(
                 children: [
-                  Expanded(
-                    child: TextButton(onPressed: (){}, child: Text('Visit Unsplash'))
-                  ),
                   Expanded(
                     child: TextButton(
                       onPressed: (){

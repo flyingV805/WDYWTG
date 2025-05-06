@@ -46,7 +46,7 @@ void main() {
   });
 
   test('placesStream combines place, weather, advice and marks last added', () async {
-    final placeDto = SavedPlaceDto(0, 'Paris', 'placeTimezone', 'placeCountryCode', 'placePictureUrl', 'placePictureAuthor', PlacePicturePalette.dark, 0.0, 0.0, false, 0);
+    final placeDto = SavedPlaceDto(0, 'Paris', 'placeTimezone', 'placeCountryCode', 'placePictureUrl', 'placePictureAuthor', '', PlacePicturePalette.dark, 0.0, 0.0, false, 0);
     final weather = CachedWeatherDto(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) ;
     final advice1 = AiAdviceDto(0, 0, 'adviceTitle', 'content');
 
