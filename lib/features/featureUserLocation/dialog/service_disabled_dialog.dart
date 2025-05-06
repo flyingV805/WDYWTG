@@ -1,7 +1,12 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:lottie/lottie.dart';
+import 'package:wdywtg/features/featureUserLocation/bloc/ul_event.dart';
 import 'package:wdywtg/features/featureUserLocation/dialog/user_location_dialog.dart';
+
+import '../bloc/ul_bloc.dart';
 
 bool _isPresented = false;
 
@@ -31,18 +36,23 @@ class ServiceDisabledDialog extends UserLocationDialog {
           ),
           actions: [
             TextButton(
+              onPressed: (){ Geolocator.openLocationSettings(); },
+              child: Text('Open Settings')
+            ),
+
+            TextButton(
               onPressed: (){
                 _isPresented = false;
                 Navigator.of(context).pop();
-                //blocContext.read<UserLocationBloc>().add(UserApprovedLocation());
+                blocContext.read<UserLocationBloc>().add(RetryLocation());
               },
-              child: Text('Grant access')
+              child: Text('Retry')
             ),
             TextButton(
               onPressed: (){
                 _isPresented = false;
                 Navigator.of(context).pop();
-                //blocContext.read<UserLocationBloc>().add(UserDeclinedLocation());
+                blocContext.read<UserLocationBloc>().add(DisableFeature());
               },
               child: Text('Disable feature')
             )

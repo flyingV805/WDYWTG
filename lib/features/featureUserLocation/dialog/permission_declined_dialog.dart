@@ -1,4 +1,5 @@
 
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -44,6 +45,7 @@ class PermissionDeclinedDialog extends UserLocationDialog {
                 Navigator.of(context).pop();
                 if(forever){
                   // open apps permissions
+                  AppSettings.openAppSettings(type: AppSettingsType.location);
                 }else{
                   blocContext.read<UserLocationBloc>().add(RetryLocation());
                 }

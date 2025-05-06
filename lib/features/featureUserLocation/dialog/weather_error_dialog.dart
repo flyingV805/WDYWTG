@@ -31,7 +31,7 @@ class WeatherErrorDialog extends UserLocationDialog {
                 width: 160
               ),
               SizedBox(height: 16),
-              Text('If you want to use this feature, you need to grant location access..')
+              Text('There may be a problem with network access or weather provider.')
             ],
           ),
           actions: [
