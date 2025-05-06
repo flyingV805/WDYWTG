@@ -46,7 +46,6 @@ class _MainScreenState extends State<MainScreen> {
           SliverToBoxAdapter(child: SizedBox(height: 8)),
           SliverToBoxAdapter(child: FindPlace()),
           PlacesList()
-          //SliverToBoxAdapter(child: ),
         ],
       ),
     );
