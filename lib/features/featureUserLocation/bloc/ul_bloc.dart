@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:wdywtg/features/featureUserLocation/bloc/ul_event.dart';
 import 'package:wdywtg/features/featureUserLocation/bloc/ul_state.dart';
 import 'package:wdywtg/features/featureUserLocation/model/place_setup_response.dart';
@@ -12,6 +15,9 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
   static final String _logTag = 'UserLocationBloc';
 
   final UserRepository _userRepository;
+  late final _keyboardVisibilityController = KeyboardVisibilityController();
+  late final StreamSubscription<bool> _keyboardSubscription;
+  bool _widgetInUse = false;
 
   UserLocationBloc({
     required UserRepository userRepository,
@@ -22,6 +28,8 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
     on<UpdatePlaceData>(_updatePlaceInfo);
     on<UserApprovedLocation>(_locationApproved);
     on<UserDeclinedLocation>(_locationDeclined);
+
+    on<UpdateKeyboard>(_updateKeyboard);
 
     on<RetryLocation>(_retryLocation);
     on<RetryWeather>(_retryWeather);
@@ -35,6 +43,14 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
       add(UpdatePlaceData(place: userPlace));
     });
 
+    _keyboardSubscription = _keyboardVisibilityController.onChange.listen(
+      (bool keyboardVisible) {
+        if(!_widgetInUse) { return; }
+        add(UpdateKeyboard(onScreen: keyboardVisible));
+        Log().w(_logTag, 'keyboardVisible - $keyboardVisible');
+      }
+    );
+
   }
 
   Future<void> _startRoutine(Initialize event, Emitter<UserLocationState> emit) async {
@@ -45,6 +61,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
 
     // user approved using location last time
     if(showUserLocation){
+      _widgetInUse = true;
       emit.call(state.copyWith(displayUserLocation: true));
       _findUserLocation(emit);
     }else{
@@ -66,6 +83,10 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
     _userRepository.setNeedAskForLocation(false);
     _userRepository.setShowUserLocation(false);
     emit.call(state.copyWith(askForLocation: false));
+  }
+
+  Future<void> _updateKeyboard(UpdateKeyboard event, Emitter<UserLocationState> emit) async {
+    emit.call(state.copyWith(displayUserLocation: !event.onScreen));
   }
 
   Future<void> _updatePlaceInfo(UpdatePlaceData event, Emitter<UserLocationState> emit) async {
@@ -140,6 +161,12 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
       case ImageError(): emit(state.copyWith(error: GetImageError())); break;
     }
 
+  }
+
+  @override
+  Future<void> close() {
+    _keyboardSubscription.cancel();
+    return super.close();
   }
 
 }

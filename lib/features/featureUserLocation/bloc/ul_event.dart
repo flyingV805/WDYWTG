@@ -13,6 +13,15 @@ final class UpdatePlaceData extends UserLocationEvent {
   UpdatePlaceData({ required this.place });
 
 }
+
+final class UpdateKeyboard extends UserLocationEvent {
+
+  final bool onScreen;
+
+  UpdateKeyboard({ required this.onScreen });
+
+}
+
 //
 final class RetryLocation extends UserLocationEvent {}
 
