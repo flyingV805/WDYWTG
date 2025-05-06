@@ -32,6 +32,12 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         title: Text('Where to?'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: (){},
+            icon: Icon(Icons.settings)
+          )
+        ],
       ),
       body: CustomScrollView(
         slivers: [
