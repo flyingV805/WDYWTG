@@ -41,6 +41,7 @@ app.*.map.json
 .env
 *.g.dart
 *.mocks.dart
+*.lock
 
 # Firebase
 firebase.json
