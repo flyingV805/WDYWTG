@@ -14,4 +14,8 @@ abstract class UserRepository extends Repository {
   Future<PlaceSetupResponse> updateUserPlace(double latitude, double longitude);
   Stream<UserPlaceProfile?> userPlaceLive();
 
+  Future<PlaceSetupResponse> skipGeocode();
+  Future<PlaceSetupResponse> retryFromWeather();
+  Future<PlaceSetupResponse> retryFromImage();
+
 }

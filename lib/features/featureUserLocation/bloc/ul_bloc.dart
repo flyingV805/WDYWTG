@@ -105,23 +105,26 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
   }
 
   Future<void> _retryWeather(RetryWeather event, Emitter<UserLocationState> emit) async {
-
+    final result = await _userRepository.retryFromWeather();
+    _handleResult(result, emit);
   }
 
   Future<void> _retryImage(RetryImage event, Emitter<UserLocationState> emit) async {
-
+    final result = await _userRepository.retryFromImage();
+    _handleResult(result, emit);
   }
 
   Future<void> _skipImage(SkipImage event, Emitter<UserLocationState> emit) async {
-
+    emit.call(state.copyWith(error: Empty()));
   }
 
   Future<void> _retryGeocode(RetryGeocode event, Emitter<UserLocationState> emit) async {
-
+    _findUserLocation(emit);
   }
 
   Future<void> _skipGeocode(SkipGeocode event, Emitter<UserLocationState> emit) async {
-
+    final result = await _userRepository.skipGeocode();
+    _handleResult(result, emit);
   }
 
   Future<void> _disableFeature(DisableFeature event, Emitter<UserLocationState> emit) async {
@@ -154,13 +157,23 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
   void updatePlaceParameters(double latitude, double longitude, Emitter<UserLocationState> emit) async {
     Log().w(_logTag, 'updatePlaceParameters - $latitude $longitude');
     final result = await _userRepository.updateUserPlace(latitude, longitude);
+    _handleResult(result, emit);
+    /*switch(result){
+      case Success(): break;
+      case FindPlaceError(): emit(state.copyWith(error: GeocodeError())); break;
+      case WeatherError(): emit(state.copyWith(error: GetWeatherError())); break;
+      case ImageError(): emit(state.copyWith(error: GetImageError())); break;
+    }*/
+
+  }
+
+  void _handleResult(PlaceSetupResponse result, Emitter<UserLocationState> emit){
     switch(result){
       case Success(): break;
       case FindPlaceError(): emit(state.copyWith(error: GeocodeError())); break;
       case WeatherError(): emit(state.copyWith(error: GetWeatherError())); break;
       case ImageError(): emit(state.copyWith(error: GetImageError())); break;
     }
-
   }
 
   @override

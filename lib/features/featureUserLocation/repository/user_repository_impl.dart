@@ -34,6 +34,9 @@ class UserRepositoryImpl extends UserRepository {
 
   static final String _logTag = 'UserRepositoryImpl';
 
+  double _lastLatitude = 0.0;
+  double _lastLongitude = 0.0;
+
   @override
   Future<bool> needAskForLocation() async {
     final result = await _preferences.getBool('needAskForLocation') ?? true;
@@ -59,6 +62,8 @@ class UserRepositoryImpl extends UserRepository {
   @override
   Future<PlaceSetupResponse> updateUserPlace(double latitude, double longitude) async {
 
+    _lastLatitude = latitude;
+    _lastLongitude = longitude;
     // step 0 - check if place is changed
     final userPlace = await _savedPlaceDao.getUserPlace();
 
@@ -95,6 +100,114 @@ class UserRepositoryImpl extends UserRepository {
     }
 
     // get place image
+    try{
+      final userPlace = await _savedPlaceDao.getUserPlace();
+      if(userPlace == null) { return ImageError(); }
+      final image = await _unsplashClient.getPicture(
+        '${userPlace.placeName} city, ${userPlace.placeCountryCode.toUpperCase()}',
+        dotenv.get('UNSPLASH_API_ACCESS_KEY')
+      );
+      final palette = await findTextPalette(image.results.first.urls.thumb);
+      final updatedPlace = _updatePicture(
+        userPlace,
+        image.results.first.urls.regular,
+        image.results.first.user.name,
+        palette
+      );
+      await _savedPlaceDao.updatePlace(updatedPlace);
+      Log().w(_logTag, 'updatePicture');
+    }catch(e){
+      return ImageError();
+    }
+
+    return Success();
+
+  }
+
+  @override
+  Future<PlaceSetupResponse> skipGeocode() async {
+
+    try {
+      final userPlaceDto = SavedPlaceDto(
+        Constants.userPlaceId,
+        'Your Location',
+        '',
+        '',
+        null,
+        null,
+        null,
+        _lastLatitude,
+        _lastLongitude,
+        false,
+        0
+      );
+      _savedPlaceDao.insertPlace(userPlaceDto);
+      Log().w(_logTag, 'insertPlace');
+    } catch (e){
+      Log().w(_logTag, e.toString());
+      return FindPlaceError();
+    }
+
+    return retryFromWeather();
+
+  }
+
+  @override
+  Future<PlaceSetupResponse> retryFromWeather() async {
+
+    // step 0 - check if place is changed
+    final userPlace = await _savedPlaceDao.getUserPlace();
+    if(userPlace == null) { return FindPlaceError(); }
+
+    try{
+      final weather = await _openMeteoClient.getForecast(userPlace.latitude, userPlace.longitude);
+      final weatherDto = mapFromNetwork(
+        weather,
+        Constants.userPlaceId,
+        userPlace.latitude,
+        userPlace.longitude
+      );
+      await _cachedWeatherDao.insertWeather(weatherDto);
+      // why? IDFK... but without it - wrong behavior
+      //_cachedWeatherDao.updateWeather(weatherDto);
+      Log().w(_logTag, 'insertWeather');
+    }catch(e){
+      Log().w(_logTag, e.toString());
+      return WeatherError();
+    }
+
+    // get place image
+    try{
+      final userPlace = await _savedPlaceDao.getUserPlace();
+      if(userPlace == null) { return ImageError(); }
+      final image = await _unsplashClient.getPicture(
+        '${userPlace.placeName} city, ${userPlace.placeCountryCode.toUpperCase()}',
+        dotenv.get('UNSPLASH_API_ACCESS_KEY')
+      );
+      final palette = await findTextPalette(image.results.first.urls.thumb);
+      final updatedPlace = _updatePicture(
+        userPlace,
+        image.results.first.urls.regular,
+        image.results.first.user.name,
+        palette
+      );
+      await _savedPlaceDao.updatePlace(updatedPlace);
+      Log().w(_logTag, 'updatePicture');
+    }catch(e){
+      return ImageError();
+    }
+
+    return Success();
+
+  }
+
+  @override
+  Future<PlaceSetupResponse> retryFromImage() async {
+
+    // step 0 - check if place is changed
+    final userPlace = await _savedPlaceDao.getUserPlace();
+    if(userPlace == null) { return FindPlaceError(); }
+
     try{
       final userPlace = await _savedPlaceDao.getUserPlace();
       if(userPlace == null) { return ImageError(); }
