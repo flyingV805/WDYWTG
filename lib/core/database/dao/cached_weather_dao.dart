@@ -19,4 +19,7 @@ abstract class CachedWeatherDao {
   @update
   Future<void> updateWeather(CachedWeatherDto weather);
 
+  @Query('DELETE FROM CachedWeatherDto WHERE placeId = :placeId')
+  Future<void> deleteWeather(int placeId);
+
 }

@@ -14,7 +14,7 @@ class PlacesList extends StatelessWidget {
     return BlocProvider(
       create: (blocContext) => ListBloc(
         placesRepository: blocContext.read<SavedPlacesRepository>(),
-      )..add(Initialize()),
+      ),
       child: BlocBuilder<ListBloc, ListState>(
         builder: (context, state) {
           final bool isEmpty = state.noSavedPlaces;

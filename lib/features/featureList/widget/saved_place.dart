@@ -1,6 +1,8 @@
 import 'dart:ui' as ui;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wdywtg/features/featureList/bloc/list_bloc.dart';
 import 'package:wdywtg/uiKit/aiAdvice/ai_advice.dart';
 import 'package:wdywtg/uiKit/tzTime/time_zoned_time.dart';
 import 'package:wdywtg/uiKit/weatherRow/weather_row.dart';
@@ -216,6 +218,21 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
               if(showAdvicesLoading) Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: WaitForAdvice()
+              ),
+              if(!showAdvicesLoading) Row(
+                children: [
+                  Expanded(
+                    child: TextButton(onPressed: (){}, child: Text('Visit Unsplash'))
+                  ),
+                  Expanded(
+                    child: TextButton(
+                      onPressed: (){
+                        context.read<ListBloc>().add(RemovePlace(place: widget.profile));
+                      },
+                      child: Text('Remove Place')
+                    )
+                  )
+                ],
               ),
               ...widget.profile.advices.map(
                 (element) => AiAdvice(advice: element)

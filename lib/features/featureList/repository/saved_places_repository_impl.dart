@@ -9,6 +9,7 @@ import 'package:wdywtg/features/featureList/repository/mapper/place_mapper.dart'
 import 'package:wdywtg/features/featureList/repository/saved_places_repository.dart';
 
 import '../../../core/userSession/user_session.dart';
+import '../model/place.dart';
 
 class SavedPlacesRepositoryImpl extends SavedPlacesRepository {
 
@@ -44,6 +45,13 @@ class SavedPlacesRepositoryImpl extends SavedPlacesRepository {
     );
   }
 
+
+  @override
+  Future<void> removePlace(Place place) async {
+    await _savedPlaceDao.deletePlace(place.id);
+    await _weatherDao.deleteWeather(place.id);
+    await _aiAdviceDao.deleteAdvices(place.id);
+  }
     
   @override
   void dispose() { }

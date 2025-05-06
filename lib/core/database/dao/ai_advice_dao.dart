@@ -15,5 +15,8 @@ abstract class AiAdviceDao {
 
   @insert
   Future<void> insertAdvices(List<AiAdviceDto> advices);
-  
+
+  @Query('DELETE FROM AiAdviceDto WHERE placeId = :placeId')
+  Future<void> deleteAdvices(int placeId);
+
 }

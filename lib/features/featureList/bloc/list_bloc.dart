@@ -15,15 +15,15 @@ class ListBloc extends Bloc<ListEvent, ListState> {
   }):
     _placesRepository = placesRepository,
     super(ListState.empty()) {
-      on<Initialize>(_startRoutine);
       on<UpdateState>(_updateState);
+      on<RemovePlace>(_removePlace);
       _placesRepository.placesStream().listen((places) {
         add(UpdateState(places: places));
       });
     }
 
-  Future<void> _startRoutine(Initialize event, Emitter<ListState> emit) async {
-
+  Future<void> _removePlace(RemovePlace event, Emitter<ListState> emit) async {
+    await _placesRepository.removePlace(event.place.place);
   }
 
   Future<void> _updateState(UpdateState event, Emitter<ListState> emit) async {
