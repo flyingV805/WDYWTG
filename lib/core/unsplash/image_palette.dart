@@ -2,16 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:wdywtg/commonModel/place_picture_palette.dart';
 
+import '../log/loger.dart';
+
+final String _logTag = 'findTextPalette';
+
 Future<PlacePicturePalette> findTextPalette(String imageUrl) async {
 
   final palette = await PaletteGenerator.fromImageProvider(NetworkImage(imageUrl));
 
-  // 0.299*R + 0.587*G + 0.114*B
-  final textColor = ThemeData.estimateBrightnessForColor(palette.dominantColor?.color ?? Colors.white);
+  final luminance = palette.dominantColor?.color.computeLuminance();
 
-  return switch(textColor){
-    Brightness.dark => PlacePicturePalette.dark,
-    Brightness.light => PlacePicturePalette.light,
-  };
+  Log().w(_logTag, 'imageUrl - $imageUrl');
+  Log().w(_logTag, 'luminance - $luminance');
+
+  // 0.299*R + 0.587*G + 0.114*B
+  PlacePicturePalette textColor = (luminance ?? 0) > 0.65 ?
+    PlacePicturePalette.dark
+      :
+    PlacePicturePalette.light;
+
+  return textColor;
 
 }
