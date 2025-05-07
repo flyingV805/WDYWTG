@@ -56,7 +56,7 @@ class UserPlaceWidget extends StatelessWidget {
                 SizedBox(height: 4),
                 InkWell(
                   onTap: (){
-                    Log().w('UserPlace', 'CLICK ${place?.placePictureAuthorUrl}');
+                    Log().d('UserPlace', 'CLICK ${place?.placePictureAuthorUrl}');
                     launchUnsplashUrl(place?.placePictureAuthorUrl ?? '');
                   },
                   child: AnimatedColorText(

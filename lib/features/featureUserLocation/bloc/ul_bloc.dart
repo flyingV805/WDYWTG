@@ -47,7 +47,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
       (bool keyboardVisible) {
         if(!_widgetInUse) { return; }
         add(UpdateKeyboard(onScreen: keyboardVisible));
-        Log().w(_logTag, 'keyboardVisible - $keyboardVisible');
+        Log().d(_logTag, 'keyboardVisible - $keyboardVisible');
       }
     );
 
@@ -55,7 +55,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
 
   Future<void> _startRoutine(Initialize event, Emitter<UserLocationState> emit) async {
 
-    Log().w(_logTag, '_startRoutine');
+    Log().d(_logTag, '_startRoutine');
 
     final showUserLocation = await _userRepository.showUserLocation();
 
@@ -66,7 +66,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
       _findUserLocation(emit);
     }else{
       var shouldAsk = await _userRepository.needAskForLocation();
-      Log().w(_logTag, 'shouldAsk - $shouldAsk');
+      Log().d(_logTag, 'shouldAsk - $shouldAsk');
       if(shouldAsk){ emit.call(state.copyWith(askForLocation: true)); }
     }
 
@@ -134,9 +134,9 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
   }
 
   void _findUserLocation(Emitter<UserLocationState> emit){
-    Log().w(_logTag, '_findUserLocation');
+    Log().d(_logTag, '_findUserLocation');
     UserPosition.determinePosition().then((result){
-      Log().w(_logTag, 'determinePosition result - $result');
+      Log().d(_logTag, 'determinePosition result - $result');
       switch(result){
         case PositionFound():
           updatePlaceParameters(result.latitude, result.longitude, emit);
@@ -155,7 +155,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
   }
 
   void updatePlaceParameters(double latitude, double longitude, Emitter<UserLocationState> emit) async {
-    Log().w(_logTag, 'updatePlaceParameters - $latitude $longitude');
+    Log().d(_logTag, 'updatePlaceParameters - $latitude $longitude');
     final result = await _userRepository.updateUserPlace(latitude, longitude);
     _handleResult(result, emit);
     /*switch(result){

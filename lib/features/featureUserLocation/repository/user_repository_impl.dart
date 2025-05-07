@@ -72,7 +72,7 @@ class UserRepositoryImpl extends UserRepository {
         latitude, longitude,
         userPlace.latitude, userPlace.longitude
       );
-      Log().w(_logTag, 'locationsDistance - $locationsDistance');
+      Log().d(_logTag, 'locationsDistance - $locationsDistance');
       if(locationsDistance < 5000){ return Success(); }
     }
 
@@ -81,9 +81,9 @@ class UserRepositoryImpl extends UserRepository {
       final geocodeResult = await _openCageClient.findPlace(reverseGeocodeQuery, dotenv.get('OPEN_CAGE_API_KEY'));
       final userPlaceDto = mapFromGeocode(geocodeResult.results.first, latitude, longitude);
       _savedPlaceDao.insertPlace(userPlaceDto);
-      Log().w(_logTag, 'insertPlace');
+      Log().d(_logTag, 'insertPlace');
     } catch (e){
-      Log().w(_logTag, e.toString());
+      Log().d(_logTag, e.toString());
       return FindPlaceError();
     }
 
@@ -93,9 +93,9 @@ class UserRepositoryImpl extends UserRepository {
       await _cachedWeatherDao.insertWeather(weatherDto);
       // why? IDFK... but without it - wrong behavior
       _cachedWeatherDao.updateWeather(weatherDto);
-      Log().w(_logTag, 'insertWeather');
+      Log().d(_logTag, 'insertWeather');
     }catch(e){
-      Log().w(_logTag, e.toString());
+      Log().d(_logTag, e.toString());
       return WeatherError();
     }
 
@@ -116,7 +116,7 @@ class UserRepositoryImpl extends UserRepository {
         palette
       );
       await _savedPlaceDao.updatePlace(updatedPlace);
-      Log().w(_logTag, 'updatePicture');
+      Log().d(_logTag, 'updatePicture');
     }catch(e){
       return ImageError();
     }
@@ -144,9 +144,9 @@ class UserRepositoryImpl extends UserRepository {
         0
       );
       _savedPlaceDao.insertPlace(userPlaceDto);
-      Log().w(_logTag, 'insertPlace');
+      Log().d(_logTag, 'insertPlace');
     } catch (e){
-      Log().w(_logTag, e.toString());
+      Log().d(_logTag, e.toString());
       return FindPlaceError();
     }
 
@@ -172,9 +172,9 @@ class UserRepositoryImpl extends UserRepository {
       await _cachedWeatherDao.insertWeather(weatherDto);
       // why? IDFK... but without it - wrong behavior
       //_cachedWeatherDao.updateWeather(weatherDto);
-      Log().w(_logTag, 'insertWeather');
+      Log().d(_logTag, 'insertWeather');
     }catch(e){
-      Log().w(_logTag, e.toString());
+      Log().d(_logTag, e.toString());
       return WeatherError();
     }
 
@@ -195,7 +195,7 @@ class UserRepositoryImpl extends UserRepository {
         palette
       );
       await _savedPlaceDao.updatePlace(updatedPlace);
-      Log().w(_logTag, 'updatePicture');
+      Log().d(_logTag, 'updatePicture');
     }catch(e){
       return ImageError();
     }
@@ -227,7 +227,7 @@ class UserRepositoryImpl extends UserRepository {
         palette
       );
       await _savedPlaceDao.updatePlace(updatedPlace);
-      Log().w(_logTag, 'updatePicture');
+      Log().d(_logTag, 'updatePicture');
     }catch(e){
       return ImageError();
     }
@@ -246,7 +246,7 @@ class UserRepositoryImpl extends UserRepository {
       placesStream.startWith(null),
       weatherStream.startWith(null),
       (place, weather) {
-        Log().w(_logTag, 'userPlaceLive - place: $place , weather: $weather');
+        Log().d(_logTag, 'userPlaceLive - place: $place , weather: $weather');
         if (place == null) return null;
         return UserPlaceProfile(
           placeName: place.placeName,

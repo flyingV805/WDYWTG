@@ -29,7 +29,7 @@ class UpdateDataRepositoryImpl extends UpdateDataRepository {
           _cachedWeatherDao.updateWeather(weatherDto);
         }catch(e){
           // add to update errors
-          Log().w(_logTag, e.toString());
+          Log().d(_logTag, e.toString());
         }
 
 

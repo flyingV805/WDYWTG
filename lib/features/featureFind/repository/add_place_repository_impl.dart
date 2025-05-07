@@ -31,7 +31,7 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
   @override
   Future<AddResult> addSavedPlace(PlaceSuggestion suggestion) async {
 
-    Log().w(_logTag, 'addSavedPlace - ${suggestion.toString()} ${suggestion.timezone}');
+    Log().d(_logTag, 'addSavedPlace - ${suggestion.toString()} ${suggestion.timezone}');
 
     final placeDto = _createFromSuggestion(suggestion);
 
@@ -40,7 +40,7 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
       _userSession.lastAddedId = placeDto.id;
       await _savedPlaceDao.insertPlace(placeDto);
     }catch(e){
-      Log().w(_logTag, 'insertPlace - ${e.toString()}');
+      Log().d(_logTag, 'insertPlace - ${e.toString()}');
       return AlreadyAddedError();
     }
 

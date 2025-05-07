@@ -26,7 +26,7 @@ class GeocodingRepositoryImpl extends GeocodingRepository {
         )
       ).toList();
     }catch(e){
-      Log().w(_logTag, e.toString());
+      Log().d(_logTag, e.toString());
       return [];
     }
 

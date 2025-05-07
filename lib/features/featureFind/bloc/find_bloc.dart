@@ -50,7 +50,7 @@ class FindBloc extends Bloc<FindEvent, FindState> {
       on<CancelError>(_cancelError);
 
       _focusNode.addListener(() {
-        Log().w(_logTag, '_focusNode - ${_focusNode.hasFocus}');
+        Log().d(_logTag, '_focusNode - ${_focusNode.hasFocus}');
         add(FocusUpdated(isFocused: _focusNode.hasFocus));
       });
 
@@ -59,19 +59,19 @@ class FindBloc extends Bloc<FindEvent, FindState> {
         .distinct()
         .switchMap((query) => _performSearch(query).asStream())
         .listen((found) {
-          Log().w(_logTag, '_searching - ${found.join()}');
+          Log().d(_logTag, '_searching - ${found.join()}');
           add(SearchUpdated(suggestions: found));
         });
 
   }
 
   Future<void> _focusUpdated(FocusUpdated event, Emitter<FindState> emit) async {
-    Log().w(_logTag, 'showList - ${event.isFocused}');
+    Log().d(_logTag, 'showList - ${event.isFocused}');
     emit(state.copyWith(showList: event.isFocused));
   }
 
   Future<void> _onSearchUpdate(UpdateSearch event, Emitter<FindState> emit) async {
-    Log().w(_logTag, '_onSearchUpdate');
+    Log().d(_logTag, '_onSearchUpdate');
     final searchable = event.searchable.trim();
     if(searchable.isEmpty){ return; }
     if(searchable.length < 3){ return; }
@@ -80,7 +80,7 @@ class FindBloc extends Bloc<FindEvent, FindState> {
   }
 
   Future _updateSuggestions(SearchUpdated event, Emitter<FindState> emit) async {
-    Log().w(_logTag, '_updateSuggestions');
+    Log().d(_logTag, '_updateSuggestions');
     emit.call(state.copyWith(suggestions: event.suggestions, searching: false));
   }
 
@@ -90,16 +90,16 @@ class FindBloc extends Bloc<FindEvent, FindState> {
     _fieldController.clear();
     final result = await _addRepository.addSavedPlace(event.placeToAdd);
 
-    Log().w(_logTag, 'adding result - $result');
+    Log().d(_logTag, 'adding result - $result');
     _handleResult(emit, event.placeToAdd, result);
 
   }
 
   Future _retryWeather(RetryWeather event, Emitter<FindState> emit) async {
-    Log().w(_logTag, '_retryWeather');
+    Log().d(_logTag, '_retryWeather');
     emit(state.copyWith(error: Empty()));
     final result = await _addRepository.retryFromWeather(event.placeToAdd);
-    Log().w(_logTag, '_retryWeather result - $result');
+    Log().d(_logTag, '_retryWeather result - $result');
     _handleResult(emit, event.placeToAdd, result);
   }
 
@@ -128,7 +128,7 @@ class FindBloc extends Bloc<FindEvent, FindState> {
   }
 
   void _handleResult(Emitter<FindState> emit, PlaceSuggestion place, AddResult result){
-    Log().w(_logTag, '_handleResult - $result');
+    Log().d(_logTag, '_handleResult - $result');
     switch(result){
       case Success():
         emit(FindState.successfullyAdded());

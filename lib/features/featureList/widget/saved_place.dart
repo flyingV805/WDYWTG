@@ -49,7 +49,7 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
   @override
   void initState() {
 
-    Log().w(_logTag, 'initState');
+    Log().d(_logTag, 'initState');
 
     _animationController = AnimationController(
       duration: _expandTime, 
@@ -139,7 +139,7 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
                           SizedBox(height: 4),
                           InkWell(
                             onTap: (){
-                              Log().w('SavedPlace', 'CLICK ${widget.profile.place.placePictureAuthorUrl}');
+                              Log().d('SavedPlace', 'CLICK ${widget.profile.place.placePictureAuthorUrl}');
                               launchUnsplashUrl(widget.profile.place.placePictureAuthorUrl ?? '');
                             },
                             child: AnimatedColorText(

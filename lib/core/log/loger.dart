@@ -75,15 +75,17 @@ class Log {
         ),
       );
 
-  void d(String title, [Object? exception, StackTrace? stackTrace]) =>
-      addLogEvent(
-        LogEvent(
-          title,
-          exception: exception,
-          stackTrace: stackTraceConverter(stackTrace),
-          level: Level.debug,
-        ),
-      );
+  void d(String title, [Object? exception, StackTrace? stackTrace]) {
+    if(!kDebugMode) { return; }
+    addLogEvent(
+      LogEvent(
+        title,
+        exception: exception,
+        stackTrace: stackTraceConverter(stackTrace),
+        level: Level.debug,
+      ),
+    );
+  }
 
   void v(String title, [Object? exception, StackTrace? stackTrace]) =>
       addLogEvent(

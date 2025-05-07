@@ -12,8 +12,8 @@ Future<PlacePicturePalette> findTextPalette(String imageUrl) async {
 
   final luminance = palette.dominantColor?.color.computeLuminance();
 
-  Log().w(_logTag, 'imageUrl - $imageUrl');
-  Log().w(_logTag, 'luminance - $luminance');
+  Log().d(_logTag, 'imageUrl - $imageUrl');
+  Log().d(_logTag, 'luminance - $luminance');
 
   // 0.299*R + 0.587*G + 0.114*B
   PlacePicturePalette textColor = (luminance ?? 0) > 0.65 ?
