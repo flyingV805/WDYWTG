@@ -40,6 +40,7 @@ class AddPlaceRepositoryImpl extends AddPlaceRepository {
       _userSession.lastAddedId = placeDto.id;
       await _savedPlaceDao.insertPlace(placeDto);
     }catch(e){
+      Log().w(_logTag, 'insertPlace - ${e.toString()}');
       return AlreadyAddedError();
     }
 

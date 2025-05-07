@@ -8,6 +8,7 @@ import 'package:wdywtg/uiKit/tzTime/time_zoned_time.dart';
 import 'package:wdywtg/uiKit/weatherRow/weather_row.dart';
 
 import '../../../core/log/loger.dart';
+import '../../../core/unsplash/profile_opener.dart';
 import '../../../uiKit/animatedColorText/animated_color_text.dart';
 import '../../../uiKit/waitForAdvice/wait_for_advice.dart';
 import '../model/place_profile.dart';
@@ -137,7 +138,10 @@ class _SavedPlaceState extends State<SavedPlace> with SingleTickerProviderStateM
                           ),
                           SizedBox(height: 4),
                           InkWell(
-                            onTap: (){ Log().w('SavedPlace', 'CLICK'); },
+                            onTap: (){
+                              Log().w('SavedPlace', 'CLICK ${widget.profile.place.placePictureAuthorUrl}');
+                              launchUnsplashUrl(widget.profile.place.placePictureAuthorUrl ?? '');
+                            },
                             child: AnimatedColorText(
                               text: widget.profile.place.placePictureAuthor.isEmpty ? '' : 'Photo by ${widget.profile.place.placePictureAuthor} (Unsplash)',
                               style: Theme.of(context).textTheme.labelSmall?.copyWith(

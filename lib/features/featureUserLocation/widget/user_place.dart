@@ -2,6 +2,8 @@ import 'dart:ui' as ui;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../../commonModel/place_weather.dart';
+import '../../../core/log/loger.dart';
+import '../../../core/unsplash/profile_opener.dart';
 import '../../../uiKit/animatedColorText/animated_color_text.dart';
 import '../../../uiKit/cityImagePlaceholder/image_placeholder.dart';
 import '../../../uiKit/weatherRow/weather_row.dart';
@@ -51,10 +53,19 @@ class UserPlaceWidget extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                   palette: place?.placePicturePalette,
                 ),
-                AnimatedColorText(
-                  text: (place?.placePictureAuthor ?? '').isEmpty ? '' : 'Photo by ${place?.placePictureAuthor} (Unsplash)',
-                  style: Theme.of(context).textTheme.labelSmall,
-                  palette: place?.placePicturePalette,
+                SizedBox(height: 4),
+                InkWell(
+                  onTap: (){
+                    Log().w('UserPlace', 'CLICK ${place?.placePictureAuthorUrl}');
+                    launchUnsplashUrl(place?.placePictureAuthorUrl ?? '');
+                  },
+                  child: AnimatedColorText(
+                    text: (place?.placePictureAuthor ?? '').isEmpty ? '' : 'Photo by ${place?.placePictureAuthor} (Unsplash)',
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      decoration: TextDecoration.underline
+                    ),
+                    palette: place?.placePicturePalette,
+                  ),
                 )
               ],
             ),

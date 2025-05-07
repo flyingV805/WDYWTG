@@ -8,6 +8,7 @@ class Place {
   final String placeCountryCode;
   final String placePictureUrl;
   final String placePictureAuthor;
+  final String placePictureAuthorUrl;
   final PlacePicturePalette? placePicturePalette;
   final double latitude;
   final double longitude;
@@ -20,6 +21,7 @@ class Place {
     required this.placeCountryCode,
     required this.placePictureUrl,
     required this.placePictureAuthor,
+    required this.placePictureAuthorUrl,
     required this.placePicturePalette,
     required this.latitude,
     required this.longitude,
@@ -33,6 +35,7 @@ class Place {
     placeCountryCode: 'DE',
     placePictureUrl: 'https://example.com/berlin.jpg',
     placePictureAuthor: '',
+    placePictureAuthorUrl: '',
     placePicturePalette: PlacePicturePalette.dark,
     latitude: 52.5200,
     longitude: 13.4050 ,

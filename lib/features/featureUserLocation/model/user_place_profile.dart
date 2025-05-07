@@ -8,6 +8,7 @@ class UserPlaceProfile {
   final String placeCountryCode;
   final String? placePictureUrl;
   final String? placePictureAuthor;
+  final String? placePictureAuthorUrl;
   final PlaceWeather? weather;
 
   UserPlaceProfile({
@@ -15,6 +16,7 @@ class UserPlaceProfile {
     required this.placeCountryCode,
     required this.placePictureUrl,
     required this.placePictureAuthor,
+    required this.placePictureAuthorUrl,
     required this.weather
   });
 
@@ -24,6 +26,7 @@ class UserPlaceProfile {
       placeCountryCode: placeCountryCode,
       placePictureUrl: placePictureUrl,
       placePictureAuthor: placePictureAuthor,
+      placePictureAuthorUrl: placePictureAuthorUrl,
       placePicturePalette: PlacePicturePalette.dark
     );
   }

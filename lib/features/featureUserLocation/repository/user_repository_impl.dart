@@ -112,7 +112,7 @@ class UserRepositoryImpl extends UserRepository {
         userPlace,
         image.results.first.urls.regular,
         image.results.first.user.name,
-        'https://unsplash.com/@${image.results.first.user.username}',
+        image.results.first.user.username,
         palette
       );
       await _savedPlaceDao.updatePlace(updatedPlace);
@@ -191,7 +191,7 @@ class UserRepositoryImpl extends UserRepository {
         userPlace,
         image.results.first.urls.regular,
         image.results.first.user.name,
-        'https://unsplash.com/@${image.results.first.user.username}',
+        image.results.first.user.username,
         palette
       );
       await _savedPlaceDao.updatePlace(updatedPlace);
@@ -223,7 +223,7 @@ class UserRepositoryImpl extends UserRepository {
         userPlace,
         image.results.first.urls.regular,
         image.results.first.user.name,
-        'https://unsplash.com/@${image.results.first.user.username}',
+        image.results.first.user.username,
         palette
       );
       await _savedPlaceDao.updatePlace(updatedPlace);
@@ -253,6 +253,7 @@ class UserRepositoryImpl extends UserRepository {
           placeCountryCode: place.placeCountryCode,
           placePictureUrl: place.placePictureUrl,
           placePictureAuthor: place.placePictureAuthor,
+          placePictureAuthorUrl: place.placePictureAuthorUrl,
           weather: mapWeatherDtoToModel(weather)
         );
       }

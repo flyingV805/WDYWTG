@@ -29,6 +29,11 @@ class _AnimatedColorTextState extends State<AnimatedColorText> {
 
   @override
   Widget build(BuildContext context) {
+    final decorationColor = switch(widget.palette){
+      null => null,
+      PlacePicturePalette.light => Colors.white,
+      PlacePicturePalette.dark => Colors.black,
+    };
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 250),
       transitionBuilder: (Widget child, Animation<double> animation) {
@@ -37,11 +42,8 @@ class _AnimatedColorTextState extends State<AnimatedColorText> {
       child: Text(
         widget.text,
         style: widget.style?.copyWith(
-          color: switch(widget.palette){
-            null => null,
-            PlacePicturePalette.light => Colors.white,
-            PlacePicturePalette.dark => Colors.black,
-          }
+          color: decorationColor,
+          decorationColor: decorationColor
         ),
       ),
     );
