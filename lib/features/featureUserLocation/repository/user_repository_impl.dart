@@ -77,6 +77,7 @@ class UserRepositoryImpl extends UserRepository {
     }
 
     try {
+      throw Exception();
       final reverseGeocodeQuery = '$latitude+$longitude';
       final geocodeResult = await _openCageClient.findPlace(reverseGeocodeQuery, dotenv.get('OPEN_CAGE_API_KEY'));
       final userPlaceDto = mapFromGeocode(geocodeResult.results.first, latitude, longitude);
@@ -171,7 +172,7 @@ class UserRepositoryImpl extends UserRepository {
       );
       await _cachedWeatherDao.insertWeather(weatherDto);
       // why? IDFK... but without it - wrong behavior
-      //_cachedWeatherDao.updateWeather(weatherDto);
+      _cachedWeatherDao.updateWeather(weatherDto);
       Log().d(_logTag, 'insertWeather');
     }catch(e){
       Log().d(_logTag, e.toString());

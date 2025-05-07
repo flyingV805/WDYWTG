@@ -76,7 +76,6 @@ class Log {
       );
 
   void d(String title, [Object? exception, StackTrace? stackTrace]) {
-    if(!kDebugMode) { return; }
     addLogEvent(
       LogEvent(
         title,
@@ -142,7 +141,7 @@ class LogEvent {
       }
     }
     // ignore: avoid_Logs().w
-    debugPrint('[ICM] $logsStr');
+    debugPrint('[WDYWTG] $logsStr');
   }
 
 }

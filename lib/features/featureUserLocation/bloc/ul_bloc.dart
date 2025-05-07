@@ -63,7 +63,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
     if(showUserLocation){
       _widgetInUse = true;
       emit.call(state.copyWith(displayUserLocation: true));
-      _findUserLocation(emit);
+      await _findUserLocation(emit);
     }else{
       var shouldAsk = await _userRepository.needAskForLocation();
       Log().d(_logTag, 'shouldAsk - $shouldAsk');
@@ -76,7 +76,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
     _userRepository.setNeedAskForLocation(false);
     _userRepository.setShowUserLocation(true);
     emit.call(state.copyWith(askForLocation: false, displayUserLocation: true));
-    _findUserLocation(emit);
+    await _findUserLocation(emit);
   }
 
   Future<void> _locationDeclined(UserDeclinedLocation event, Emitter<UserLocationState> emit) async {
@@ -101,17 +101,19 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
   }
 
   Future<void> _retryLocation(RetryLocation event, Emitter<UserLocationState> emit) async {
-    _findUserLocation(emit);
+    await _findUserLocation(emit);
   }
 
   Future<void> _retryWeather(RetryWeather event, Emitter<UserLocationState> emit) async {
     final result = await _userRepository.retryFromWeather();
-    _handleResult(result, emit);
+    final error = _handleResult(result);
+    emit(state.copyWith(error: error));
   }
 
   Future<void> _retryImage(RetryImage event, Emitter<UserLocationState> emit) async {
     final result = await _userRepository.retryFromImage();
-    _handleResult(result, emit);
+    final error = _handleResult(result);
+    emit(state.copyWith(error: error));
   }
 
   Future<void> _skipImage(SkipImage event, Emitter<UserLocationState> emit) async {
@@ -119,12 +121,13 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
   }
 
   Future<void> _retryGeocode(RetryGeocode event, Emitter<UserLocationState> emit) async {
-    _findUserLocation(emit);
+    await _findUserLocation(emit);
   }
 
   Future<void> _skipGeocode(SkipGeocode event, Emitter<UserLocationState> emit) async {
     final result = await _userRepository.skipGeocode();
-    _handleResult(result, emit);
+    final error = _handleResult(result);
+    emit(state.copyWith(error: error));
   }
 
   Future<void> _disableFeature(DisableFeature event, Emitter<UserLocationState> emit) async {
@@ -133,47 +136,42 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
     emit.call(state.copyWith(askForLocation: false, displayUserLocation: false));
   }
 
-  void _findUserLocation(Emitter<UserLocationState> emit){
+  Future<void> _findUserLocation(Emitter<UserLocationState> emit) async {
     Log().d(_logTag, '_findUserLocation');
-    UserPosition.determinePosition().then((result){
-      Log().d(_logTag, 'determinePosition result - $result');
-      switch(result){
-        case PositionFound():
-          updatePlaceParameters(result.latitude, result.longitude, emit);
-          break;
-        case PermissionError():
-          emit(state.copyWith(error: PermissionDeclinedError(isForever: result.isForever)));
-          break;
-        case ServiceError():
-          emit(state.copyWith(error: ServiceDisabledError()));
-          break;
-        case PositionError():
-          emit(state.copyWith(error: FetchLocationError()));
-          break;
-      }
-    });
+    final result = await UserPosition.determinePosition();
+
+    Log().d(_logTag, 'determinePosition result - $result');
+    switch(result){
+      case PositionFound():
+        await updatePlaceParameters(result.latitude, result.longitude, emit);
+        break;
+      case PermissionError():
+        emit(state.copyWith(error: PermissionDeclinedError(isForever: result.isForever)));
+        break;
+      case ServiceError():
+        emit(state.copyWith(error: ServiceDisabledError()));
+        break;
+      case PositionError():
+        emit(state.copyWith(error: FetchLocationError()));
+        break;
+    }
+
   }
 
-  void updatePlaceParameters(double latitude, double longitude, Emitter<UserLocationState> emit) async {
+  Future<void> updatePlaceParameters(double latitude, double longitude, Emitter<UserLocationState> emit) async {
     Log().d(_logTag, 'updatePlaceParameters - $latitude $longitude');
     final result = await _userRepository.updateUserPlace(latitude, longitude);
-    _handleResult(result, emit);
-    /*switch(result){
-      case Success(): break;
-      case FindPlaceError(): emit(state.copyWith(error: GeocodeError())); break;
-      case WeatherError(): emit(state.copyWith(error: GetWeatherError())); break;
-      case ImageError(): emit(state.copyWith(error: GetImageError())); break;
-    }*/
-
+    final error = _handleResult(result);
+    emit(state.copyWith(error: error));
   }
 
-  void _handleResult(PlaceSetupResponse result, Emitter<UserLocationState> emit){
-    switch(result){
-      case Success(): break;
-      case FindPlaceError(): emit(state.copyWith(error: GeocodeError())); break;
-      case WeatherError(): emit(state.copyWith(error: GetWeatherError())); break;
-      case ImageError(): emit(state.copyWith(error: GetImageError())); break;
-    }
+  UserLocationError _handleResult(PlaceSetupResponse result) {
+    return switch(result){
+      Success() => Empty(),
+      FindPlaceError() => GeocodeError(),
+      WeatherError() => GetWeatherError(),
+      ImageError() => GetImageError(),
+    };
   }
 
   @override
