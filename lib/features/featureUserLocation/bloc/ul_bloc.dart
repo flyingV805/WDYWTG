@@ -166,6 +166,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
   }
 
   UserLocationError _handleResult(PlaceSetupResponse result) {
+    Log().d(_logTag, '_handleResult - $result');
     return switch(result){
       Success() => Empty(),
       FindPlaceError() => GeocodeError(),

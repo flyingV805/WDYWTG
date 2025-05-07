@@ -77,7 +77,6 @@ class UserRepositoryImpl extends UserRepository {
     }
 
     try {
-      throw Exception();
       final reverseGeocodeQuery = '$latitude+$longitude';
       final geocodeResult = await _openCageClient.findPlace(reverseGeocodeQuery, dotenv.get('OPEN_CAGE_API_KEY'));
       final userPlaceDto = mapFromGeocode(geocodeResult.results.first, latitude, longitude);
