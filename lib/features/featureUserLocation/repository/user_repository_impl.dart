@@ -76,50 +76,14 @@ class UserRepositoryImpl extends UserRepository {
       if(locationsDistance < 5000){ return Success(); }
     }
 
-    try {
-      final reverseGeocodeQuery = '$latitude+$longitude';
-      final geocodeResult = await _openCageClient.findPlace(reverseGeocodeQuery, dotenv.get('OPEN_CAGE_API_KEY'));
-      final userPlaceDto = mapFromGeocode(geocodeResult.results.first, latitude, longitude);
-      _savedPlaceDao.insertPlace(userPlaceDto);
-      Log().d(_logTag, 'insertPlace');
-    } catch (e){
-      Log().d(_logTag, e.toString());
-      return FindPlaceError();
-    }
+    final geocodeResult = await _updateGeocode(latitude, longitude);
+    if(!geocodeResult){ return FindPlaceError(); }
 
-    try{
-      final weather = await _openMeteoClient.getForecast(latitude, longitude);
-      final weatherDto = mapFromNetwork(weather, Constants.userPlaceId, latitude, longitude);
-      await _cachedWeatherDao.insertWeather(weatherDto);
-      // why? IDFK... but without it - wrong behavior
-      _cachedWeatherDao.updateWeather(weatherDto);
-      Log().d(_logTag, 'insertWeather');
-    }catch(e){
-      Log().d(_logTag, e.toString());
-      return WeatherError();
-    }
+    final weatherResult = await _updateWeather(latitude, longitude);
+    if(!weatherResult){ return WeatherError(); }
 
-    // get place image
-    try{
-      final userPlace = await _savedPlaceDao.getUserPlace();
-      if(userPlace == null) { return ImageError(); }
-      final image = await _unsplashClient.getPicture(
-        '${userPlace.placeName} city, ${userPlace.placeCountryCode.toUpperCase()}',
-        dotenv.get('UNSPLASH_API_ACCESS_KEY')
-      );
-      final palette = await findTextPalette(image.results.first.urls.thumb);
-      final updatedPlace = _updatePicture(
-        userPlace,
-        image.results.first.urls.regular,
-        image.results.first.user.name,
-        image.results.first.user.username,
-        palette
-      );
-      await _savedPlaceDao.updatePlace(updatedPlace);
-      Log().d(_logTag, 'updatePicture');
-    }catch(e){
-      return ImageError();
-    }
+    final updateImage = await _updateImage();
+    if(!updateImage){ return ImageError(); }
 
     return Success();
 
@@ -161,44 +125,12 @@ class UserRepositoryImpl extends UserRepository {
     final userPlace = await _savedPlaceDao.getUserPlace();
     if(userPlace == null) { return FindPlaceError(); }
 
-    try{
-      final weather = await _openMeteoClient.getForecast(userPlace.latitude, userPlace.longitude);
-      final weatherDto = mapFromNetwork(
-        weather,
-        Constants.userPlaceId,
-        userPlace.latitude,
-        userPlace.longitude
-      );
-      await _cachedWeatherDao.insertWeather(weatherDto);
-      // why? IDFK... but without it - wrong behavior
-      _cachedWeatherDao.updateWeather(weatherDto);
-      Log().d(_logTag, 'insertWeather');
-    }catch(e){
-      Log().d(_logTag, e.toString());
-      return WeatherError();
-    }
+    final weatherResult = await _updateWeather(userPlace.latitude, userPlace.longitude);
+    if(!weatherResult){ return WeatherError(); }
 
     // get place image
-    try{
-      final userPlace = await _savedPlaceDao.getUserPlace();
-      if(userPlace == null) { return ImageError(); }
-      final image = await _unsplashClient.getPicture(
-        '${userPlace.placeName} city, ${userPlace.placeCountryCode.toUpperCase()}',
-        dotenv.get('UNSPLASH_API_ACCESS_KEY')
-      );
-      final palette = await findTextPalette(image.results.first.urls.thumb);
-      final updatedPlace = _updatePicture(
-        userPlace,
-        image.results.first.urls.regular,
-        image.results.first.user.name,
-        image.results.first.user.username,
-        palette
-      );
-      await _savedPlaceDao.updatePlace(updatedPlace);
-      Log().d(_logTag, 'updatePicture');
-    }catch(e){
-      return ImageError();
-    }
+    final updateImage = await _updateImage();
+    if(!updateImage){ return ImageError(); }
 
     return Success();
 
@@ -211,26 +143,8 @@ class UserRepositoryImpl extends UserRepository {
     final userPlace = await _savedPlaceDao.getUserPlace();
     if(userPlace == null) { return FindPlaceError(); }
 
-    try{
-      final userPlace = await _savedPlaceDao.getUserPlace();
-      if(userPlace == null) { return ImageError(); }
-      final image = await _unsplashClient.getPicture(
-        '${userPlace.placeName} city, ${userPlace.placeCountryCode.toUpperCase()}',
-        dotenv.get('UNSPLASH_API_ACCESS_KEY')
-      );
-      final palette = await findTextPalette(image.results.first.urls.thumb);
-      final updatedPlace = _updatePicture(
-        userPlace,
-        image.results.first.urls.regular,
-        image.results.first.user.name,
-        image.results.first.user.username,
-        palette
-      );
-      await _savedPlaceDao.updatePlace(updatedPlace);
-      Log().d(_logTag, 'updatePicture');
-    }catch(e){
-      return ImageError();
-    }
+    final updateImage = await _updateImage();
+    if(!updateImage){ return ImageError(); }
 
     return Success();
 
@@ -259,6 +173,59 @@ class UserRepositoryImpl extends UserRepository {
       }
     );
 
+  }
+
+  Future<bool> _updateGeocode(double latitude, double longitude) async {
+    try {
+      final reverseGeocodeQuery = '$latitude+$longitude';
+      final geocodeResult = await _openCageClient.findPlace(reverseGeocodeQuery, dotenv.get('OPEN_CAGE_API_KEY'));
+      final userPlaceDto = mapFromGeocode(geocodeResult.results.first, latitude, longitude);
+      _savedPlaceDao.insertPlace(userPlaceDto);
+      Log().d(_logTag, 'insertPlace');
+    } catch (e){
+      Log().d(_logTag, e.toString());
+      return false;
+    }
+    return true;
+  }
+
+  Future<bool> _updateWeather(double latitude, double longitude) async {
+    try{
+      final weather = await _openMeteoClient.getForecast(latitude, longitude);
+      final weatherDto = mapFromNetwork(weather, Constants.userPlaceId, latitude, longitude);
+      await _cachedWeatherDao.insertWeather(weatherDto);
+      // why? IDFK... but without it - wrong behavior
+      _cachedWeatherDao.updateWeather(weatherDto);
+      Log().d(_logTag, 'insertWeather');
+    }catch(e){
+      Log().d(_logTag, e.toString());
+      return false;
+    }
+    return true;
+  }
+
+  Future<bool> _updateImage() async {
+    try{
+      final userPlace = await _savedPlaceDao.getUserPlace();
+      if(userPlace == null) { return false; }
+      final image = await _unsplashClient.getPicture(
+        '${userPlace.placeName} city, ${userPlace.placeCountryCode.toUpperCase()}',
+        dotenv.get('UNSPLASH_API_ACCESS_KEY')
+      );
+      final palette = await findTextPalette(image.results.first.urls.thumb);
+      final updatedPlace = _updatePicture(
+        userPlace,
+        image.results.first.urls.regular,
+        image.results.first.user.name,
+        image.results.first.user.username,
+        palette
+      );
+      await _savedPlaceDao.updatePlace(updatedPlace);
+      Log().d(_logTag, 'updatePicture');
+      return true;
+    }catch(e){
+      return false;
+    }
   }
 
   SavedPlaceDto _updatePicture(SavedPlaceDto dto, String pictureUrl, String pictureAuthor, String pictureUsername, PlacePicturePalette palette){
