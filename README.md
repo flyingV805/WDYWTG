@@ -55,6 +55,10 @@ Make sure you have Flutter installed and set up properly.
 ### Geolocator — for location services
 ### BLoC — state management
 
+## Available 
+<a href="https://play.google.com/store/apps/details?id=kz.flyingv.wdywtg"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="64"></a>
+
+
 ## 📌 Roadmap
 📅 Multi-day weather forecast  ✅
 
