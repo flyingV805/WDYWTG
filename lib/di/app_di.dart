@@ -12,6 +12,7 @@ import 'package:wdywtg/core/unsplash/unsplash_client.dart';
 import '../core/openMeteo/open_meteo_client.dart';
 import '../core/userSession/user_session.dart';
 import '../features/featureUpdater/info_updater.dart';
+import '../features/featureUserLocation/user_location_notifier.dart';
 
 // App's DI Graph
 Future<void> initDI() async {
@@ -30,7 +31,7 @@ Future<void> initDI() async {
   GetIt.I.registerFactory<UnsplashClient>(() => UnsplashClient(dio));
   GetIt.I.registerLazySingleton<GeminiClient>(() => GeminiClient());
 
-
+  GetIt.I.registerSingleton<UserLocationFeatureState>(UserLocationFeatureState());
   GetIt.I.registerLazySingleton<InfoUpdater>(() => InfoUpdater());
 
 }

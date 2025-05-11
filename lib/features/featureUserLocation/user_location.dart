@@ -24,7 +24,7 @@ class UserLocation extends StatelessWidget {
       create: (BuildContext blocContext) => UserLocationBloc(
         userRepository: blocContext.read<UserRepository>()
       )..add(Initialize()),
-      child:  BlocListener<UserLocationBloc, UserLocationState>(
+      child: BlocListener<UserLocationBloc, UserLocationState>(
         listener: (context, state) {
           if(state.askForLocation) { AskForLocationDialog().show(context); }
           final error = state.error;

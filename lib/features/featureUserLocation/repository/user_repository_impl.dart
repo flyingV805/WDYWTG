@@ -49,8 +49,8 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  void setShowUserLocation(bool value) {
-    _preferences.setBool('showUserLocation', value);
+  Future<void> setShowUserLocation(bool value) async {
+    await _preferences.setBool('showUserLocation', value);
   }
 
   @override

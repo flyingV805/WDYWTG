@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:get_it/get_it.dart';
 import 'package:wdywtg/features/featureUserLocation/bloc/ul_event.dart';
 import 'package:wdywtg/features/featureUserLocation/bloc/ul_state.dart';
 import 'package:wdywtg/features/featureUserLocation/model/place_setup_response.dart';
@@ -9,6 +10,7 @@ import 'package:wdywtg/features/featureUserLocation/model/place_setup_response.d
 import '../../../core/location/user_position.dart';
 import '../../../core/log/loger.dart';
 import '../repository/user_repository.dart';
+import '../user_location_notifier.dart';
 
 class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
 
@@ -43,11 +45,21 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
       add(UpdatePlaceData(place: userPlace));
     });
 
+    GetIt.I.get<UserLocationFeatureState>().setListener((enable){
+      Log().w(_logTag, 'ulStateNotifier - $enable');
+      if(enable){
+        _userRepository.setShowUserLocation(true);
+        add(Initialize());
+      }else{
+        add(DisableFeature());
+      }
+    });
+
     _keyboardSubscription = _keyboardVisibilityController.onChange.listen(
       (bool keyboardVisible) {
         if(!_widgetInUse) { return; }
         add(UpdateKeyboard(onScreen: keyboardVisible));
-        Log().d(_logTag, 'keyboardVisible - $keyboardVisible');
+        Log().v(_logTag, 'keyboardVisible - $keyboardVisible');
       }
     );
 
@@ -58,6 +70,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
     Log().d(_logTag, '_startRoutine');
 
     final showUserLocation = await _userRepository.showUserLocation();
+    GetIt.I.get<UserLocationFeatureState>().setInitialState(showUserLocation);
 
     // user approved using location last time
     if(showUserLocation){
@@ -75,6 +88,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
   Future<void> _locationApproved(UserApprovedLocation event, Emitter<UserLocationState> emit) async {
     _userRepository.setNeedAskForLocation(false);
     _userRepository.setShowUserLocation(true);
+    GetIt.I.get<UserLocationFeatureState>().setInitialState(true);
     emit.call(state.copyWith(askForLocation: false, displayUserLocation: true));
     await _findUserLocation(emit);
   }
@@ -82,6 +96,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
   Future<void> _locationDeclined(UserDeclinedLocation event, Emitter<UserLocationState> emit) async {
     _userRepository.setNeedAskForLocation(false);
     _userRepository.setShowUserLocation(false);
+    GetIt.I.get<UserLocationFeatureState>().setInitialState(false);
     emit.call(state.copyWith(askForLocation: false));
   }
 
@@ -133,6 +148,7 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState>{
   Future<void> _disableFeature(DisableFeature event, Emitter<UserLocationState> emit) async {
     _userRepository.setNeedAskForLocation(false);
     _userRepository.setShowUserLocation(false);
+    GetIt.I.get<UserLocationFeatureState>().setInitialState(false);
     emit.call(state.copyWith(askForLocation: false, displayUserLocation: false));
   }
 

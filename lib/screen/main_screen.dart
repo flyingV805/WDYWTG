@@ -5,6 +5,7 @@ import '../features/featureFind/find_place.dart';
 import '../features/featureList/places_list.dart';
 import '../features/featureUpdater/info_updater.dart';
 import '../features/featureUserLocation/user_location.dart';
+import '../features/featureUserLocation/user_location_notifier.dart';
 import '../uiKit/whereToText/where_to_text.dart';
 
 class MainScreen extends StatefulWidget {
@@ -17,6 +18,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+
+  final _ulStateNotifier = GetIt.I.get<UserLocationFeatureState>();
 
   @override
   void initState() {
@@ -32,10 +35,29 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         title: Text('Where to?'),
         centerTitle: true,
+
         actions: [
-          IconButton(
-            onPressed: (){},
-            icon: Icon(Icons.settings)
+          PopupMenuButton(
+            icon: Icon(Icons.settings),
+            onSelected: (item){
+              switch(item){
+                case 'ul_action':
+                  _ulStateNotifier.flipState();
+                  break;
+              }
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              PopupMenuItem(
+                value: 'ul_action',
+                child: Row(
+                  children: [
+                    Icon(_ulStateNotifier.featureEnabled ? Icons.location_disabled : Icons.my_location ),
+                    SizedBox(width: 16),
+                    Text(_ulStateNotifier.featureEnabled ? 'Disable My Location' : 'Enable My Location')
+                  ],
+                )
+              ),
+            ],
           )
         ],
       ),

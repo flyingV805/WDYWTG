@@ -9,7 +9,7 @@ abstract class UserRepository extends Repository {
   void setNeedAskForLocation(bool value);
 
   Future<bool> showUserLocation();
-  void setShowUserLocation(bool value);
+  Future<void> setShowUserLocation(bool value);
 
   Future<PlaceSetupResponse> updateUserPlace(double latitude, double longitude);
   Stream<UserPlaceProfile?> userPlaceLive();
