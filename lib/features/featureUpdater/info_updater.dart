@@ -29,9 +29,14 @@ class InfoUpdater {
 
   }
 
+  void appResumed(){
+
+  }
+
   void startUpdater(BuildContext context){
     Log().i(_logTag, 'updater started');
     this.context = context;
+    if(updateTimer != null){ return; }
     updateTimer = Timer.periodic(Duration(hours: 8), _update);
     Future.delayed(Duration(seconds: 2), (){ _update(null); });
   }
