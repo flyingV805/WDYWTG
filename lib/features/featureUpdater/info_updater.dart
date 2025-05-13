@@ -30,7 +30,6 @@ class InfoUpdater {
         }
         break;
     }
-    //ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
     // update ai advices, if needed
 
