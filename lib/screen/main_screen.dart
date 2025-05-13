@@ -20,12 +20,20 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
 
   final _ulStateNotifier = GetIt.I.get<UserLocationFeatureState>();
+  late final AppLifecycleListener _appStateListener;
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((duration){
       GetIt.I.get<InfoUpdater>().startUpdater(context);
     });
+
+    _appStateListener = AppLifecycleListener(
+      onResume: (){
+
+      }
+    );
+
     super.initState();
   }
 
