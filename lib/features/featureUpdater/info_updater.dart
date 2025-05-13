@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:wdywtg/core/log/loger.dart';
+import 'package:wdywtg/features/featureUpdater/model/weather_update_result.dart';
 import 'package:wdywtg/features/featureUpdater/repository/update_data_repository_impl.dart';
 
 class InfoUpdater {
@@ -19,7 +20,17 @@ class InfoUpdater {
 
 
     // update weather
-    final weatherUpdateResult = _updateRepository.updateCachedWeather();
+    final weatherUpdateResult = await _updateRepository.updateCachedWeather();
+    switch(weatherUpdateResult){
+      case Success(): break;
+      case Error():
+        if(context.mounted){
+          final snackBar = SnackBar(content: Text(''));
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+        break;
+    }
+    //ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
     // update ai advices, if needed
 
