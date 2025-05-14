@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:wdywtg/screen/showcase/showcase.dart';
 
 import '../features/featureFind/find_place.dart';
 import '../features/featureList/places_list.dart';
@@ -58,11 +59,24 @@ class _MainScreenState extends State<MainScreen> {
                 case 'ul_action':
                   _ulStateNotifier.flipState();
                   break;
+                case 'showcase':
+                  Showcase.start(context);
+                  break;
               }
             },
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               PopupMenuItem(
                 value: 'ul_action',
+                child: Row(
+                  children: [
+                    Icon(_ulStateNotifier.featureEnabled ? Icons.location_disabled : Icons.my_location ),
+                    SizedBox(width: 16),
+                    Text(_ulStateNotifier.featureEnabled ? 'Disable My Location' : 'Enable My Location')
+                  ],
+                )
+              ),
+              PopupMenuItem(
+                value: 'showcase',
                 child: Row(
                   children: [
                     Icon(_ulStateNotifier.featureEnabled ? Icons.location_disabled : Icons.my_location ),
