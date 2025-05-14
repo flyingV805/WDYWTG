@@ -6,6 +6,7 @@ class UserLocationFeatureState extends ChangeNotifier {
   static final String _logTag = 'UserLocationFeatureState';
 
   bool featureEnabled = false;
+
   Function(bool)? _stateListener;
 
   void setListener(Function(bool)? stateListener){

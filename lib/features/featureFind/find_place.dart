@@ -30,7 +30,7 @@ class FindPlace extends StatelessWidget {
         focusNode: _focusNode,
         fieldController: _textController
       ),
-      child: BlocListener<FindBloc, FindState>(
+      child: BlocConsumer<FindBloc, FindState>(
         listener: (context, state){
           final error = state.error;
           Log().d(_logTag, 'BlocListener error - $error');
@@ -50,39 +50,38 @@ class FindPlace extends StatelessWidget {
             default: break;
           }
         },
-        child: BlocBuilder<FindBloc, FindState>(
-          builder: (context, state) {
-            return Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextField(
-                        key: const Key('place_search_field'),
-                        controller: _textController,
-                        focusNode: _focusNode,
-                        textInputAction: TextInputAction.none,
-                        onSubmitted: (searchable){},
-                        onChanged: (searchable) {
-                          context.read<FindBloc>().add(UpdateSearch(searchable: searchable));
-                        },
-                        decoration: InputDecoration(
+        builder: (context, state) {
+          return Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      key: const Key('place_search_field'),
+                      controller: _textController,
+                      focusNode: _focusNode,
+                      textInputAction: TextInputAction.none,
+                      onSubmitted: (searchable){},
+                      onChanged: (searchable) {
+                        context.read<FindBloc>().add(UpdateSearch(searchable: searchable));
+                      },
+                      decoration: InputDecoration(
                           labelText: 'I\'m going to visit...',
                           errorText: null,
                           suffixIcon: AnimatedOpacity(
                             opacity: state.showList ? 1 : 0,
                             duration: const Duration(milliseconds: 250),
                             child: IconButton(
-                              onPressed: (){ _focusNode.unfocus(); },
-                              icon: const Icon(Icons.close)
+                                onPressed: (){ _focusNode.unfocus(); },
+                                icon: const Icon(Icons.close)
                             ),
                           ),
                           prefixIcon: AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 250),
-                            child: state.searching ?
+                              duration: const Duration(milliseconds: 250),
+                              child: state.searching ?
                               UnconstrainedBox(
                                 key: ValueKey('searching'),
                                 child: SizedBox(
@@ -91,25 +90,24 @@ class FindPlace extends StatelessWidget {
                                   child: CircularProgressIndicator(strokeWidth: 2),
                                 ),
                               )
-                                :
+                                  :
                               Icon(key: ValueKey('searched'), Icons.search)
                           )
-                        ),
                       ),
-                      SuggestionsList(
-                        isExpanded: state.showList,
-                        suggestions: state.suggestions,
-                        onSelect: (suggestion){
-                          context.read<FindBloc>().add(AddPlace(placeToAdd: suggestion));
-                        },
-                      )
-                    ],
-                  ),
+                    ),
+                    SuggestionsList(
+                      isExpanded: state.showList,
+                      suggestions: state.suggestions,
+                      onSelect: (suggestion){
+                        context.read<FindBloc>().add(AddPlace(placeToAdd: suggestion));
+                      },
+                    )
+                  ],
                 ),
               ),
-            );
-          }
-        ),
+            ),
+          );
+        },
       ),
     );
   }

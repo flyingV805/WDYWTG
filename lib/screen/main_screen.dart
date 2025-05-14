@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:wdywtg/screen/showcase/showcase.dart';
+import 'package:wdywtg/screen/showcase/showcase_screen.dart';
 
 import '../features/featureFind/find_place.dart';
 import '../features/featureList/places_list.dart';
@@ -22,6 +22,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final _ulStateNotifier = GetIt.I.get<UserLocationFeatureState>();
   late final AppLifecycleListener _appStateListener;
+  bool _displayShowcase = false;
 
   @override
   void initState() {
@@ -50,7 +51,6 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         title: Text('Where to?'),
         centerTitle: true,
-
         actions: [
           PopupMenuButton(
             icon: Icon(Icons.settings),
@@ -60,7 +60,7 @@ class _MainScreenState extends State<MainScreen> {
                   _ulStateNotifier.flipState();
                   break;
                 case 'showcase':
-                  Showcase.start(context);
+                  setState(() { _displayShowcase = true; });
                   break;
               }
             },
@@ -79,9 +79,9 @@ class _MainScreenState extends State<MainScreen> {
                 value: 'showcase',
                 child: Row(
                   children: [
-                    Icon(_ulStateNotifier.featureEnabled ? Icons.location_disabled : Icons.my_location ),
+                    Icon(Icons.help),
                     SizedBox(width: 16),
-                    Text(_ulStateNotifier.featureEnabled ? 'Disable My Location' : 'Enable My Location')
+                    Text('Showcase')
                   ],
                 )
               ),
@@ -89,13 +89,26 @@ class _MainScreenState extends State<MainScreen> {
           )
         ],
       ),
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(child: UserLocation()),
-          SliverToBoxAdapter(child: WhereToText()),
-          SliverToBoxAdapter(child: SizedBox(height: 8)),
-          SliverToBoxAdapter(child: FindPlace()),
-          PlacesList()
+      body: Stack(
+        children: [
+          CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(child: UserLocation()),
+              SliverToBoxAdapter(child: WhereToText()),
+              SliverToBoxAdapter(child: SizedBox(height: 8)),
+              SliverToBoxAdapter(child: FindPlace()),
+              PlacesList()
+            ],
+          ),
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 150),
+            child: _displayShowcase ? ShowcaseScreen(
+              ulEnabled: _ulStateNotifier.featureEnabled,
+              onFinished: (){
+                setState(() { _displayShowcase = false; });
+              },
+            ): SizedBox.shrink(),
+          )
         ],
       ),
     );

@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
-
+import 'package:showcaseview/showcaseview.dart';
 import '../../uiKit/whereToText/where_to_text.dart';
 
 class ShowcaseScreen extends StatefulWidget {
 
-  const ShowcaseScreen({super.key});
+  final bool ulEnabled;
+  final Function() onFinished;
+
+  const ShowcaseScreen({
+    super.key,
+    required this.ulEnabled,
+    required this.onFinished,
+  });
 
   @override
   State<StatefulWidget> createState() => _ShowcaseScreenState();
@@ -13,27 +20,47 @@ class ShowcaseScreen extends StatefulWidget {
 
 final class _ShowcaseScreenState extends State<ShowcaseScreen> {
 
+  BuildContext? _showcaseContext;
+  final GlobalKey _userLocation = GlobalKey();
+  final GlobalKey _settings = GlobalKey();
+
+  @override
+  void initState() {
+
+    WidgetsBinding.instance.addPostFrameCallback((duration){
+      Future.delayed(
+        Duration(milliseconds: 350),
+        (){
+          if(_showcaseContext != null){
+            ShowCaseWidget.of(_showcaseContext!).startShowCase([_userLocation]);
+          }
+        }
+      );
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text('Where to?'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: (){},
-            icon: Icon(Icons.settings)
-          )
-        ]
-      ),
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(child: WhereToText()),
-          SliverToBoxAdapter(child: SizedBox(height: 8)),
-
-        ]
-      ),
+    return ShowCaseWidget(
+      builder: (context) {
+        _showcaseContext = context;
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Showcase(
+                key: _userLocation,
+                description: 'dfsdfsdfsdfsdfsdf',
+                child: SizedBox(width: double.infinity, height: 186)
+              )
+            ),
+            Text('sdfsdfsdfsdfsdf')
+        ],
+        );
+      },
+      onFinish: (){ widget.onFinished(); },
     );
   }
 
