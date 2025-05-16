@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:wdywtg/screen/showcase/showcase_screen.dart';
 
+import '../core/log/loger.dart';
 import '../features/featureFind/find_place.dart';
 import '../features/featureList/places_list.dart';
 import '../features/featureUpdater/info_updater.dart';
@@ -101,13 +102,15 @@ class _MainScreenState extends State<MainScreen> {
             ],
           ),
           AnimatedSwitcher(
-            duration: const Duration(milliseconds: 150),
+            duration: const Duration(milliseconds: 350),
             child: _displayShowcase ? ShowcaseScreen(
+              key: ValueKey('showcase_wrapper'),
               ulEnabled: _ulStateNotifier.featureEnabled,
               onFinished: (){
+                Log().i('Showcase finished');
                 setState(() { _displayShowcase = false; });
               },
-            ): SizedBox.shrink(),
+            ): SizedBox.shrink(key: ValueKey('showcase_placeholder')),
           )
         ],
       ),

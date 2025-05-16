@@ -30,10 +30,10 @@ class Place {
   
   Place.examplePlace() : this(
     id: 0,
-    placeName: 'Berlin',
-    placeTimezone: 'Europe/Berlin',
-    placeCountryCode: 'DE',
-    placePictureUrl: 'https://example.com/berlin.jpg',
+    placeName: 'Paris',
+    placeTimezone: 'Europe/Paris',
+    placeCountryCode: 'FR',
+    placePictureUrl: '',
     placePictureAuthor: '',
     placePictureAuthorUrl: '',
     placePicturePalette: PlacePicturePalette.dark,

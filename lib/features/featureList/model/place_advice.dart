@@ -9,8 +9,8 @@ class PlaceAdvice {
   });
 
   PlaceAdvice.exampleAdvice() : this(
-    adviceTitle: 'Pack an Umbrella2!',
-    adviceBody: 'Pack an Umbrella!Pack an Umbrella!Pack an Umbrella!Pack an Umbrella!Pack an Umbrella!Pack an Umbrella!Pack an Umbrella!Pack an Umbrella!'
+    adviceTitle: 'Pack an Umbrella!',
+    adviceBody: 'An umbrella can always be useful! Even in hot sunny weather you can take shelter from the heat!'
   );
 
 }

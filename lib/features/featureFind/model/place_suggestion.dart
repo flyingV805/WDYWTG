@@ -20,12 +20,12 @@ class PlaceSuggestion {
 
   PlaceSuggestion.exampleSuggestion() : this(
     placeId: 7,
-    placeName: 'Berlin',
-    placeAdmin: 'Germany',
-    placeCountryCode: 'DE',
+    placeName: 'Paris',
+    placeAdmin: 'France',
+    placeCountryCode: 'FR',
     latitude: 52.52437,
     longitude: 13.41053,
-    timezone: 'Europe/Berlin'
+    timezone: 'Europe/Paris'
   );
 
 }

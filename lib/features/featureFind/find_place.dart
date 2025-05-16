@@ -69,30 +69,30 @@ class FindPlace extends StatelessWidget {
                         context.read<FindBloc>().add(UpdateSearch(searchable: searchable));
                       },
                       decoration: InputDecoration(
-                          labelText: 'I\'m going to visit...',
-                          errorText: null,
-                          suffixIcon: AnimatedOpacity(
-                            opacity: state.showList ? 1 : 0,
-                            duration: const Duration(milliseconds: 250),
-                            child: IconButton(
-                                onPressed: (){ _focusNode.unfocus(); },
-                                icon: const Icon(Icons.close)
-                            ),
+                        labelText: 'I\'m going to visit...',
+                        errorText: null,
+                        suffixIcon: AnimatedOpacity(
+                          opacity: state.showList ? 1 : 0,
+                          duration: const Duration(milliseconds: 250),
+                          child: IconButton(
+                            onPressed: (){ _focusNode.unfocus(); },
+                            icon: const Icon(Icons.close)
                           ),
-                          prefixIcon: AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 250),
-                              child: state.searching ?
-                              UnconstrainedBox(
-                                key: ValueKey('searching'),
-                                child: SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: CircularProgressIndicator(strokeWidth: 2),
-                                ),
-                              )
-                                  :
-                              Icon(key: ValueKey('searched'), Icons.search)
+                        ),
+                        prefixIcon: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 250),
+                          child: state.searching ?
+                          UnconstrainedBox(
+                            key: ValueKey('searching'),
+                            child: SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
                           )
+                              :
+                          Icon(key: ValueKey('searched'), Icons.search)
+                        )
                       ),
                     ),
                     SuggestionsList(
