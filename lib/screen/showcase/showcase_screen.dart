@@ -31,15 +31,17 @@ final class _ShowcaseScreenState extends State<ShowcaseScreen> {
   bool _showList = false;
   bool _expandList = false;
   bool _showPlace = false;
-  List<PlaceSuggestion> _suggestions = [
+  final List<PlaceSuggestion> _suggestions = [
     PlaceSuggestion.exampleSuggestion()
   ];
 
   BuildContext? _showcaseContext;
   final GlobalKey _userLocation = GlobalKey();
   final GlobalKey _searchField = GlobalKey();
+  final GlobalKey _findPlace = GlobalKey();
   final GlobalKey _foundPlace = GlobalKey();
   final GlobalKey _placeAdded = GlobalKey();
+  final GlobalKey _collapsePlace = GlobalKey();
 
   @override
   void initState() {
@@ -101,20 +103,25 @@ final class _ShowcaseScreenState extends State<ShowcaseScreen> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              TextField(
-                                key: const Key('place_search_field'),
-                                readOnly: true,
-                                controller: _textController,
-                                textInputAction: TextInputAction.none,
-                                decoration: InputDecoration(
-                                  labelText: 'I\'m going to visit...',
-                                  errorText: null,
-                                  suffixIcon: AnimatedOpacity(
-                                    opacity: _showList ? 1 : 0,
-                                    duration: const Duration(milliseconds: 250),
-                                    child: const Icon(Icons.close),
+                              Showcase(
+                                key: _searchField,
+                                title: 'Find a place',
+                                description: 'Find a place for your trip by entering its name',
+                                child: TextField(
+                                  key: const Key('place_search_field'),
+                                  readOnly: true,
+                                  controller: _textController,
+                                  textInputAction: TextInputAction.none,
+                                  decoration: InputDecoration(
+                                    labelText: 'I\'m going to visit...',
+                                    errorText: null,
+                                    suffixIcon: AnimatedOpacity(
+                                      opacity: _showList ? 1 : 0,
+                                      duration: const Duration(milliseconds: 250),
+                                      child: const Icon(Icons.close),
+                                    ),
+                                    prefixIcon: Icon(key: ValueKey('searched'), Icons.search)
                                   ),
-                                  prefixIcon: Icon(key: ValueKey('searched'), Icons.search)
                                 ),
                               ),
                               Showcase(
@@ -138,17 +145,22 @@ final class _ShowcaseScreenState extends State<ShowcaseScreen> {
                         key: _placeAdded,
                         title: 'You are all set!',
                         description: 'Your place, weather, and tips on how to get there without any difficulties!',
-                        child: SavedPlace(
-                          initiallyExpanded: true,
-                          profile: PlaceProfile(
-                            place: Place.examplePlace(),
-                            advicesAvailable: true,
-                            weather: PlaceWeather.exampleWeather(),
-                            advices: [
-                              PlaceAdvice.exampleAdvice()
-                            ]
+                        child: Showcase(
+                          key: _collapsePlace,
+                          title: 'Collapse/Expand',
+                          description: 'Your place, weather, and tips on how to get there without any difficulties!',
+                          child: SavedPlace(
+                            initiallyExpanded: true,
+                            profile: PlaceProfile(
+                              place: Place.examplePlace(),
+                              advicesAvailable: true,
+                              weather: PlaceWeather.exampleWeather(),
+                              advices: [
+                                PlaceAdvice.exampleAdvice()
+                              ]
+                            ),
+
                           ),
-                      
                         )
                       ),
                     ),

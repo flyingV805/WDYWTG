@@ -22,6 +22,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
 
   final _ulStateNotifier = GetIt.I.get<UserLocationFeatureState>();
+  final _scrollController = ScrollController();
   late final AppLifecycleListener _appStateListener;
   bool _displayShowcase = false;
 
@@ -61,6 +62,7 @@ class _MainScreenState extends State<MainScreen> {
                   _ulStateNotifier.flipState();
                   break;
                 case 'showcase':
+                  _scrollController.jumpTo(0);
                   setState(() { _displayShowcase = true; });
                   break;
               }
@@ -93,6 +95,7 @@ class _MainScreenState extends State<MainScreen> {
       body: Stack(
         children: [
           CustomScrollView(
+            controller: _scrollController,
             slivers: [
               SliverToBoxAdapter(child: UserLocation()),
               SliverToBoxAdapter(child: WhereToText()),
