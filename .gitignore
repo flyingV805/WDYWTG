@@ -53,7 +53,9 @@ ios/Runner/GoogleService-Info.plist
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/app/.cxx
 
 
 android/key.properties
 android/wdywtg.jks
+/android/app/.cxx/
