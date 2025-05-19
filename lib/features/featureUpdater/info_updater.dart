@@ -21,6 +21,7 @@ class InfoUpdater {
 
     // update weather
     final weatherUpdateResult = await _updateRepository.updateCachedWeather();
+    Log().i(_logTag, 'weatherUpdateResult $weatherUpdateResult');
     switch(weatherUpdateResult){
       case Success(): break;
       case Error():
@@ -54,7 +55,7 @@ class InfoUpdater {
     Log().i(_logTag, 'updater started');
     this.context = context;
     if(updateTimer != null){ return; }
-    updateTimer = Timer.periodic(Duration(hours: 8), _update);
+    updateTimer = Timer.periodic(Duration(hours: 1), _update);
     Future.delayed(Duration(seconds: 2), (){ _update(null); });
   }
 

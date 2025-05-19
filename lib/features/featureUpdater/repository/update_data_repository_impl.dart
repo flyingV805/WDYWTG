@@ -27,11 +27,14 @@ class UpdateDataRepositoryImpl extends UpdateDataRepository {
       if( (currentTime - cachedWeather.updateTime) > _weatherUpdatePeriod ){
         try{
           final forecast = await _openMeteoClient.getForecast(cachedWeather.latitude, cachedWeather.longitude);
+          Log().w(_logTag, 'UPDATE RESULT ${forecast.toJson().toString()}');
+
           final weatherDto = mapFromNetwork(forecast, cachedWeather.placeId, cachedWeather.latitude, cachedWeather.longitude);
           _cachedWeatherDao.updateWeather(weatherDto);
         }catch(e){
           // add to update errors
-          Log().d(_logTag, e.toString());
+          Log().i(_logTag, e.toString());
+          return Error();
         }
 
 
