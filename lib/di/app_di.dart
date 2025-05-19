@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wdywtg/core/database/app_database.dart';
 import 'package:wdywtg/core/database/dao/ai_advice_dao.dart';
 import 'package:wdywtg/core/database/dao/cached_weather_dao.dart';
@@ -23,6 +24,7 @@ Future<void> initDI() async {
   GetIt.I.registerSingleton<CachedWeatherDao>(database.weatherDao);
   GetIt.I.registerSingleton<AiAdviceDao>(database.aiAdviceDao);
   GetIt.I.registerSingleton<UserSession>(UserSession());
+  GetIt.I.registerSingleton<SharedPreferencesAsync>(SharedPreferencesAsync());
 
   final dio = Dio();
   GetIt.I.registerFactory<OpenMeteoClient>(() => OpenMeteoClient(dio));
