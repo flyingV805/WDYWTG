@@ -24,7 +24,7 @@ import 'mapper/weather_mapper.dart';
 
 class UserRepositoryImpl extends UserRepository {
 
-  final _preferences = SharedPreferencesAsync();
+  final _preferences = GetIt.I.get<SharedPreferencesAsync>();
 
   final _savedPlaceDao = GetIt.I.get<SavedPlaceDao>();
   final _cachedWeatherDao = GetIt.I.get<CachedWeatherDao>();

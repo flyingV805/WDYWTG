@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wdywtg/features/featureUpdater/model/weather_update_result.dart';
 import 'package:wdywtg/features/featureUpdater/repository/update_data_repository.dart';
 
@@ -12,6 +13,7 @@ class UpdateDataRepositoryImpl extends UpdateDataRepository {
   static const _weatherUpdatePeriod = 8 * 60 * 60;
   static final String _logTag = 'UpdateDataRepositoryImpl';
 
+  final _preference = GetIt.I.get<SharedPreferencesAsync>();
   final _cachedWeatherDao = GetIt.I.get<CachedWeatherDao>();
   final _openMeteoClient = GetIt.I.get<OpenMeteoClient>();
 
@@ -36,7 +38,14 @@ class UpdateDataRepositoryImpl extends UpdateDataRepository {
       }
     }
 
+    await _preference.setInt('lastUpdateTime', DateTime.now().millisecondsSinceEpoch );
     return Success();
+  }
+
+  @override
+  Future<int> lastUpdateTime() async {
+    final lastUpdateTime = await _preference.getInt('lastUpdateTime') ?? 0;
+    return lastUpdateTime;
   }
 
   @override
