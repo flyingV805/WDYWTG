@@ -34,7 +34,7 @@ class _MainScreenState extends State<MainScreen> {
 
     _appStateListener = AppLifecycleListener(
       onResume: (){
-        GetIt.I.get<InfoUpdater>().appResumed();
+        GetIt.I.get<InfoUpdater>().appResumed(context);
       }
     );
 

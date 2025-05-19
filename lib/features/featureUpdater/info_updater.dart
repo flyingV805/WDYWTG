@@ -25,7 +25,7 @@ class InfoUpdater {
       case Success(): break;
       case Error():
         if(context.mounted){
-          final snackBar = SnackBar(content: Text(''));
+          final snackBar = SnackBar(content: Text('Can\'t update weather'));
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
         break;
@@ -39,7 +39,14 @@ class InfoUpdater {
 
   }
 
-  void appResumed(){
+  void appResumed(BuildContext context){
+    this.context = context;
+    Log().i(_logTag, 'app resumed');
+    if(updateTimer?.isActive != true){
+      updateTimer?.cancel();
+      updateTimer = null;
+      startUpdater(context);
+    }
 
   }
 
