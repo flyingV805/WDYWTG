@@ -56,7 +56,12 @@ class InfoUpdater {
     this.context = context;
     if(updateTimer != null){ return; }
     updateTimer = Timer.periodic(Duration(hours: 1), _update);
-    Future.delayed(Duration(seconds: 2), (){ _update(null); });
+    _updateRepository.lastUpdateTime().then((lastUpdate){
+      final currentTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+      if( (currentTime - lastUpdate) > 1 * 60 * 60 ){
+        Future.delayed(Duration(seconds: 2), (){ _update(null); });
+      }
+    });
   }
 
   void cancelUpdater(){
