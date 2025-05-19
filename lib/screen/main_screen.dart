@@ -54,16 +54,19 @@ class _MainScreenState extends State<MainScreen> {
         title: Text('Where to?'),
         centerTitle: true,
         actions: [
+          IconButton(
+            onPressed: (){
+              _scrollController.jumpTo(0);
+              setState(() { _displayShowcase = true; });
+            },
+            icon: Icon(Icons.help)
+          ),
           PopupMenuButton(
             icon: Icon(Icons.settings),
             onSelected: (item){
               switch(item){
                 case 'ul_action':
                   _ulStateNotifier.flipState();
-                  break;
-                case 'showcase':
-                  _scrollController.jumpTo(0);
-                  setState(() { _displayShowcase = true; });
                   break;
               }
             },
@@ -75,16 +78,6 @@ class _MainScreenState extends State<MainScreen> {
                     Icon(_ulStateNotifier.featureEnabled ? Icons.location_disabled : Icons.my_location ),
                     SizedBox(width: 16),
                     Text(_ulStateNotifier.featureEnabled ? 'Disable My Location' : 'Enable My Location')
-                  ],
-                )
-              ),
-              PopupMenuItem(
-                value: 'showcase',
-                child: Row(
-                  children: [
-                    Icon(Icons.help),
-                    SizedBox(width: 16),
-                    Text('Showcase')
                   ],
                 )
               ),
