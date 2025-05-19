@@ -31,17 +31,15 @@ final class _ShowcaseScreenState extends State<ShowcaseScreen> {
   bool _showList = false;
   bool _expandList = false;
   bool _showPlace = false;
-  final List<PlaceSuggestion> _suggestions = [
-    PlaceSuggestion.exampleSuggestion()
-  ];
+  final List<PlaceSuggestion> _suggestions = [ PlaceSuggestion.exampleSuggestion() ];
 
   BuildContext? _showcaseContext;
-  final GlobalKey _userLocation = GlobalKey();
-  final GlobalKey _searchField = GlobalKey();
-  final GlobalKey _findPlace = GlobalKey();
-  final GlobalKey _foundPlace = GlobalKey();
-  final GlobalKey _placeAdded = GlobalKey();
-  final GlobalKey _collapsePlace = GlobalKey();
+  final GlobalKey _userLocation0 = GlobalKey();
+  final GlobalKey _findPlace1 = GlobalKey();
+  final GlobalKey _searchField2 = GlobalKey();
+  final GlobalKey _foundPlace3 = GlobalKey();
+  final GlobalKey _placeAdded4 = GlobalKey();
+  final GlobalKey _collapsePlace5 = GlobalKey();
 
   @override
   void initState() {
@@ -53,11 +51,11 @@ final class _ShowcaseScreenState extends State<ShowcaseScreen> {
           if(_showcaseContext != null){
             if(widget.ulEnabled) {
               ShowCaseWidget.of(_showcaseContext!).startShowCase([
-                _userLocation, _searchField, _foundPlace, _placeAdded
+                _userLocation0, _findPlace1, _searchField2, _foundPlace3, _placeAdded4, _collapsePlace5
               ]);
             } else {
               ShowCaseWidget.of(_showcaseContext!).startShowCase([
-                _searchField, _foundPlace, _placeAdded
+                _findPlace1, _searchField2, _foundPlace3, _placeAdded4, _collapsePlace5
               ]);
             }
           }
@@ -78,7 +76,7 @@ final class _ShowcaseScreenState extends State<ShowcaseScreen> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Showcase(
-                key: _userLocation,
+                key: _userLocation0,
                 title: 'User location',
                 description: 'Here you can find your current location. With weather!',
                 child: SizedBox(width: double.infinity, height: 186)
@@ -94,7 +92,7 @@ final class _ShowcaseScreenState extends State<ShowcaseScreen> {
                     WhereToText(),
                     SizedBox(height: 8),
                     Showcase(
-                      key: _searchField,
+                      key: _findPlace1,
                       title: 'Find a place',
                       description: 'Find a place for your trip by entering its name',
                       child: Card(
@@ -104,9 +102,9 @@ final class _ShowcaseScreenState extends State<ShowcaseScreen> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Showcase(
-                                key: _searchField,
-                                title: 'Find a place',
-                                description: 'Find a place for your trip by entering its name',
+                                key: _searchField2,
+                                title: 'Search for a place',
+                                description: 'After entering the name, the application will find what you are looking for.',
                                 child: TextField(
                                   key: const Key('place_search_field'),
                                   readOnly: true,
@@ -125,7 +123,7 @@ final class _ShowcaseScreenState extends State<ShowcaseScreen> {
                                 ),
                               ),
                               Showcase(
-                                key: _foundPlace,
+                                key: _foundPlace3,
                                 title: 'Add a place',
                                 description: 'Add a place to your list by simply tapping on it.',
                                 child: SuggestionsList(
@@ -142,26 +140,23 @@ final class _ShowcaseScreenState extends State<ShowcaseScreen> {
 
                     if(_showPlace) Expanded(
                       child: Showcase(
-                        key: _placeAdded,
-                        title: 'You are all set!',
-                        description: 'Your place, weather, and tips on how to get there without any difficulties!',
+                        key: _placeAdded4,
+                        title: 'Here is your place!',
+                        description: 'Now you know what to prepare for! City view, weather and tips for a comfortable trip are here!',
                         child: Showcase(
-                          key: _collapsePlace,
+                          key: _collapsePlace5,
                           title: 'Collapse/Expand',
-                          description: 'Your place, weather, and tips on how to get there without any difficulties!',
+                          description: 'If you are traveling to several places, it is convenient to see the weather and time in several places if you collapse/expand information about a place by simply tapping on the picture of the place.',
                           child: SavedPlace(
                             initiallyExpanded: true,
                             profile: PlaceProfile(
                               place: Place.examplePlace(),
                               advicesAvailable: true,
                               weather: PlaceWeather.exampleWeather(),
-                              advices: [
-                                PlaceAdvice.exampleAdvice()
-                              ]
+                              advices: [ PlaceAdvice.exampleAdvice() ]
                             ),
-
-                          ),
-                        )
+                          )
+                        ),
                       ),
                     ),
                   ],
@@ -174,18 +169,35 @@ final class _ShowcaseScreenState extends State<ShowcaseScreen> {
       onFinish: (){ widget.onFinished(); },
       onComplete: (index, key){
 
-        if(key == _searchField){
+        if(key == _findPlace1){
           _textController.text = 'Paris';
+          setState(() { _expandList = false; _showList = false; });
+          Future.delayed(Duration(milliseconds: 350), (){ setState(() {}); });
+        }
+
+        if(key == _searchField2){
           setState(() { _expandList = true; _showList = true; });
           Future.delayed(Duration(milliseconds: 350), (){ setState(() {}); });
         }
 
+        if(key == _foundPlace3){
+          _textController.text = '';
+          setState(() { _expandList = false; _showList = false; _showPlace = true;});
+          Future.delayed(Duration(milliseconds: 250), (){ setState(() {}); });
+        }
+
+/*
+        if(key == _findPlace1){
+          setState(() { _expandList = true; _showList = true; });
+          Future.delayed(Duration(milliseconds: 350), (){ setState(() {}); });
+        }
+*/
+/*
         if(key == _foundPlace){
           _textController.text = '';
           setState(() { _expandList = false; _showList = false; _showPlace = true;});
           Future.delayed(Duration(milliseconds: 350), (){ setState(() {}); });
-        }
-
+        }*/
       },
     );
   }
