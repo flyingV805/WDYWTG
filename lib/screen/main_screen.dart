@@ -4,6 +4,7 @@ import 'package:wdywtg/screen/showcase/showcase_screen.dart';
 
 import '../core/log/loger.dart';
 import '../features/featureFind/find_place.dart';
+import '../features/featureList/list_state_notifier.dart';
 import '../features/featureList/places_list.dart';
 import '../features/featureUpdater/info_updater.dart';
 import '../features/featureUserLocation/user_location.dart';
@@ -22,6 +23,8 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
 
   final _ulStateNotifier = GetIt.I.get<UserLocationFeatureState>();
+  final _listStateNotifier = GetIt.I.get<PlacesListFeatureState>();
+
   final _scrollController = ScrollController();
   late final AppLifecycleListener _appStateListener;
   bool _displayShowcase = false;
@@ -71,6 +74,16 @@ class _MainScreenState extends State<MainScreen> {
               }
             },
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              PopupMenuItem(
+                value: 'ul_action',
+                child: Row(
+                  children: [
+                    Icon(_ulStateNotifier.featureEnabled ? Icons.location_disabled : Icons.my_location ),
+                    SizedBox(width: 16),
+                    Text(_ulStateNotifier.featureEnabled ? 'Disable My Location' : 'Enable My Location')
+                  ],
+                )
+              ),
               PopupMenuItem(
                 value: 'ul_action',
                 child: Row(
